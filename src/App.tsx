@@ -1,9 +1,12 @@
 import './App.less'
+import { Sider } from './components/sider'
 
 function App() {
 
   return (
-    <>плюсминус</>
+    <div style={{ height: '100%' }}>
+      <Sider />
+    </div>
   )
 }
 
