@@ -4,6 +4,7 @@ import { ReviewPage } from './components/review/review-page'
 import { Sider } from './components/sider'
 import { ActiveCaption } from './components/sider/types'
 import { ExpensesPage } from './components/expenses/expenses-page'
+import { IncomesPage } from './components/incomes/incomes-page'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -32,6 +33,7 @@ const App = () => {
       <Sider activeCaption={activeCaption} setActiveButton={(value: Partial<ActiveCaption>) => onChangeActiveCaption(value)} />
       {activeCaption.review && <ReviewPage />}
       {activeCaption.expenses && <ExpensesPage />}
+      {activeCaption.incomes && <IncomesPage />}
     </div>
   )
 }
