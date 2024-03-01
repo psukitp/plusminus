@@ -3,6 +3,7 @@ import './App.less'
 import { ReviewPage } from './components/review/review-page'
 import { Sider } from './components/sider'
 import { ActiveCaption } from './components/sider/types'
+import { ExpensesPage } from './components/expenses/expenses-page'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -30,6 +31,7 @@ const App = () => {
     <div style={{ height: '100%', display: 'flex' }}>
       <Sider activeCaption={activeCaption} setActiveButton={(value: Partial<ActiveCaption>) => onChangeActiveCaption(value)} />
       {activeCaption.review && <ReviewPage />}
+      {activeCaption.expenses && <ExpensesPage />}
     </div>
   )
 }
