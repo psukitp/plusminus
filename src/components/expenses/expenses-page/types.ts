@@ -1,6 +1,6 @@
 export type ExpensesRecord = {
     id: number
     date: Date | string
-    categoryId: number
+    categoryName: string
     amount: number
 }
