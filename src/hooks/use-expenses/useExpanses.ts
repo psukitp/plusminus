@@ -26,8 +26,8 @@ export const useExpenses = (): [ExpensesRecord[], ColumnsType<ExpensesRecord>] =
             },
             {
                 title: 'Категория',
-                dataIndex: 'categoryId',
-                key: 'categoryId',
+                dataIndex: 'categoryName',
+                key: 'categoryName',
             },
             {
                 title: 'Сумма',
