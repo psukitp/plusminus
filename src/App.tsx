@@ -29,7 +29,7 @@ const App = () => {
   }
 
   return (
-    <div style={{ height: '100%', display: 'flex' }}>
+    <div style={{ height: '100%', display: 'flex', background: 'linear-gradient(135deg, #f7f8fa 0%, #e6e7ed 100%)' }}>
       <Sider activeCaption={activeCaption} setActiveButton={(value: Partial<ActiveCaption>) => onChangeActiveCaption(value)} />
       {activeCaption.review && <ReviewPage />}
       {activeCaption.expenses && <ExpensesPage />}
