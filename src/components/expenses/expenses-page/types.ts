@@ -4,3 +4,9 @@ export type ExpensesRecord = {
     categoryName: string
     amount: number
 }
+
+export type ExpensesByCategoryRecord = {
+    categoryName: string
+    amount: number
+    color: string
+}

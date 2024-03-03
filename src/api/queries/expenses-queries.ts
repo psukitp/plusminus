@@ -1,4 +1,4 @@
-import { ExpensesRecord } from "../../components/expenses/expenses-page/types"
+import { ExpensesByCategoryRecord, ExpensesRecord } from "../../components/expenses/expenses-page/types"
 import { getAxiosInstance } from "../axios-client"
 import { ExpensesService } from "../services/expenses-service"
 
@@ -10,6 +10,12 @@ const fetchExpenses = async (userId: number): Promise<ExpensesRecord[]> => {
     return result
 }
 
+const fetchExpensesByCategory = async (userId: number): Promise<ExpensesByCategoryRecord[]> => {
+    const result = await expensesService.getExpensesByCategories(userId)
+    return result
+}
+
 export const expensesQueries = {
-    fetchExpenses
+    fetchExpenses,
+    fetchExpensesByCategory
 }

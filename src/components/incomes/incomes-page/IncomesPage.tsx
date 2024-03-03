@@ -19,12 +19,14 @@ export const IncomesPage = () => {
         <Flex justify='space-between' className="tables">
             {records.length > 0
                 ? <Table
+                    rowKey="id"
                     columns={columns}
                     records={records} />
                 //TODO лоадер надо
                 : 'Загрузка'
             }
             <Table
+                rowKey=""
                 columns={[]}
                 records={[]}
             />
