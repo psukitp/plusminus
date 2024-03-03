@@ -9,6 +9,7 @@ export type Record = {
 }
 
 export interface ITableProps {
+    rowKey: string
     records: any[]
     columns: ColumnType<any>[]
 }

@@ -7,7 +7,7 @@ import { useExpenses } from "../../../hooks/use-expenses"
 
 
 export const ExpensesPage = () => {
-    const [records, columns] = useExpenses()
+    const [[records, columns], [summarizedRecords, summarizedColumns]] = useExpenses()
 
     return <div className='expenses'>
         <Flex align='center' className='title'>
@@ -19,15 +19,21 @@ export const ExpensesPage = () => {
         <Flex justify='space-between' className="tables">
             {records.length > 0
                 ? <Table
+                    rowKey="id"
                     columns={columns}
                     records={records} />
                 //TODO лоадер надо
                 : 'Загрузка'
             }
-            <Table
-                columns={[]}
-                records={[]}
-            />
+            {records.length > 0
+                ? <Table
+                    rowKey="categoryName"
+                    records={summarizedRecords}
+                    columns={summarizedColumns}
+                />
+                //TODO лоадер надо
+                : 'Загрузка'
+            }
         </Flex>
     </div>
 }
