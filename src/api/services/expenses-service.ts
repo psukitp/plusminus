@@ -9,12 +9,12 @@ export class ExpensesService extends BaseService {
 
     constructor(client: AxiosInstance) {
         super(client)
-        this.url = 'Expenses/expanses/'
+        this.url = 'Expenses/expanses'
     }
 
-    async getExpenses(id: number): Promise<ExpensesRecord[]> {
+    async getExpenses(): Promise<ExpensesRecord[]> {
         try {
-            const response = await this.client.get<ServiceResponse<ExpensesRecord[]>>(`${this.url}${id}`)
+            const response = await this.client.get<ServiceResponse<ExpensesRecord[]>>(`${this.url}`)
             const { data: { data } } = response
             return data
         } catch (e) {
@@ -23,9 +23,9 @@ export class ExpensesService extends BaseService {
         }
     }
 
-    async getExpensesByCategories(id: number): Promise<ExpensesByCategoryRecord[]>{
+    async getExpensesByCategories(): Promise<ExpensesByCategoryRecord[]>{
         try {
-            const response = await this.client.get<ServiceResponse<ExpensesByCategoryRecord[]>>(`${this.url}bycategory/${id}`)
+            const response = await this.client.get<ServiceResponse<ExpensesByCategoryRecord[]>>(`${this.url}/bycategory`)
             const { data: { data } } = response
             return data
         } catch (e) {
