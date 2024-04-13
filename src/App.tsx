@@ -25,8 +25,7 @@ const App = () => {
     ...initialActiveCaption,
     review: true
   })
-
-  const navigate = useNavigate()
+  
   const user = useUser(state => state.data)
   const { onCheck } = useAuth()
 
