@@ -1,4 +1,4 @@
-import { SiderButton } from '../buttons'
+import { SiderButton } from '../common/buttons'
 import { ISiderProps } from './types'
 import './Sider.less'
 
@@ -10,24 +10,28 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
             <SiderButton
                 active={activeCaption.review}
                 text="Обзор"
+                linkTo='review'
                 onClick={() => setActiveButton({
                     review: true
                 })} />
             <SiderButton
                 active={activeCaption.expenses}
                 text="Расходы"
+                linkTo='expenses'
                 onClick={() => setActiveButton({
                     expenses: true
                 })} />
             <SiderButton
                 active={activeCaption.incomes}
                 text="Доходы"
+                linkTo='incomes'
                 onClick={() => setActiveButton({
                     incomes: true
                 })} />
             <SiderButton
                 active={activeCaption.categories}
                 text="Категории"
+                linkTo='review'
                 onClick={() => setActiveButton({
                     categories: true
                 })} />

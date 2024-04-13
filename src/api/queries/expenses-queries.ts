@@ -5,13 +5,13 @@ import { ExpensesService } from "../services/expenses-service"
 const client = getAxiosInstance()
 const expensesService = new ExpensesService(client)
 
-const fetchExpenses = async (userId: number): Promise<ExpensesRecord[]> => {
-    const result = await expensesService.getExpenses(userId)
+const fetchExpenses = async (): Promise<ExpensesRecord[]> => {
+    const result = await expensesService.getExpenses()
     return result
 }
 
-const fetchExpensesByCategory = async (userId: number): Promise<ExpensesByCategoryRecord[]> => {
-    const result = await expensesService.getExpensesByCategories(userId)
+const fetchExpensesByCategory = async (): Promise<ExpensesByCategoryRecord[]> => {
+    const result = await expensesService.getExpensesByCategories()
     return result
 }
 

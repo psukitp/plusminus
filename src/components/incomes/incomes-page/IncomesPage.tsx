@@ -1,5 +1,5 @@
 import { Table } from "../../table"
-import { MonthButton } from "../../buttons"
+import { MonthButton } from "../../common/buttons"
 
 import './IncomesPage.less'
 import { Flex } from "antd"

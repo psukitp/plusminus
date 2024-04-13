@@ -13,14 +13,15 @@ export const useExpenses = ():
     const [summarizedRecords, setSummarizedRecords] = useState<Omit<ExpensesByCategoryRecord, 'color'>[]>([])
 
     useEffect(() => {
-        //TODO не отправлять айди, будет токен
-        expensesQueries.fetchExpenses(1).then(result => setRecords(result))
+        expensesQueries.fetchExpenses().then(result => setRecords(result))
 
-        expensesQueries.fetchExpensesByCategory(1)
-            .then(result => setSummarizedRecords(result.map(e => ({
-                categoryName: e.categoryName,
-                amount: e.amount
-            }))))
+        expensesQueries.fetchExpensesByCategory()
+            .then(result => setSummarizedRecords
+                (result.map(e => ({
+                    categoryName: e.categoryName,
+                    amount: e.amount
+                })))
+            )
     }, [])
 
     const columns = useMemo<ColumnsType<ExpensesRecord>>(() => records.length > 0
