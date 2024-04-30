@@ -12,6 +12,7 @@ export const AddNewModal = ({
     return <Modal
         okText='Сохранить'
         cancelText='Отмена'
+        title='Новый расход'
         centered
         open={open}
         onCancel={onCancel}

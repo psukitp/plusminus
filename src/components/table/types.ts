@@ -13,6 +13,8 @@ export interface ITableProps {
     records: any[]
     columns: ColumnType<any>[]
     style?: CSSProperties
+    className?: string
+    loading?: boolean
 }
 
 export type RecordSum = {

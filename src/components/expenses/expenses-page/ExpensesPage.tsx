@@ -2,45 +2,63 @@ import { Table } from "../../table"
 import { MonthButton } from "../../common/buttons"
 import { Button, Calendar, Col, Flex } from "antd"
 import { useExpenses } from "../../../hooks/use-expenses"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import dayjs from "dayjs"
-import utc from 'dayjs/plugin/utc'
 import { AddNewModal, NewRecord } from "../../common/modal"
 
 import './ExpensesPage.less'
 
-dayjs.extend(utc)
-
 //TODO унести все стили в лесс файлик
 export const ExpensesPage = () => {
-    const [[records, columns], [summarizedRecords, summarizedColumns], { createNewExpense }] = useExpenses()
+    const [
+        [records, columns, recordsLoading],
+        [summarizedRecords, summarizedColumns, summarizedRecordsLoading],
+        {
+            createNewExpense,
+            getExpenses
+        }] = useExpenses()
+
+    useEffect(() => console.log(recordsLoading), [recordsLoading])
+
     const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
     const [viewModal, setViewModal] = useState<boolean>(false)
-
-    const recordsToView = useMemo(() => records.filter(r => r.date === currentDate), [records, currentDate])
 
     return <div className='expenses'>
         <Flex align='center' className='title'>
             <div className='title-text'>
                 Расходы
             </div>
-            <MonthButton month='Февраль' year={2024} />
         </Flex>
-        <Button onClick={() => setViewModal(true)} style={{ marginBottom: '5px' }}>Новая трата</Button>
         <Flex justify="space-between">
             <Col>
-                <Calendar fullscreen={false} onChange={(value) => setCurrentDate(value.format('YYYY-MM-DD'))} value={dayjs(currentDate)} style={{ maxWidth: '600px', width: '100%', marginBottom: '15px' }} />
+                <Calendar
+                    fullscreen={false}
+                    onChange={(value) => {
+                        const formattedDate = value.format('YYYY-MM-DD')
+                        getExpenses(formattedDate)
+                        setCurrentDate(formattedDate)
+                    }}
+                    value={dayjs(currentDate)}
+                    className="calendar" />
+                <Button
+                    disabled={recordsLoading}
+                    onClick={() => setViewModal(true)}
+                    className="new-expense-button">
+                    Новая трата
+                </Button>
                 <Table
-                    style={{ maxWidth: '600px', width: '100%' }}
+                    className="expenses-table"
                     rowKey="id"
                     columns={columns}
-                    records={recordsToView} />
+                    records={records}
+                    loading={recordsLoading} />
             </Col>
             <Col>
                 <Table
                     rowKey="categoryName"
                     records={summarizedRecords}
                     columns={summarizedColumns}
+                    loading={summarizedRecordsLoading}
                 />
             </Col>
         </Flex>
@@ -48,8 +66,8 @@ export const ExpensesPage = () => {
             open={viewModal}
             onCancel={() => setViewModal(false)}
             onOk={(data: NewRecord) => {
-                //TODO убрать, щас пока что хочется функционально сделать
-                createNewExpense({ ...data, date: dayjs(currentDate).utc().format() } as any)
+                //TODO убрать any, щас пока что хочется функционально сделать
+                createNewExpense({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
                 setViewModal(false)
             }}
         />

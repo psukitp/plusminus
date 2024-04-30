@@ -30,17 +30,26 @@ const summarizedColumns: ColumnsType<Omit<ExpensesByCategoryRecord, 'color'>> = 
     },
 ]
 
-export const useExpenses = ():
-    [
-        [ExpensesRecord[], ColumnsType<ExpensesRecord>],
-        [Omit<ExpensesByCategoryRecord, 'color'>[], ColumnsType<Omit<ExpensesByCategoryRecord, 'color'>>],
-        { createNewExpense: ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => void }
-    ] => {
+type UseExpensesResult = [
+    [ExpensesRecord[], ColumnsType<ExpensesRecord>, boolean],
+    [Omit<ExpensesByCategoryRecord, 'color'>[], ColumnsType<Omit<ExpensesByCategoryRecord, 'color'>>, boolean],
+    {
+        createNewExpense: ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => void,
+        getExpenses: (date: string) => void
+    }
+]
+
+export const useExpenses = (): UseExpensesResult => {
+    const [loading, setLoading] = useState({ records: false, summarizedRecords: false })
     const [records, setRecords] = useState<ExpensesRecord[]>([])
     const [summarizedRecords, setSummarizedRecords] = useState<Omit<ExpensesByCategoryRecord, 'color'>[]>([])
 
+
     useEffect(() => {
-        expensesQueries.fetchExpenses().then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
+        setLoading({ records: true, summarizedRecords: true })
+        expensesQueries.fetchExpenses(dayjs().format('YYYY-MM-DD'))
+            .then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
+            .finally(() => setLoading((prev) => ({ ...prev, records: false })))
 
         expensesQueries.fetchExpensesByCategory()
             .then(result => setSummarizedRecords
@@ -49,11 +58,23 @@ export const useExpenses = ():
                     amount: e.amount
                 })))
             )
+            .finally(() => setLoading((prev) => ({ ...prev, summarizedRecords: false })))
     }, [])
 
     const createNewExpense = async ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => {
         await expensesQueries.createNewExpense({ amount, categoryId, date }).then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
     }
 
-    return [[records, columns], [summarizedRecords, summarizedColumns], { createNewExpense }]
+    const getExpenses = async (date: string) => {
+        setLoading((prev) => ({ ...prev, records: true }))
+        await expensesQueries.fetchExpenses(date)
+            .then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
+            .then(() => setLoading((prev) => ({ ...prev, records: false })))
+    }
+
+    return [
+        [records, columns, loading.records],
+        [summarizedRecords, summarizedColumns, loading.summarizedRecords],
+        { createNewExpense, getExpenses }
+    ]
 }

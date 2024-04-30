@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import { AuthResponseData } from '../components/auth/types'
 
 interface IUseAuth {

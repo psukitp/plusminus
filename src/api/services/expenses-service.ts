@@ -13,9 +13,9 @@ export class ExpensesService extends BaseService {
         this.url = 'Expenses/expanses'
     }
 
-    async getExpenses(): Promise<ExpensesRecord[]> {
+    async getExpenses(date: string): Promise<ExpensesRecord[]> {
         try {
-            const response = await this.client.get<ServiceResponse<ExpensesRecord[]>>(`${this.url}`)
+            const response = await this.client.get<ServiceResponse<ExpensesRecord[]>>(`${this.url}?date=${date}`)
             const { data: { data } } = response
             return data
         } catch (e) {

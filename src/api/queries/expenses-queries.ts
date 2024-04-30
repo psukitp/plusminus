@@ -6,8 +6,8 @@ import { ExpensesService } from "../services/expenses-service"
 const client = getAxiosInstance()
 const expensesService = new ExpensesService(client)
 
-const fetchExpenses = async (): Promise<ExpensesRecord[]> => {
-    const result = await expensesService.getExpenses()
+const fetchExpenses = async (date: string): Promise<ExpensesRecord[]> => {
+    const result = await expensesService.getExpenses(date)
     return result
 }
 
