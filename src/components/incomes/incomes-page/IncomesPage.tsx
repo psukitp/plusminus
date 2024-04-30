@@ -4,6 +4,7 @@ import { MonthButton } from "../../common/buttons"
 import './IncomesPage.less'
 import { Flex } from "antd"
 import { useIncomes } from "../../../hooks/use-incomes"
+import { Loader } from "../../common/loaders"
 
 
 export const IncomesPage = () => {
@@ -22,8 +23,7 @@ export const IncomesPage = () => {
                     rowKey="id"
                     columns={columns}
                     records={records} />
-                //TODO лоадер надо
-                : 'Загрузка'
+                : <Loader />
             }
             <Table
                 rowKey=""

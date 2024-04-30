@@ -1,3 +1,5 @@
+@import '../../../../common/variables.less';
+
 a {
     max-width: 250px;
     width: 100%;
@@ -14,10 +16,11 @@ a {
     width: 100%;
     color: #000;
     transition: all 0.2s cubic-bezier(.44, -0.09, .05, .59);
+    user-select: none;
 }
 
 .button-on {
-    box-shadow: 6px 6px 10px 0 rgba(0, 0, 0, 0.25), -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: @box-shadow;
     color: #fff;
-    background: linear-gradient(135deg, #fea159 0%, #fb7a01 100%);
+    background: @orange-bg;
 }

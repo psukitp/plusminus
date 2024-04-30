@@ -1,5 +1,5 @@
 import { ColumnType } from "antd/es/table"
-import { Key } from "react"
+import { CSSProperties, Key } from "react"
 
 export type Record = {
     key: Key
@@ -12,6 +12,9 @@ export interface ITableProps {
     rowKey: string
     records: any[]
     columns: ColumnType<any>[]
+    style?: CSSProperties
+    className?: string
+    loading?: boolean
 }
 
 export type RecordSum = {

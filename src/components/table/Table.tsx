@@ -1,12 +1,23 @@
 import { Table as AntTable } from "antd";
 import './Table.less'
 import { ITableProps } from ".";
+import { Loader } from "../common/loaders";
+import { useMemo } from "react";
 
 
-export const Table = ({ records, columns, rowKey }: ITableProps) => {
-    return <AntTable
-        rowKey={rowKey}
-        dataSource={records}
-        columns={columns}
-        pagination={false} />;
+export const Table = ({ records, loading, ...rest }: ITableProps) => {
+
+    const resultView = useMemo(() => {
+        return records.length > 0
+            ? <AntTable
+                dataSource={records}
+                pagination={false}
+                {...rest} />
+            : <div>{`Данных нет :(`}</div>
+    }, [records, rest])
+
+    return loading
+        ? <Loader />
+        : resultView
+
 };
