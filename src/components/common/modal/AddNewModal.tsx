@@ -1,12 +1,14 @@
 import { Col, InputNumber, Modal, Select } from "antd"
 import { IAddNewModal, NewRecord } from "./types"
 import { useState } from "react"
+import { useExpensesCategories } from "../../../hooks/use-expenses-categories/useExpensesCategories"
 
 //TODO унести все стили в лесс файлик
 export const AddNewModal = ({
     open,
     onCancel,
     onOk }: IAddNewModal) => {
+    const [categories, categoriesLoading] = useExpensesCategories()
     const [newRecord, setNewRecordata] = useState<NewRecord>({ categoryId: null, amount: null })
 
     return <Modal
@@ -24,18 +26,15 @@ export const AddNewModal = ({
         }}>
         <Col style={{ marginBottom: '15px' }}>
             <Select
+                disabled={categoriesLoading}
                 style={{ maxWidth: '300px', width: '100%' }}
                 placeholder='Категория'
                 value={newRecord.categoryId}
                 onChange={(value) => setNewRecordata(prev => ({ ...prev, categoryId: value }))}>
-
-                {/* TODO получать список категорий и маппить */}
-                <Select.Option key={1}>
-                    Категория 1
-                </Select.Option>
-                <Select.Option key={2}>
-                    Категория 2
-                </Select.Option>
+                {categories.map(c => (
+                    <Select.Option key={c.id}>
+                        <span style={{ color: c.color }}>{c.name}</span>
+                    </Select.Option>))}
             </Select>
         </Col>
         <Col>

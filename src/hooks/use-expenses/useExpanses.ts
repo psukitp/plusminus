@@ -17,7 +17,7 @@ const columns: ColumnsType<ExpensesRecord> = [
     },
 ]
 
-const summarizedColumns: ColumnsType<Omit<ExpensesByCategoryRecord, 'color'>> = [
+const summarizedColumns: ColumnsType<ExpensesByCategoryRecord> = [
     {
         title: 'Категория',
         dataIndex: 'categoryName',
@@ -32,18 +32,18 @@ const summarizedColumns: ColumnsType<Omit<ExpensesByCategoryRecord, 'color'>> = 
 
 type UseExpensesResult = [
     [ExpensesRecord[], ColumnsType<ExpensesRecord>, boolean],
-    [Omit<ExpensesByCategoryRecord, 'color'>[], ColumnsType<Omit<ExpensesByCategoryRecord, 'color'>>, boolean],
+    [ExpensesByCategoryRecord[], ColumnsType<ExpensesByCategoryRecord>, boolean],
     {
         createNewExpense: ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => void,
-        getExpenses: (date: string) => void
+        getExpenses: (date: string) => void,
+        getExpensesByCategories: (date: string) => void
     }
 ]
 
 export const useExpenses = (): UseExpensesResult => {
     const [loading, setLoading] = useState({ records: false, summarizedRecords: false })
     const [records, setRecords] = useState<ExpensesRecord[]>([])
-    const [summarizedRecords, setSummarizedRecords] = useState<Omit<ExpensesByCategoryRecord, 'color'>[]>([])
-
+    const [summarizedRecords, setSummarizedRecords] = useState<ExpensesByCategoryRecord[]>([])
 
     useEffect(() => {
         setLoading({ records: true, summarizedRecords: true })
@@ -51,11 +51,12 @@ export const useExpenses = (): UseExpensesResult => {
             .then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
             .finally(() => setLoading((prev) => ({ ...prev, records: false })))
 
-        expensesQueries.fetchExpensesByCategory()
+        expensesQueries.fetchExpensesByCategory(dayjs().format('YYYY-MM-DD'))
             .then(result => setSummarizedRecords
                 (result.map(e => ({
                     categoryName: e.categoryName,
-                    amount: e.amount
+                    amount: e.amount,
+                    color: e.color
                 })))
             )
             .finally(() => setLoading((prev) => ({ ...prev, summarizedRecords: false })))
@@ -69,12 +70,25 @@ export const useExpenses = (): UseExpensesResult => {
         setLoading((prev) => ({ ...prev, records: true }))
         await expensesQueries.fetchExpenses(date)
             .then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
-            .then(() => setLoading((prev) => ({ ...prev, records: false })))
+            .finally(() => setLoading((prev) => ({ ...prev, records: false })))
+    }
+
+    const getExpensesByCategories = async (date: string) => {
+        setLoading((prev) => ({ ...prev, records: true }))
+        await expensesQueries.fetchExpensesByCategory(date)
+            .then(result => setSummarizedRecords
+                (result.map(e => ({
+                    categoryName: e.categoryName,
+                    amount: e.amount,
+                    color: e.color
+                })))
+            )
+            .finally(() => setLoading((prev) => ({ ...prev, records: false })))
     }
 
     return [
         [records, columns, loading.records],
         [summarizedRecords, summarizedColumns, loading.summarizedRecords],
-        { createNewExpense, getExpenses }
+        { createNewExpense, getExpenses, getExpensesByCategories }
     ]
 }

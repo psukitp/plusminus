@@ -15,6 +15,8 @@ export interface ITableProps {
     style?: CSSProperties
     className?: string
     loading?: boolean
+
+    // onRow?: GetComponentProps
 }
 
 export type RecordSum = {

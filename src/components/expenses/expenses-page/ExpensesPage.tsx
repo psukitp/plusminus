@@ -1,8 +1,7 @@
 import { Table } from "../../table"
-import { MonthButton } from "../../common/buttons"
 import { Button, Calendar, Col, Flex } from "antd"
 import { useExpenses } from "../../../hooks/use-expenses"
-import { useEffect, useMemo, useState } from "react"
+import { useState } from "react"
 import dayjs from "dayjs"
 import { AddNewModal, NewRecord } from "../../common/modal"
 
@@ -15,13 +14,19 @@ export const ExpensesPage = () => {
         [summarizedRecords, summarizedColumns, summarizedRecordsLoading],
         {
             createNewExpense,
-            getExpenses
+            getExpenses,
+            getExpensesByCategories
         }] = useExpenses()
-
-    useEffect(() => console.log(recordsLoading), [recordsLoading])
 
     const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
     const [viewModal, setViewModal] = useState<boolean>(false)
+
+    const queriesOnOk = async (data: NewRecord) => {
+        //TODO убрать any, щас пока что хочется функционально сделать
+        await createNewExpense({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
+        //TODO только при изменении месяца и/или года
+        await getExpensesByCategories(dayjs(currentDate).format('YYYY-MM-DD'))
+    }
 
     return <div className='expenses'>
         <Flex align='center' className='title'>
@@ -36,6 +41,7 @@ export const ExpensesPage = () => {
                     onChange={(value) => {
                         const formattedDate = value.format('YYYY-MM-DD')
                         getExpenses(formattedDate)
+                        getExpensesByCategories(formattedDate)
                         setCurrentDate(formattedDate)
                     }}
                     value={dayjs(currentDate)}
@@ -62,14 +68,13 @@ export const ExpensesPage = () => {
                 />
             </Col>
         </Flex>
-        <AddNewModal
+        {viewModal && <AddNewModal
             open={viewModal}
             onCancel={() => setViewModal(false)}
             onOk={(data: NewRecord) => {
-                //TODO убрать any, щас пока что хочется функционально сделать
-                createNewExpense({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
+                queriesOnOk(data)
                 setViewModal(false)
             }}
-        />
+        />}
     </div>
 }

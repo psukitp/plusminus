@@ -24,9 +24,9 @@ export class ExpensesService extends BaseService {
         }
     }
 
-    async getExpensesByCategories(): Promise<ExpensesByCategoryRecord[]> {
+    async getExpensesByCategories(date: string): Promise<ExpensesByCategoryRecord[]> {
         try {
-            const response = await this.client.get<ServiceResponse<ExpensesByCategoryRecord[]>>(`${this.url}/bycategory`)
+            const response = await this.client.get<ServiceResponse<ExpensesByCategoryRecord[]>>(`${this.url}/bycategory?date=${date}`)
             const { data: { data } } = response
             return data
         } catch (e) {

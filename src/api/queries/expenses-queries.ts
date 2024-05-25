@@ -11,8 +11,8 @@ const fetchExpenses = async (date: string): Promise<ExpensesRecord[]> => {
     return result
 }
 
-const fetchExpensesByCategory = async (): Promise<ExpensesByCategoryRecord[]> => {
-    const result = await expensesService.getExpensesByCategories()
+const fetchExpensesByCategory = async (date: string): Promise<ExpensesByCategoryRecord[]> => {
+    const result = await expensesService.getExpensesByCategories(date)
     return result
 }
 
