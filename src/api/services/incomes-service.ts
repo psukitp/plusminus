@@ -10,7 +10,7 @@ export class IncomesService extends BaseService {
 
     constructor(client: AxiosInstance) {
         super(client)
-        this.url = 'Incomes/incomes/'
+        this.url = 'Incomes/incomes'
     }
 
     async getIncomes(date: string): Promise<IncomesRecord[]> {
@@ -26,7 +26,7 @@ export class IncomesService extends BaseService {
 
     async getIncomesByCategories(date: string): Promise<IncomesByCategoryRecord[]> {
         try {
-            const response = await this.client.get<ServiceResponse<IncomesByCategoryRecord[]>>(`${this.url}bycategory?date=${date}`)
+            const response = await this.client.get<ServiceResponse<IncomesByCategoryRecord[]>>(`${this.url}/bycategory?date=${date}`)
             const { data: { data } } = response
             return data
         } catch (e) {
@@ -37,7 +37,7 @@ export class IncomesService extends BaseService {
 
     async postNewIncomes({ date, categoryId, amount }: { date: string, categoryId: Key, amount: number }): Promise<IncomesRecord[]> {
         try {
-            const response = await this.client.post<ServiceResponse<IncomesRecord[]>>(`${this.url}add`, {
+            const response = await this.client.post<ServiceResponse<IncomesRecord[]>>(`${this.url}/add`, {
                 date,
                 categoryId,
                 amount
@@ -47,6 +47,17 @@ export class IncomesService extends BaseService {
         } catch (e) {
             console.log(e)
             return []
+        }
+    }
+
+    async fetchIncomesSum(): Promise<number | null> {
+        try {
+            const response = await this.client.get<ServiceResponse<number>>(`${this.url}/sum`)
+            const { data: { data } } = response
+            return data
+        } catch (e) {
+            console.log(e)
+            return null
         }
     }
 }

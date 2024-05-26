@@ -21,7 +21,7 @@ const createNewExpense = async ({ date, categoryId, amount }: { date: string, ca
     return result
 }
 
-const fetchExpensesSum = async (): Promise<number> => {
+const fetchExpensesSum = async (): Promise<number | null> => {
     const result = await expensesService.fetchExpensesSum()
     return result
 }

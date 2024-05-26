@@ -6,7 +6,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const ReviewPage = () => {
-  const [totalExpenses] = useSmallWidget()
+  const [totalExpenses, totalIncomes, remainingSum] = useSmallWidget()
   const layout = {
     lg: [
       { i: "exp-by-month", x: 0, y: 0, w: 3, h: 1 },
@@ -30,20 +30,22 @@ export const ReviewPage = () => {
         isDraggable={false}
         width={1200}>
         <div key="exp-by-month">
-          {totalExpenses != null && totalExpenses >= 0 && <SmallWidget
+          {totalExpenses !== null && <SmallWidget
             title='Расход за месяц'
             text={`${totalExpenses} ₽`} />
           }
         </div>
         <div key="inc-by-month">
-          <SmallWidget
+          {totalIncomes != null && <SmallWidget
             title='Доход за месяц'
-            text='123 175 ₽' />
+            text={`${totalIncomes} ₽`} />
+          }
         </div>
         <div key="remainder">
-          <SmallWidget
+          {remainingSum !== null && <SmallWidget
             title='Остаток от дохода'
-            text='104 434 ₽' />
+            text={`${remainingSum} ₽`} />
+          }
         </div>
         <div key="forecast">
           <SmallWidget

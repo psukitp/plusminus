@@ -50,14 +50,14 @@ export class ExpensesService extends BaseService {
         }
     }
 
-    async fetchExpensesSum(): Promise<number> {
+    async fetchExpensesSum(): Promise<number | null> {
         try {
             const response = await this.client.get<ServiceResponse<number>>(`${this.url}/sum`)
             const { data: { data } } = response
             return data
         } catch (e) {
             console.log(e)
-            return -1
+            return null
         }
     }
 }

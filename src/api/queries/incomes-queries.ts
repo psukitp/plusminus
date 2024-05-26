@@ -21,8 +21,14 @@ const createNewIncomes = async ({ date, categoryId, amount }: { date: string, ca
     return result
 }
 
+const fecthIncomesSum = async (): Promise<number | null> => {
+    const result = await incomesService.fetchIncomesSum()
+    return result
+}  
+
 export const incomesQueries = {
     fetchIncomes,
     fetchIncomesByCategory,
-    createNewIncomes
+    createNewIncomes,
+    fecthIncomesSum
 }
