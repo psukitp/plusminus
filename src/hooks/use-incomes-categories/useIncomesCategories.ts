@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react"
-import { expensesCategoriesQueries } from "../../api/queries/expenses-categories-queries"
-import { Category } from "../../common/types"
+import { useEffect, useState } from "react";
+import { Category } from "../../common/types";
+import { incomesCategoriesQueries } from "../../api/queries/incomes-categories-queries";
 
-type useExpensesCategoriesResult = [
+type UseIncomesCategoriesResult = [
     Category[],
     boolean
 ]
 
-export const useExpensesCategories = (): useExpensesCategoriesResult => {
+export const useIncomesCategories = (): UseIncomesCategoriesResult => {
     const [categories, setCategories] = useState<Category[]>([])
     const [loading, setLoading] = useState({ categories: false })
 
     useEffect(() => {
         setLoading(prev => ({ ...prev, categories: true }))
-        expensesCategoriesQueries.fetchExpensesCategories()
+        incomesCategoriesQueries.fetchIncomesCategories()
             .then(result => setCategories(result))
             .finally(() => setLoading(prev => ({ ...prev, categories: false })))
     }, [])

@@ -6,6 +6,7 @@ import dayjs from "dayjs"
 import { AddNewModal, NewRecord } from "../../common/modal"
 
 import './ExpensesPage.less'
+import { useExpensesCategories } from "../../../hooks/use-expenses-categories/useExpensesCategories"
 
 //TODO унести все стили в лесс файлик
 export const ExpensesPage = () => {
@@ -20,6 +21,7 @@ export const ExpensesPage = () => {
 
     const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
     const [viewModal, setViewModal] = useState<boolean>(false)
+    const [categories, categoriesLoading] = useExpensesCategories()
 
     const queriesOnOk = async (data: NewRecord) => {
         //TODO убрать any, щас пока что хочется функционально сделать
@@ -69,6 +71,9 @@ export const ExpensesPage = () => {
             </Col>
         </Flex>
         {viewModal && <AddNewModal
+            title="Новая трата"
+            categories={categories}
+            categoriesLoading={categoriesLoading}
             open={viewModal}
             onCancel={() => setViewModal(false)}
             onOk={(data: NewRecord) => {
