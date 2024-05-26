@@ -6,15 +6,18 @@ import { useExpensesCategories } from "../../../hooks/use-expenses-categories/us
 //TODO унести все стили в лесс файлик
 export const AddNewModal = ({
     open,
+    title,
+    categories,
+    categoriesLoading,
+
     onCancel,
     onOk }: IAddNewModal) => {
-    const [categories, categoriesLoading] = useExpensesCategories()
     const [newRecord, setNewRecordata] = useState<NewRecord>({ categoryId: null, amount: null })
 
     return <Modal
         okText='Сохранить'
         cancelText='Отмена'
-        title='Новый расход'
+        title={title}
         centered
         open={open}
         onCancel={onCancel}

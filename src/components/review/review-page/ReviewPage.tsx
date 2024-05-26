@@ -1,3 +1,4 @@
+import { useSmallWidget } from "../../../hooks/use-small-widget";
 import { ChartWidget, SmallWidget } from "../widgets";
 import './ReviewPage.less';
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -5,6 +6,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const ReviewPage = () => {
+  const [totalExpenses] = useSmallWidget()
   const layout = {
     lg: [
       { i: "exp-by-month", x: 0, y: 0, w: 3, h: 1 },
@@ -28,9 +30,10 @@ export const ReviewPage = () => {
         isDraggable={false}
         width={1200}>
         <div key="exp-by-month">
-          <SmallWidget
+          {totalExpenses != null && totalExpenses >= 0 && <SmallWidget
             title='Расход за месяц'
-            text='18 171 ₽' />
+            text={`${totalExpenses} ₽`} />
+          }
         </div>
         <div key="inc-by-month">
           <SmallWidget
@@ -45,7 +48,7 @@ export const ReviewPage = () => {
         <div key="forecast">
           <SmallWidget
             title='Прогноз расходов'
-            text='60 388 ₽' />
+            text='coming soon' />
         </div>
         <div key="exp-by-category">
           <ChartWidget

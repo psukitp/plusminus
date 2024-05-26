@@ -2,13 +2,13 @@ import { AxiosInstance } from "axios";
 import { BaseService } from "./base-service";
 import { Category, ServiceResponse } from "../../common/types";
 
-export class ExpensesCategoriesService extends BaseService {
+export class IncomesCategoriesService extends BaseService {
 
     url: string
 
     constructor(client: AxiosInstance) {
         super(client)
-        this.url = 'CategoryExpanses'
+        this.url = "CategoryIncomes"
     }
 
     async getCategories(): Promise<Category[]> {

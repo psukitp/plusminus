@@ -1,0 +1,1 @@
+export { useSmallWidget } from "./useSmallWidget";
