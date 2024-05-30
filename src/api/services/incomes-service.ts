@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import { BaseService } from "./base-service";
-import { IncomesByCategoryRecord, IncomesRecord } from "../../components/incomes/incomes-page/types";
-import { ServiceResponse } from "../../common/types";
+import { IncomesByCategoryRecord, IncomesLastMonthes, IncomesRecord, IncomesThisMonth } from "@components/incomes/incomes-page/types";
+import { ServiceResponse } from "@common/types";
 import { Key } from "react";
 
 export class IncomesService extends BaseService {
@@ -50,14 +50,31 @@ export class IncomesService extends BaseService {
         }
     }
 
-    async fetchIncomesSum(): Promise<number | null> {
+    async fetchIncomesSum(): Promise<IncomesThisMonth> {
         try {
-            const response = await this.client.get<ServiceResponse<number>>(`${this.url}/sum`)
+            const response = await this.client.get<ServiceResponse<IncomesThisMonth>>(`${this.url}/sum`)
             const { data: { data } } = response
             return data
         } catch (e) {
             console.log(e)
-            return null
+            return {
+                incomesDiff: 0,
+                incomesTotal: 0
+            }
+        }
+    }
+
+    async getIncomesLastMonthes(): Promise<IncomesLastMonthes> {
+        try {
+            const response = await this.client.get<ServiceResponse<IncomesLastMonthes>>(`${this.url}/dynamicmonth`)
+            const { data: { data } } = response
+            return data
+        } catch (e) {
+            console.log(e)
+            return {
+                monthes: [],
+                values: []
+            }
         }
     }
 }

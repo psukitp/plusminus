@@ -10,3 +10,13 @@ export type ExpensesByCategoryRecord = {
     amount: number
     color: string
 }
+
+export type ExpensesLastMonthes = {
+    monthes: string[]
+    values: number[]
+}
+
+export type ExpensesThisMonth = {
+    expensesTotal: number
+    expensesDiff: number
+}

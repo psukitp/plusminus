@@ -1,4 +1,4 @@
-import { Category } from "../../common/types";
+import { Category } from "@common/types";
 import { getAxiosInstance } from "../axios-client";
 import { IncomesCategoriesService } from "../services/incomes-categories-service";
 

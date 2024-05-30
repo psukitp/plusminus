@@ -1,7 +1,7 @@
-import { Key, useEffect, useMemo, useState } from "react"
+import { Key, useEffect, useState } from "react"
 import { ColumnsType } from "antd/es/table"
-import { IncomesByCategoryRecord, IncomesRecord } from "../../components/incomes/incomes-page/types"
-import { incomesQueries } from "../../api/queries/incomes-queries"
+import { IncomesByCategoryRecord, IncomesRecord } from "@components/incomes/incomes-page/types"
+import { incomesQueries } from "@api/queries/incomes-queries"
 import dayjs from "dayjs"
 
 const columns: ColumnsType<IncomesRecord> = [

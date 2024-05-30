@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
 import { BaseService } from "./base-service";
-import { ServiceResponse } from "../../common/types";
-import { AuthResponseData } from "../../components/auth/types";
-import { RegisterFormData } from "../../components/register/types";
+import { ServiceResponse } from "@common/types";
+import { AuthResponseData } from "@components/auth/types";
+import { RegisterFormData } from "@components/register/types";
 
 export class UserService extends BaseService {
 

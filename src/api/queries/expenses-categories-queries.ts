@@ -1,6 +1,6 @@
 import { getAxiosInstance } from "../axios-client"
 import { ExpensesCategoriesService } from "../services/expenses-categories-service"
-import { Category } from "../../common/types"
+import { Category } from "@common/types"
 
 const client = getAxiosInstance()
 const expensesCategoriesService = new ExpensesCategoriesService(client)

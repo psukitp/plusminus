@@ -1,11 +1,11 @@
-import { Table } from "../../table"
+import { Table } from '@components/table'
 import './IncomesPage.less'
 import { Button, Calendar, Col, Flex } from "antd"
-import { useIncomes } from "../../../hooks/use-incomes"
+import { useIncomes } from "@hooks/use-incomes"
 import { useState } from "react"
 import dayjs from "dayjs"
-import { AddNewModal, NewRecord } from "../../common/modal"
-import { useIncomesCategories } from "../../../hooks/use-incomes-categories/useIncomesCategories"
+import { AddNewModal, NewRecord } from "@components/common/modal"
+import { useIncomesCategories } from "@hooks/use-incomes-categories/useIncomesCategories"
 
 
 export const IncomesPage = () => {

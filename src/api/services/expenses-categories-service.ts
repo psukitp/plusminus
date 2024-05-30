@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import { BaseService } from "./base-service";
-import { Category, ServiceResponse } from "../../common/types";
+import { Category, ServiceResponse } from "@common/types";
 
 export class ExpensesCategoriesService extends BaseService {
 

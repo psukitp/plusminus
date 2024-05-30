@@ -1,4 +1,4 @@
-import { SiderButton } from '../common/buttons'
+import { SiderButton } from '@components/common/buttons'
 import { ISiderProps } from './types'
 import './Sider.less'
 
