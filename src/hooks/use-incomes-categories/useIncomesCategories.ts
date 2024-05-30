@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Category } from "../../common/types";
-import { incomesCategoriesQueries } from "../../api/queries/incomes-categories-queries";
+import { Category } from "@common/types";
+import { incomesCategoriesQueries } from "@api/queries/incomes-categories-queries";
 
 type UseIncomesCategoriesResult = [
     Category[],

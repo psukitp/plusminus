@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { AuthResponseData } from '../components/auth/types'
+import { AuthResponseData } from '@components/auth/types'
 
 interface IUseAuth {
     data: AuthResponseData

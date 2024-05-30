@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import './App.less'
-import { ReviewPage } from './components/review/review-page'
-import { Sider } from './components/sider'
-import { ActiveCaption } from './components/sider/types'
-import { ExpensesPage } from './components/expenses/expenses-page'
-import { IncomesPage } from './components/incomes/incomes-page'
-import { AuthPage } from './components/auth'
-import { RegisterPage } from './components/register'
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import { useUser } from './store/store'
-import { useAuth } from './hooks/use-auth/useAuth'
+import { ReviewPage } from '@components/review/review-page'
+import { Sider } from '@components/sider'
+import { ActiveCaption } from '@components/sider/types'
+import { ExpensesPage } from '@components/expenses/expenses-page'
+import { IncomesPage } from '@components/incomes/incomes-page'
+import { AuthPage } from '@components/auth'
+import { RegisterPage } from '@components/register'
+import { Routes, Route } from 'react-router-dom'
+import { useUser } from '@store/store'
+import { useAuth } from '@hooks/use-auth/useAuth'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -25,7 +25,7 @@ const App = () => {
     ...initialActiveCaption,
     review: true
   })
-  
+
   const user = useUser(state => state.data)
   const { onCheck } = useAuth()
 

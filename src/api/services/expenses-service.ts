@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import { BaseService } from "./base-service";
-import { ExpensesByCategoryRecord, ExpensesRecord } from "../../components/expenses/expenses-page/types";
-import { ServiceResponse } from "../../common/types";
+import { ExpensesByCategoryRecord, ExpensesLastMonthes, ExpensesRecord, ExpensesThisMonth } from "@components/expenses/expenses-page/types";
+import { ServiceResponse } from "@common/types";
 import { Key } from "react";
 
 export class ExpensesService extends BaseService {
@@ -35,6 +35,31 @@ export class ExpensesService extends BaseService {
         }
     }
 
+    async getExpensesByCategoriesMonth(): Promise<ExpensesByCategoryRecord[]> {
+        try {
+            const response = await this.client.get<ServiceResponse<ExpensesByCategoryRecord[]>>(`${this.url}/bycategory/month`)
+            const { data: { data } } = response
+            return data
+        } catch (e) {
+            console.log(e)
+            return []
+        }
+    }
+
+    async getExpensesLastMonthes(): Promise<ExpensesLastMonthes> {
+        try {
+            const response = await this.client.get<ServiceResponse<ExpensesLastMonthes>>(`${this.url}/dynamicmonth`)
+            const { data: { data } } = response
+            return data
+        } catch (e) {
+            console.log(e)
+            return {
+                monthes: [],
+                values: []
+            }
+        }
+    }
+
     async postNewExpense({ date, categoryId, amount }: { date: string, categoryId: Key, amount: number }): Promise<ExpensesRecord[]> {
         try {
             const response = await this.client.post<ServiceResponse<ExpensesRecord[]>>(`${this.url}/add`, {
@@ -50,14 +75,17 @@ export class ExpensesService extends BaseService {
         }
     }
 
-    async fetchExpensesSum(): Promise<number | null> {
+    async fetchExpensesSum(): Promise<ExpensesThisMonth> {
         try {
-            const response = await this.client.get<ServiceResponse<number>>(`${this.url}/sum`)
+            const response = await this.client.get<ServiceResponse<ExpensesThisMonth>>(`${this.url}/sum`)
             const { data: { data } } = response
             return data
         } catch (e) {
             console.log(e)
-            return null
+            return {
+                expensesDiff: 0, 
+                expensesTotal: 0
+            }
         }
     }
 }

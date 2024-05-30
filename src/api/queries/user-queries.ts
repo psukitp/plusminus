@@ -1,5 +1,5 @@
-import { AuthResponseData } from "../../components/auth/types";
-import { RegisterFormData } from "../../components/register/types";
+import { AuthResponseData } from "@components/auth/types";
+import { RegisterFormData } from "@components/register/types";
 import { getAxiosInstance } from "../axios-client";
 import { UserService } from "../services/user-service";
 

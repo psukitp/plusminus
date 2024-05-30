@@ -1,4 +1,5 @@
-import { useSmallWidget } from "../../../hooks/use-small-widget";
+import { useChartWidget } from "@hooks/use-chart-widget/useChartWidget";
+import { useSmallWidgetData } from "@hooks/use-small-widget";
 import { ChartWidget, SmallWidget } from "../widgets";
 import './ReviewPage.less';
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -6,7 +7,8 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const ReviewPage = () => {
-  const [totalExpenses, totalIncomes, remainingSum] = useSmallWidget()
+  const [expenses, incomes, remainingSum] = useSmallWidgetData()
+  const [expByMonth, expLastMonthes, incLastMonthes] = useChartWidget()
   const layout = {
     lg: [
       { i: "exp-by-month", x: 0, y: 0, w: 3, h: 1 },
@@ -30,22 +32,26 @@ export const ReviewPage = () => {
         isDraggable={false}
         width={1200}>
         <div key="exp-by-month">
-          {totalExpenses !== null && <SmallWidget
+          <SmallWidget
             title='Расход за месяц'
-            text={`${totalExpenses} ₽`} />
-          }
+            text={`${expenses.expensesTotal} ₽`}
+            diff={expenses.expensesDiff}
+            positive={expenses.expensesDiff < 0} />
         </div>
         <div key="inc-by-month">
-          {totalIncomes != null && <SmallWidget
+          <SmallWidget
             title='Доход за месяц'
-            text={`${totalIncomes} ₽`} />
-          }
+            text={`${incomes.incomesTotal} ₽`}
+            diff={incomes.incomesDiff}
+            positive={incomes.incomesDiff > 0} />
+
         </div>
         <div key="remainder">
-          {remainingSum !== null && <SmallWidget
+          <SmallWidget
             title='Остаток от дохода'
-            text={`${remainingSum} ₽`} />
-          }
+            text={`${remainingSum.remainingTotal} ₽`}
+            diff={remainingSum.remainingDiff}
+            positive={remainingSum.remainingDiff > 0} />
         </div>
         <div key="forecast">
           <SmallWidget
@@ -54,16 +60,19 @@ export const ReviewPage = () => {
         </div>
         <div key="exp-by-category">
           <ChartWidget
+            options={expByMonth}
             title='Расходы по категориями'
             text='Тут будет график' />
         </div>
         <div key="exp-dynamic">
           <ChartWidget
+            options={expLastMonthes}
             title='Расходы за N месяцев'
             text='Тут будет график' />
         </div>
         <div key="inc-dynamic">
           <ChartWidget
+            options={incLastMonthes}
             title='Доходы за N месяцев'
             text='Тут будет график' />
         </div>

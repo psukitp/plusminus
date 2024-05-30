@@ -1,12 +1,12 @@
-import { Table } from "../../table"
+import { Table } from "@components/table"
 import { Button, Calendar, Col, Flex } from "antd"
-import { useExpenses } from "../../../hooks/use-expenses"
+import { useExpenses } from "@hooks/use-expenses"
 import { useState } from "react"
 import dayjs from "dayjs"
-import { AddNewModal, NewRecord } from "../../common/modal"
+import { AddNewModal, NewRecord } from "@components/common/modal"
 
 import './ExpensesPage.less'
-import { useExpensesCategories } from "../../../hooks/use-expenses-categories/useExpensesCategories"
+import { useExpensesCategories } from "@hooks/use-expenses-categories/useExpensesCategories"
 
 //TODO унести все стили в лесс файлик
 export const ExpensesPage = () => {

@@ -1,5 +1,5 @@
 import { Key } from "react"
-import { IncomesByCategoryRecord, IncomesRecord } from "../../components/incomes/incomes-page/types"
+import { IncomesByCategoryRecord, IncomesLastMonthes, IncomesRecord, IncomesThisMonth } from "@components/incomes/incomes-page/types"
 import { getAxiosInstance } from "../axios-client"
 import { IncomesService } from "../services/incomes-service"
 
@@ -21,14 +21,20 @@ const createNewIncomes = async ({ date, categoryId, amount }: { date: string, ca
     return result
 }
 
-const fecthIncomesSum = async (): Promise<number | null> => {
+const fecthIncomesSum = async (): Promise<IncomesThisMonth> => {
     const result = await incomesService.fetchIncomesSum()
     return result
-}  
+}
+
+const fetchIncomesLastMonthes = async (): Promise<IncomesLastMonthes> => {
+    const result = await incomesService.getIncomesLastMonthes()
+    return result
+}
 
 export const incomesQueries = {
     fetchIncomes,
     fetchIncomesByCategory,
     createNewIncomes,
-    fecthIncomesSum
+    fecthIncomesSum,
+    fetchIncomesLastMonthes
 }

@@ -10,3 +10,13 @@ export type IncomesByCategoryRecord = {
     amount: number
     color: string
 }
+
+export type IncomesLastMonthes = {
+    monthes: string[]
+    values: number[]
+}
+
+export type IncomesThisMonth = {
+    incomesTotal: number
+    incomesDiff: number
+}

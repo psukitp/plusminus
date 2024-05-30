@@ -1,7 +1,6 @@
 import { Col, InputNumber, Modal, Select } from "antd"
 import { IAddNewModal, NewRecord } from "./types"
 import { useState } from "react"
-import { useExpensesCategories } from "../../../hooks/use-expenses-categories/useExpensesCategories"
 
 //TODO унести все стили в лесс файлик
 export const AddNewModal = ({

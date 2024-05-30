@@ -1,6 +1,6 @@
 import { Key, useEffect, useState } from "react"
-import { ExpensesByCategoryRecord, ExpensesRecord } from "../../components/expenses/expenses-page/types"
-import { expensesQueries } from "../../api/queries/expenses-queries"
+import { ExpensesByCategoryRecord, ExpensesRecord } from "@components/expenses/expenses-page/types"
+import { expensesQueries } from "@api/queries/expenses-queries"
 import { ColumnsType } from "antd/es/table"
 import dayjs from "dayjs"
 

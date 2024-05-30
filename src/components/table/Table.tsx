@@ -1,7 +1,7 @@
 import { Table as AntTable } from "antd";
 import './Table.less'
 import { ITableProps } from ".";
-import { Loader } from "../common/loaders";
+import { Loader } from "@components/common/loaders";
 import { useMemo } from "react";
 
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { expensesCategoriesQueries } from "../../api/queries/expenses-categories-queries"
-import { Category } from "../../common/types"
+import { expensesCategoriesQueries } from "@api/queries/expenses-categories-queries"
+import { Category } from "@common/types"
 
 type useExpensesCategoriesResult = [
     Category[],
