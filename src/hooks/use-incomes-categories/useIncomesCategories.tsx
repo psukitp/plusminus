@@ -1,7 +1,8 @@
-import { Key, useEffect, useState } from "react";
+import { Key, useEffect } from "react";
 import { Category } from "@common/types";
 import { incomesCategoriesQueries } from "@api/queries/incomes-categories-queries";
 import { ColumnsType } from "antd/es/table";
+import { useIncomesCategoriesData } from "@store/store";
 
 type UseIncomesCategoriesResult = [
     Category[],
@@ -11,6 +12,7 @@ type UseIncomesCategoriesResult = [
         createNewCategory: (newCategory: Pick<Category, "color" | "name">) => void
         editCategory: (category: Partial<Category>) => void
         deleteCategory: (id: Key) => void
+        refreshData: () => void
     }
 ]
 
@@ -41,39 +43,44 @@ const columns: ColumnsType<Category> = [
 ]
 
 export const useIncomesCategories = (): UseIncomesCategoriesResult => {
-    const [categories, setCategories] = useState<Category[]>([])
-    const [loading, setLoading] = useState({ categories: false })
+    const {
+        data,
+        loading,
+        isDataFetched,
+        fetchData,
+        deleteCategory: deleteCategoryState,
+        editCategory: editCategoryState,
+        addCategory: addCategoryState,
+
+    } = useIncomesCategoriesData(state => state)
 
     useEffect(() => {
-        setLoading(prev => ({ ...prev, categories: true }))
-        incomesCategoriesQueries.fetchIncomesCategories()
-            .then(result => setCategories(result))
-            .finally(() => setLoading(prev => ({ ...prev, categories: false })))
+        if (!isDataFetched)
+            fetchData()
     }, [])
 
     const createNewCategory = (newCategory: Pick<Category, "color" | "name">) => {
         incomesCategoriesQueries.createNewCategory(newCategory).then(result => {
-            if (result != null) {
-                setCategories(prev => [...prev, result])
-            }
+            if (result != null)
+                addCategoryState(result)
         })
     }
 
     const editCategory = (category: Partial<Category>) => {
         incomesCategoriesQueries.editCategory(category).then(result => {
-            if (result != null) {
-                setCategories(prev => prev.map(c => c.id === result.id ? { ...result } : c))
-            }
+            if (result != null)
+                editCategoryState(result)
         })
     }
 
     const deleteCategory = (id: Key) => {
         incomesCategoriesQueries.deleteCategory(id).then(result => {
-            if (result != null) {
-                setCategories(prev => prev.filter(c => c.id !== result))
-            }
+            if (result != null)
+                deleteCategoryState(result)
         })
     }
 
-    return [categories, columns, loading.categories, { createNewCategory, editCategory, deleteCategory }]
+    const refreshData = () => { fetchData() }
+
+    return [data, columns, loading, { createNewCategory, editCategory, deleteCategory, refreshData: fetchData }]
 }

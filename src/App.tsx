@@ -11,6 +11,7 @@ import { Routes, Route } from 'react-router-dom'
 import { useUser } from '@store/store'
 import { useAuth } from '@hooks'
 import { CategoriesPage } from '@components/categories/categories-page'
+import { ProfilePage } from '@components/profile/ProfilePage'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -54,6 +55,7 @@ const App = () => {
         <Route path='/expenses' element={<ExpensesPage />} />
         <Route path='/incomes' element={<IncomesPage />} />
         <Route path='/categories' element={<CategoriesPage />} />
+        <Route path='/profile' element={<ProfilePage />} />
       </Routes>
     </div>
   )
