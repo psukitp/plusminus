@@ -1,5 +1,5 @@
-import { useChartWidget } from "@hooks/use-chart-widget/useChartWidget";
-import { useSmallWidgetData } from "@hooks/use-small-widget";
+import { useChartWidget } from "@hooks";
+import { useSmallWidgetData } from "@hooks";
 import { ChartWidget, SmallWidget } from "../widgets";
 import './ReviewPage.less';
 import { Responsive, WidthProvider } from "react-grid-layout";

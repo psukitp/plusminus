@@ -1,15 +1,14 @@
 import { Table } from "@components/table"
 import { Calendar, Col, Flex } from "antd"
-import { useExpenses } from "@hooks/use-expenses"
+import { useExpenses } from "@hooks"
 import { useState } from "react"
 import dayjs from "dayjs"
-import { AddNewModal, NewRecord } from "@components/common/modal"
+import { RecordModal, NewRecord } from "@components/common/modal"
 
 import './ExpensesPage.less'
-import { useExpensesCategories } from "@hooks/use-expenses-categories/useExpensesCategories"
+import { useExpensesCategories } from "@hooks"
 import { Button } from "@components/common/buttons"
 
-//TODO унести все стили в лесс файлик
 export const ExpensesPage = () => {
     const [
         [records, columns, recordsLoading],
@@ -70,7 +69,7 @@ export const ExpensesPage = () => {
                 />
             </Col>
         </Flex>
-        {viewModal && <AddNewModal
+        {viewModal && <RecordModal
             title="Новая трата"
             categories={categories}
             categoriesLoading={categoriesLoading}

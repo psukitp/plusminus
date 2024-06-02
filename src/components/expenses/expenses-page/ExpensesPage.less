@@ -8,41 +8,42 @@
         max-width: 600%;
         width: 100%;
     }
-}
 
-.title {
-    margin-bottom: 70px;
+    .title {
+        margin-bottom: 70px;
 
-    &-text {
-        font-family: 'RobotoBold';
-        font-size: 48px;
-        margin-right: 20px;
-    }
-}
-
-.tables {
-    max-width: 100%;
-}
-
-.calendar {
-    max-width: 600px;
-    width: 100%;
-    margin-bottom: 15px;
-    background: @background-component;
-    box-shadow: @box-shadow;
-    border-radius: 15px;
-
-    .ant-picker-body {
-        background: @background-component !important;
-        border-end-end-radius: 10px;
-        border-end-start-radius: 10px;
+        &-text {
+            font-family: 'RobotoBold';
+            font-size: 48px;
+            margin-right: 20px;
+        }
     }
 
-    .ant-picker-cell-selected .ant-picker-calendar-date {
-        background: @orange-bg !important;
+    .calendar {
+        max-width: 600px;
+        width: 100%;
+        margin-bottom: 15px;
+        background: @background-component;
+        box-shadow: @box-shadow;
+        border-radius: 15px;
+
+        .ant-picker-body {
+            background: @background-component !important;
+            border-end-end-radius: 10px;
+            border-end-start-radius: 10px;
+        }
+
+        .ant-picker-cell-selected .ant-picker-calendar-date {
+            background: @orange-bg !important;
+        }
+
+        .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+            border: 1px solid @orange-color-darkest;
+        }
     }
 
-    .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before{
-        border: 1px solid @orange-color-darkest;
+
+    .tables {
+        max-width: 100%;
     }
 }

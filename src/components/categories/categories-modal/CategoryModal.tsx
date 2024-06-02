@@ -1,5 +1,5 @@
 import { Category } from "@common/types"
-import { Col, ColorPicker, Input, InputNumber, Modal, Select } from "antd"
+import { Col, ColorPicker, Input, Modal } from "antd"
 import { Key, useEffect, useState } from "react"
 
 export type ModalInfo = {
@@ -19,7 +19,6 @@ interface IAddNewCategoryModalProps {
 }
 
 type NewCategory = Partial<Pick<Category, "color" | "name">>
-//TODO унести все стили в лесс файлик
 export const CategoryModal = ({
     open,
     modalInfo,
