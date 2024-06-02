@@ -31,7 +31,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
             <SiderButton
                 active={activeCaption.categories}
                 text="Категории"
-                linkTo='review'
+                linkTo='categories'
                 onClick={() => setActiveButton({
                     categories: true
                 })} />

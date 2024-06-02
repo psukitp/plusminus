@@ -1,8 +1,9 @@
-import { Button, Flex, Input } from "antd"
+import { Flex, Input } from "antd"
 import './RegisterPage.less'
 import { useState } from "react"
 import { RegisterFormData } from "./types"
 import { useAuth } from "@hooks/use-auth/useAuth"
+import { Button } from "@components/common/buttons"
 
 const initialForm: RegisterFormData = {
     login: '',

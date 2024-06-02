@@ -1,5 +1,5 @@
 import { Table } from "@components/table"
-import { Button, Calendar, Col, Flex } from "antd"
+import { Calendar, Col, Flex } from "antd"
 import { useExpenses } from "@hooks/use-expenses"
 import { useState } from "react"
 import dayjs from "dayjs"
@@ -7,6 +7,7 @@ import { AddNewModal, NewRecord } from "@components/common/modal"
 
 import './ExpensesPage.less'
 import { useExpensesCategories } from "@hooks/use-expenses-categories/useExpensesCategories"
+import { Button } from "@components/common/buttons"
 
 //TODO унести все стили в лесс файлик
 export const ExpensesPage = () => {
@@ -21,7 +22,7 @@ export const ExpensesPage = () => {
 
     const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
     const [viewModal, setViewModal] = useState<boolean>(false)
-    const [categories, categoriesLoading] = useExpensesCategories()
+    const [categories, , categoriesLoading] = useExpensesCategories()
 
     const queriesOnOk = async (data: NewRecord) => {
         //TODO убрать any, щас пока что хочется функционально сделать
@@ -50,8 +51,7 @@ export const ExpensesPage = () => {
                     className="calendar" />
                 <Button
                     disabled={recordsLoading}
-                    onClick={() => setViewModal(true)}
-                    className="new-expense-button">
+                    onClick={() => setViewModal(true)}>
                     Новая трата
                 </Button>
                 <Table
