@@ -1,3 +1,5 @@
+@import '@common/variables.less';
+
 .sider {
   height: 100%;
   max-width: 350px;
@@ -31,11 +33,27 @@
     line-height: 20px;
     padding: 10px 37px;
     border-radius: 15px;
+
+    &.on {
+      background: @orange-bg;
+      color: #fff;
+    }
   }
 
   &-settings {
     border: 1px solid #D6D6D6;
-    padding: 20px;
+    max-height: 42px;
+    max-width: 42px;
+    height: 100%;
+    width: 100%;
     border-radius: 100%;
+
+    &.on {
+      background: @orange-bg;
+
+      span {
+        color: white;
+      }
+    }
   }
 }

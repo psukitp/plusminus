@@ -6,7 +6,7 @@ import { useIncomesCategories } from "@hooks"
 import { CategoryModal, ModalInfo } from "../categories-modal/CategoryModal"
 import { useCallback, useMemo, useState } from "react"
 import { Category } from "@common/types"
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons"
+import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined } from "@ant-design/icons"
 import { Button } from "@components/common/buttons"
 
 const initialModal: ModalInfo = {
@@ -24,7 +24,8 @@ export const CategoriesPage = () => {
         {
             createNewCategory: createExpenseCategory,
             editCategory: editExpenseCategory,
-            deleteCategory: deleteExpenseCategory
+            deleteCategory: deleteExpenseCategory,
+            refreshData: refreshExpenseCategories
         }] = useExpensesCategories()
     const [
         incRecords,
@@ -33,7 +34,8 @@ export const CategoriesPage = () => {
         {
             createNewCategory: createIncomeCategory,
             editCategory: editIncomeCategory,
-            deleteCategory: deleteIncomeCategory
+            deleteCategory: deleteIncomeCategory,
+            refreshData: refreshIncomeCategories
         }] = useIncomesCategories()
     const [openModal, setOpenModal] = useState({ expense: false, income: false })
     const [modalInfo, setModalInfo] = useState<ModalInfo>({ ...initialModal })
@@ -87,9 +89,15 @@ export const CategoriesPage = () => {
                         Расходы
                     </div>
                     <Button
+                        style={{ marginRight: '10px' }}
                         type="text"
                         onClick={() => setOpenModal({ expense: true, income: false })}>
                         <PlusOutlined />
+                    </Button>
+                    <Button
+                        type="text"
+                        onClick={refreshExpenseCategories}>
+                        <ReloadOutlined />
                     </Button>
                 </Flex>
                 <Table
@@ -104,9 +112,15 @@ export const CategoriesPage = () => {
                         Доходы
                     </div>
                     <Button
+                        style={{ marginRight: '10px' }}
                         type="text"
                         onClick={() => setOpenModal({ expense: false, income: true })}>
                         <PlusOutlined />
+                    </Button>
+                    <Button
+                        type="text"
+                        onClick={refreshIncomeCategories}>
+                        <ReloadOutlined />
                     </Button>
                 </Flex>
                 <Table

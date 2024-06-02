@@ -1,6 +1,8 @@
 import { SiderButton } from '@components/common/buttons'
 import { ISiderProps } from './types'
 import './Sider.less'
+import { SettingOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 
 export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
 
@@ -37,18 +39,21 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
                 })} />
         </div>
         <div className='sider-bottom'>
+            <Link to='/profile'>
+                <button
+                    className={`sider-profile ${activeCaption.profile ? 'on' : ''}`}
+                    onClick={() => setActiveButton({
+                        profile: true
+                    })}>
+                    Профиль
+                </button>
+            </Link>
             <button
-                className='sider-profile'
-                onClick={() => setActiveButton({
-                    profile: true
-                })}>
-                Профиль
-            </button>
-            <button
-                className='sider-settings'
+                className={`sider-settings ${activeCaption.settings ? 'on' : ''}`}
                 onClick={() => setActiveButton({
                     settings: true
                 })}>
+                <SettingOutlined />
             </button>
         </div>
     </div>
