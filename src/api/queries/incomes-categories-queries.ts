@@ -1,6 +1,7 @@
 import { Category } from "@common/types";
 import { getAxiosInstance } from "../axios-client";
 import { IncomesCategoriesService } from "../services/incomes-categories-service";
+import { Key } from "react";
 
 const client = getAxiosInstance()
 const incomesCategoriesService = new IncomesCategoriesService(client)
@@ -10,6 +11,24 @@ const fetchIncomesCategories = async (): Promise<Category[]> => {
     return result
 }
 
+const createNewCategory = async (newCategory: Pick<Category, "color" | "name">): Promise<Category | null> => {
+    const result = await incomesCategoriesService.postCategory(newCategory)
+    return result
+}
+
+const editCategory = async (category: Partial<Category>): Promise<Category | null> => {
+    const result = await incomesCategoriesService.editCategory(category)
+    return result
+}
+
+const deleteCategory = async (id: Key): Promise<Key | null> => {
+    const result = await incomesCategoriesService.deleteCategory(id)
+    return result
+}
+
 export const incomesCategoriesQueries = {
-    fetchIncomesCategories
+    fetchIncomesCategories,
+    createNewCategory,
+    editCategory,
+    deleteCategory
 }

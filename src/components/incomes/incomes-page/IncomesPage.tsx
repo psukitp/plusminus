@@ -1,11 +1,12 @@
 import { Table } from '@components/table'
 import './IncomesPage.less'
-import { Button, Calendar, Col, Flex } from "antd"
+import { Calendar, Col, Flex } from "antd"
 import { useIncomes } from "@hooks/use-incomes"
 import { useState } from "react"
 import dayjs from "dayjs"
 import { AddNewModal, NewRecord } from "@components/common/modal"
 import { useIncomesCategories } from "@hooks/use-incomes-categories/useIncomesCategories"
+import { Button } from '@components/common/buttons'
 
 
 export const IncomesPage = () => {
@@ -17,7 +18,7 @@ export const IncomesPage = () => {
             getIncomes,
             getIncomesByCategories
         }] = useIncomes()
-    const [categories, categoriesLoading] = useIncomesCategories()
+    const [categories, , categoriesLoading] = useIncomesCategories()
 
     const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
     const [viewModal, setViewModal] = useState<boolean>(false)
@@ -47,8 +48,7 @@ export const IncomesPage = () => {
                     className="calendar" />
                 <Button
                     // disabled={recordsLoading}
-                    onClick={() => setViewModal(true)}
-                    className="new-expense-button">
+                    onClick={() => setViewModal(true)}>
                     Новый доход
                 </Button>
                 <Table
