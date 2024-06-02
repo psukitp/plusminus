@@ -2,7 +2,7 @@ import { useRef } from "react"
 import { IChartWidgetProps, Widget } from ".."
 import { Highchart } from "@common/highchart"
 import './ChartWidget.less'
-import { useResize } from "@hooks/use-resize/useResize"
+import { useResize } from "@hooks"
 
 const HEIGHT_PADDING = 20
 const WIDTH_PADDING = 25

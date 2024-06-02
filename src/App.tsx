@@ -9,7 +9,7 @@ import { AuthPage } from '@components/auth'
 import { RegisterPage } from '@components/register'
 import { Routes, Route } from 'react-router-dom'
 import { useUser } from '@store/store'
-import { useAuth } from '@hooks/use-auth/useAuth'
+import { useAuth } from '@hooks'
 import { CategoriesPage } from '@components/categories/categories-page'
 
 const initialActiveCaption: ActiveCaption = {

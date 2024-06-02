@@ -1,0 +1,1 @@
+export { useExpensesCategories } from "./useExpensesCategories";

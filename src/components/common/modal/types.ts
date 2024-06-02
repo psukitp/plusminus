@@ -6,7 +6,7 @@ export type NewRecord = {
     amount: number | null
 }
 
-export interface IAddNewModal {
+export interface IRecordModal {
     open: boolean
     title: string
     categories: Category[]

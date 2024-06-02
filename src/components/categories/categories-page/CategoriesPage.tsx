@@ -1,9 +1,9 @@
 import { Col, Flex, Row, Space } from "antd"
 import './CategoriesPage.less'
 import { Table } from "@components/table"
-import { useExpensesCategories } from "@hooks/use-expenses-categories/useExpensesCategories"
-import { useIncomesCategories } from "@hooks/use-incomes-categories/useIncomesCategories"
-import { CategoryModal, ModalInfo } from "../CategoryModal"
+import { useExpensesCategories } from "@hooks"
+import { useIncomesCategories } from "@hooks"
+import { CategoryModal, ModalInfo } from "../categories-modal/CategoryModal"
 import { useCallback, useMemo, useState } from "react"
 import { Category } from "@common/types"
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons"

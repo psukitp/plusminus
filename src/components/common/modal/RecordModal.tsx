@@ -1,16 +1,15 @@
 import { Col, InputNumber, Modal, Select } from "antd"
-import { IAddNewModal, NewRecord } from "./types"
+import { IRecordModal, NewRecord } from "./types"
 import { useState } from "react"
 
-//TODO унести все стили в лесс файлик
-export const AddNewModal = ({
+export const RecordModal = ({
     open,
     title,
     categories,
     categoriesLoading,
 
     onCancel,
-    onOk }: IAddNewModal) => {
+    onOk }: IRecordModal) => {
     const [newRecord, setNewRecordata] = useState<NewRecord>({ categoryId: null, amount: null })
 
     return <Modal

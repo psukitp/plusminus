@@ -2,7 +2,7 @@ import { Flex, Input } from "antd"
 import './RegisterPage.less'
 import { useState } from "react"
 import { RegisterFormData } from "./types"
-import { useAuth } from "@hooks/use-auth/useAuth"
+import { useAuth } from "@hooks"
 import { Button } from "@components/common/buttons"
 
 const initialForm: RegisterFormData = {

@@ -14,6 +14,5 @@ export interface ISmallWidgetProps {
 export interface IChartWidgetProps {
   title: string
   options: Highcharts.Options
-  //TODO сделать настройки графика. Маппить внутри хука.
   text: string
 }

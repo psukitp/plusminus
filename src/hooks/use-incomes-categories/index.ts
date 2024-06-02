@@ -1,0 +1,1 @@
+export { useIncomesCategories } from "./useIncomesCategories";

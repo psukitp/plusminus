@@ -1,3 +1,3 @@
-export { AddNewModal } from "./AddNewModal";
+export { RecordModal } from "./RecordModal";
 
-export type { NewRecord, IAddNewModal } from "./types";
+export type { NewRecord, IRecordModal } from "./types";

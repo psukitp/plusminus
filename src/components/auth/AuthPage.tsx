@@ -2,7 +2,7 @@ import { Flex, Input } from "antd"
 import './AuthPage.less'
 import { useState } from "react"
 import { AuthFormData } from "./types"
-import { useAuth } from "@hooks/use-auth/useAuth"
+import { useAuth } from "@hooks"
 import { Link } from "react-router-dom"
 import { Button } from "@components/common/buttons"
 
