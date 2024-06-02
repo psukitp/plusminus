@@ -17,7 +17,7 @@ const fetchIncomesByCategory = async (date: string): Promise<IncomesByCategoryRe
 }
 
 const createNewIncomes = async ({ date, categoryId, amount }: { date: string, categoryId: Key, amount: number }): Promise<IncomesRecord[]> => {
-    const result = incomesService.postNewIncomes({ date, categoryId, amount })
+    const result = await incomesService.postNewIncomes({ date, categoryId, amount })
     return result
 }
 

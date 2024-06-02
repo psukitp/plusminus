@@ -63,7 +63,8 @@ export const useExpenses = (): UseExpensesResult => {
     }, [])
 
     const createNewExpense = async ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => {
-        await expensesQueries.createNewExpense({ amount, categoryId, date }).then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
+        await expensesQueries.createNewExpense({ amount, categoryId, date })
+            .then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
     }
 
     const getExpenses = async (date: string) => {
