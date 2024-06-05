@@ -28,8 +28,6 @@ export const RecordModal = ({
         })
     }, [recordInfo])
 
-    console.log(mode)
-
     return <Modal
         destroyOnClose
         okText='Сохранить'
