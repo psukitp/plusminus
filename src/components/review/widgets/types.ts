@@ -1,6 +1,7 @@
 import React from "react"
 
 export interface IWidgetProps {
+  title: string
   children: React.ReactElement
 }
 

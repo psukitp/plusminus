@@ -1,5 +1,5 @@
 import { Category } from "@common/types"
-import { Col, ColorPicker, Input, Modal } from "antd"
+import { Col, ColorPicker, Input, Modal, notification } from "antd"
 import { Key, useEffect, useState } from "react"
 
 export type ModalInfo = {
@@ -37,6 +37,7 @@ export const CategoryModal = ({
     }, [modalInfo])
 
     return <Modal
+        destroyOnClose
         okText='Сохранить'
         cancelText='Отмена'
         title={modalInfo.title}
@@ -50,10 +51,14 @@ export const CategoryModal = ({
                     ...newRecord,
                     id: modalInfo.id
                 })
+                onCancel()
             }
-            //TODO сделать нотификацию
-            else console.log("Чего-то не хватает")
-            onCancel()
+            else
+                notification.warning({
+                    message: "Не все данные заполнены",
+                    placement: "topRight",
+                    duration: 3
+                })
         }}>
         <Col style={{ marginBottom: '15px' }}>
             <Input

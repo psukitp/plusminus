@@ -1,5 +1,6 @@
 import { Key } from "react"
 import { Category } from "../../../common/types"
+import { ModalRecordInfo } from "./RecordModal"
 
 export type NewRecord = {
     categoryId: Key | null
@@ -11,7 +12,10 @@ export interface IRecordModal {
     title: string
     categories: Category[]
     categoriesLoading: boolean
+    recordInfo: ModalRecordInfo
+    mode: "create" | "edit"
 
     onCancel: () => void
-    onOk: (data: NewRecord) => void
+    onCreate: (data: NewRecord) => void
+    onEdit: (data: NewRecord & { id: Key | null }) => void
 }

@@ -80,7 +80,5 @@ export const useIncomesCategories = (): UseIncomesCategoriesResult => {
         })
     }
 
-    const refreshData = () => { fetchData() }
-
     return [data, columns, loading, { createNewCategory, editCategory, deleteCategory, refreshData: fetchData }]
 }

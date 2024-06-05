@@ -1,3 +1,5 @@
+import { Key } from "react"
+
 export type IncomesRecord = {
     id: number
     date: Date | string
@@ -6,6 +8,7 @@ export type IncomesRecord = {
 }
 
 export type IncomesByCategoryRecord = {
+    id: Key
     categoryName: string
     amount: number
     color: string
