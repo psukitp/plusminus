@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react'
 import './App.less'
+import { useEffect, useState } from 'react'
 import { ReviewPage } from '@components/review/review-page'
 import { Sider } from '@components/sider'
 import { ActiveCaption } from '@components/sider/types'
 import { ExpensesPage } from '@components/expenses/expenses-page'
 import { IncomesPage } from '@components/incomes/incomes-page'
-import { AuthPage } from '@components/auth'
 import { RegisterPage } from '@components/register'
+import { AuthPage } from '@components/auth'
 import { Routes, Route } from 'react-router-dom'
 import { useUser } from '@store/store'
 import { useAuth } from '@hooks'
 import { CategoriesPage } from '@components/categories/categories-page'
 import { ProfilePage } from '@components/profile/ProfilePage'
+import { SettingsPage } from '@components/settings/SettingsPage'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -56,6 +57,7 @@ const App = () => {
         <Route path='/incomes' element={<IncomesPage />} />
         <Route path='/categories' element={<CategoriesPage />} />
         <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/settings' element={<SettingsPage />} />
       </Routes>
     </div>
   )
