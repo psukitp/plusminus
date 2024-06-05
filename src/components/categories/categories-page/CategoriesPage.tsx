@@ -58,8 +58,18 @@ export const CategoriesPage = () => {
             ? {
                 ...c,
                 render: (_: any, record: Category) => <Space size="middle">
-                    <Button type="text" onClick={() => onEditExpense(record, "expense")}><EditOutlined /></Button>
-                    <Button type="text" onClick={() => deleteExpenseCategory(record.id)}><DeleteOutlined /></Button>
+                    <Button
+                        margin={false}
+                        type="text"
+                        onClick={() => onEditExpense(record, "expense")}>
+                        <EditOutlined />
+                    </Button>
+                    <Button
+                        margin={false}
+                        type="text"
+                        onClick={() => deleteExpenseCategory(record.id)}>
+                        <DeleteOutlined />
+                    </Button>
                 </Space >
             }
             : c)
@@ -70,8 +80,18 @@ export const CategoriesPage = () => {
             ? {
                 ...c,
                 render: (_: any, record: Category) => <Space size="middle">
-                    <Button type="text" onClick={() => onEditExpense(record, "expense")}><EditOutlined /></Button>
-                    <Button type="text" onClick={() => deleteIncomeCategory(record.id)}><DeleteOutlined /></Button>
+                    <Button
+                        margin={false}
+                        type="text"
+                        onClick={() => onEditExpense(record, "expense")}>
+                        <EditOutlined />
+                    </Button>
+                    <Button
+                        margin={false}
+                        type="text"
+                        onClick={() => deleteIncomeCategory(record.id)}>
+                        <DeleteOutlined />
+                    </Button>
                 </Space >
             }
             : c)

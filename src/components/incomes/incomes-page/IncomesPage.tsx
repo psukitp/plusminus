@@ -1,13 +1,22 @@
 import { Table } from '@components/table'
 import './IncomesPage.less'
-import { Calendar, Col, Flex } from "antd"
+import { Calendar, Col, Flex, Space } from "antd"
 import { useIncomes } from "@hooks"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import dayjs from "dayjs"
 import { RecordModal, NewRecord } from "@components/common/modal"
 import { useIncomesCategories } from "@hooks"
 import { Button } from '@components/common/buttons'
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
+import { genereateCalendarCfg } from '@common/utils'
+import { ModalRecordInfo } from '@components/common/modal/RecordModal'
+import { IncomesRecord } from './types'
 
+const initialModal: ModalRecordInfo = {
+    amount: null,
+    categoryId: null,
+    id: null
+}
 
 export const IncomesPage = () => {
     const [
@@ -16,17 +25,52 @@ export const IncomesPage = () => {
         {
             createNewIncomes,
             getIncomes,
-            getIncomesByCategories
+            getIncomesByCategories,
+            deleteIncome,
+            editIncome
         }] = useIncomes()
     const [categories, , categoriesLoading] = useIncomesCategories()
-
     const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
     const [viewModal, setViewModal] = useState<boolean>(false)
 
-    const queriesOnOk = async (data: NewRecord) => {
+    const [modalInfo, setModalInfo] = useState<ModalRecordInfo>({ ...initialModal })
+
+    const queriesOnCreate = async (data: NewRecord) => {
         await createNewIncomes({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
         await getIncomesByCategories(dayjs(currentDate).format('YYYY-MM-DD'))
     }
+
+    const onEditIncome = useCallback((record: IncomesRecord) => {
+        setModalInfo({
+            amount: record.amount,
+            categoryId: record.categoryId,
+            id: record.id
+        })
+
+        setViewModal(true)
+    }, [setModalInfo, setViewModal])
+
+    const columnsToRender = useMemo(() => columns
+        .map(c => c.key === 'actions'
+            ? {
+                ...c,
+                render: (_: any, record: IncomesRecord) => <Space size="middle">
+                    <Button
+                        margin={false}
+                        type="text"
+                        onClick={() => onEditIncome(record)}>
+                        <EditOutlined />
+                    </Button>
+                    <Button
+                        margin={false}
+                        type="text"
+                        onClick={() => deleteIncome({ id: record.id, amount: record.amount, categoryId: record.categoryId })}>
+                        <DeleteOutlined />
+                    </Button>
+                </Space >
+            }
+            : c
+        ), [columns, onEditIncome, deleteIncome])
 
     return <div className='incomes'>
         <Flex align='center' className='title'>
@@ -37,6 +81,8 @@ export const IncomesPage = () => {
         <Flex justify="space-between">
             <Col>
                 <Calendar
+                    //TODO брать локаль из настроек
+                    locale={genereateCalendarCfg("ru")}
                     fullscreen={false}
                     onChange={(value) => {
                         const formattedDate = value.format('YYYY-MM-DD')
@@ -49,12 +95,12 @@ export const IncomesPage = () => {
                 <Button
                     // disabled={recordsLoading}
                     onClick={() => setViewModal(true)}>
-                    Новый доход
+                    <PlusOutlined />
                 </Button>
                 <Table
                     className="expenses-table"
                     rowKey="id"
-                    columns={columns}
+                    columns={columnsToRender}
                     records={records}
                 // loading={recordsLoading}
                 />
@@ -71,13 +117,16 @@ export const IncomesPage = () => {
         {viewModal && <RecordModal
             categories={categories}
             categoriesLoading={categoriesLoading}
-            title="Новый доход"
+            title={modalInfo.id === null ? "Новый доход" : "Редактирование"}
             open={viewModal}
-            onCancel={() => setViewModal(false)}
-            onOk={(data: NewRecord) => {
-                queriesOnOk(data)
+            onCancel={() => {
                 setViewModal(false)
+                setModalInfo({ ...initialModal })
             }}
+            mode={modalInfo.id === null ? "create" : "edit"}
+            onCreate={(data: NewRecord) => queriesOnCreate(data)}
+            onEdit={(record) => editIncome({ amount: record.amount, categoryId: record.categoryId, id: record.id })}
+            recordInfo={modalInfo}
         />}
     </div>
 }

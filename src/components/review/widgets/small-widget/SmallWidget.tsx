@@ -20,9 +20,9 @@ export const SmallWidget = ({ text, title, diff, positive }: ISmallWidgetProps) 
       return <Tooltip style={{ textAlign: "center" }} title={`Сумма не отличается от суммы в прошлом месяце`} color="#666666"><EqualDiff /></Tooltip>
   }, [diff, positive])
 
-  return <Widget>
+  return <Widget title={title}>
     <>
-      <div className="widget-title">{title}</div>
+      {/* <div className="widget-title">{title}</div> */}
       <Flex align="center">
         <div className="widget-text">{text}</div>
         {Marker}

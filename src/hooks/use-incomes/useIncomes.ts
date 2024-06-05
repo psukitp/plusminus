@@ -15,6 +15,11 @@ const columns: ColumnsType<IncomesRecord> = [
         dataIndex: 'amount',
         key: 'amount',
     },
+    {
+        title: 'Действия',
+        dataIndex: 'actions',
+        key: 'actions',
+    }
 ]
 
 const summarizedColumns: ColumnsType<IncomesByCategoryRecord> = [
@@ -35,8 +40,10 @@ type UseIncomesResult = [
     [IncomesByCategoryRecord[], ColumnsType<IncomesByCategoryRecord>],
     {
         createNewIncomes: ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => void,
-        getIncomes: (date: string) => void,
+        getIncomes: (date: string) => void
         getIncomesByCategories: (date: string) => void
+        deleteIncome: (incomeInfo: { amount: number, id: Key, categoryId: Key }) => void
+        editIncome: (income: { amount: number | null, categoryId: Key | null, id: Key | null }) => void
     }
 ]
 
@@ -49,6 +56,7 @@ export const useIncomes = (): UseIncomesResult => {
         incomesQueries.fetchIncomes(dayjs().format('YYYY-MM-DD')).then(result => setRecords(result))
 
         incomesQueries.fetchIncomesByCategory(dayjs().format('YYYY-MM-DD')).then(result => setSummarizedRecords(result.map(e => ({
+            id: e.id,
             categoryName: e.categoryName,
             amount: e.amount,
             color: e.color
@@ -69,11 +77,34 @@ export const useIncomes = (): UseIncomesResult => {
         await incomesQueries.fetchIncomesByCategory(date)
             .then(result => setSummarizedRecords
                 (result.map(e => ({
+                    id: e.id,
                     categoryName: e.categoryName,
                     amount: e.amount,
                     color: e.color
                 })))
             )
+    }
+
+    const deleteIncome = async (incomeInfo: { amount: number, id: Key, categoryId: Key }) => {
+        await incomesQueries.deleteIncome(incomeInfo.id)
+            .then(result => {
+                setSummarizedRecords(prev => prev.map(c => c.id === incomeInfo?.categoryId ? { ...c, amount: c.amount - incomeInfo.amount } : c))
+                setRecords(prev => prev.filter(e => e.id != result))
+            })
+    }
+
+    const editIncome = async (income: { id: Key | null, categoryId: Key | null, amount: number | null }) => {
+        await incomesQueries.editIncome(income)
+            .then(result => {
+                setRecords(prev => prev.map(e => e.id === result?.id
+                    ? { ...result }
+                    : e))
+
+                return result
+            }).then(result => {
+                if (result?.date)
+                    getIncomesByCategories(result?.date.toString())
+            })
     }
 
 
@@ -82,6 +113,8 @@ export const useIncomes = (): UseIncomesResult => {
     {
         createNewIncomes,
         getIncomes,
-        getIncomesByCategories
+        getIncomesByCategories,
+        deleteIncome,
+        editIncome
     }]
 }

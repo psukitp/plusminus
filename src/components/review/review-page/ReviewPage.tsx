@@ -55,7 +55,7 @@ export const ReviewPage = () => {
         </div>
         <div key="forecast">
           <SmallWidget
-            title='Прогноз расходов'
+            title='Накопления (прогресс)'
             text='coming soon' />
         </div>
         <div key="exp-by-category">
@@ -67,13 +67,13 @@ export const ReviewPage = () => {
         <div key="exp-dynamic">
           <ChartWidget
             options={expLastMonthes}
-            title='Расходы за N месяцев'
+            title='Расходы с начала года'
             text='Тут будет график' />
         </div>
         <div key="inc-dynamic">
           <ChartWidget
             options={incLastMonthes}
-            title='Доходы за N месяцев'
+            title='Доходы с начала года'
             text='Тут будет график' />
         </div>
       </ResponsiveGridLayout>

@@ -1,5 +1,7 @@
 import { Key } from "react"
 
+export type Locale = "ru" | "en"
+
 export type ServiceResponse<T> = {
     data: T
     success: boolean

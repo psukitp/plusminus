@@ -31,10 +31,22 @@ const fetchIncomesLastMonthes = async (): Promise<IncomesLastMonthes> => {
     return result
 }
 
+const deleteIncome = async (id: Key): Promise<Key | null> => {
+    const result = await incomesService.deleteIncome(id)
+    return result
+}
+
+const editIncome = async (income: { id: Key | null, categoryId: Key | null, amount: number | null }): Promise<IncomesRecord | null> => {
+    const result = await incomesService.editIncome(income)
+    return result
+}
+
 export const incomesQueries = {
     fetchIncomes,
     fetchIncomesByCategory,
     createNewIncomes,
     fecthIncomesSum,
-    fetchIncomesLastMonthes
+    fetchIncomesLastMonthes,
+    deleteIncome,
+    editIncome
 }

@@ -83,9 +83,33 @@ export class ExpensesService extends BaseService {
         } catch (e) {
             console.log(e)
             return {
-                expensesDiff: 0, 
+                expensesDiff: 0,
                 expensesTotal: 0
             }
+        }
+    }
+
+    async deleteExpense(id: Key): Promise<Key | null> {
+        try {
+            const response = await this.client.delete<ServiceResponse<Key>>(`${this.url}/${id}`)
+            const { data: { data } } = response
+            return data
+        } catch (e) {
+            console.log(e)
+            return null
+        }
+    }
+
+    async editExpense(expense: { id: Key | null, categoryId: Key | null, amount: number | null }): Promise<ExpensesRecord | null> {
+        try {
+            const response = await this.client.patch<ServiceResponse<ExpensesRecord>>(`${this.url}/update`, {
+                ...expense
+            })
+            const { data: { data } } = response
+            return data
+        } catch (e) {
+            console.log(e)
+            return null
         }
     }
 }

@@ -5,6 +5,7 @@ import { AuthFormData } from "./types"
 import { useAuth } from "@hooks"
 import { Link } from "react-router-dom"
 import { Button } from "@components/common/buttons"
+import Logo from "@common/svgs/logo.svg"
 
 const initialForm: AuthFormData = {
     login: '',
@@ -17,34 +18,39 @@ export const AuthPage = () => {
     return (
         <div className="container">
             <div>
-                <Input
-                    className="auth-input"
-                    placeholder="Логин"
-                    type="login"
-                    value={form.login}
-                    onChange={(e) => setForm(prev => ({ ...prev, login: e.target.value }))} />
-                <Input
-                    className="auth-input"
-                    placeholder="Пароль"
-                    type="password"
-                    value={form.password}
-                    onChange={(e) => setForm(prev => ({ ...prev, password: e.target.value }))} />
-                <Flex
-                    align="center"
-                    justify="center"
-                    gap={15}>
-                    <Button
-                        type="primary"
-                        onClick={() => onAuth(form)}
-                    >
-                        Войти
-                    </Button>
-                    <Button>
-                        <Link to='/register'>
-                            Зарегистрироваться
-                        </Link>
-                    </Button>
-                </Flex>
+                <div className="logo">
+                    <Logo />
+                </div>
+                <div>
+                    <Input
+                        className="auth-input"
+                        placeholder="Логин"
+                        type="login"
+                        value={form.login}
+                        onChange={(e) => setForm(prev => ({ ...prev, login: e.target.value }))} />
+                    <Input
+                        className="auth-input"
+                        placeholder="Пароль"
+                        type="password"
+                        value={form.password}
+                        onChange={(e) => setForm(prev => ({ ...prev, password: e.target.value }))} />
+                    <Flex
+                        align="center"
+                        justify="center"
+                        gap={15}>
+                        <Button
+                            type="primary"
+                            onClick={() => onAuth(form)}
+                        >
+                            Войти
+                        </Button>
+                        <Button>
+                            <Link to='/register'>
+                                Зарегистрироваться
+                            </Link>
+                        </Button>
+                    </Flex>
+                </div>
             </div>
         </div >
     )

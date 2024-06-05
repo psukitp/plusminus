@@ -48,13 +48,15 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
                     Профиль
                 </button>
             </Link>
-            <button
-                className={`sider-settings ${activeCaption.settings ? 'on' : ''}`}
-                onClick={() => setActiveButton({
-                    settings: true
-                })}>
-                <SettingOutlined />
-            </button>
+            <Link to='/settings' className='settings-link'>
+                <button
+                    className={`sider-settings ${activeCaption.settings ? 'on' : ''}`}
+                    onClick={() => setActiveButton({
+                        settings: true
+                    })}>
+                    <SettingOutlined />
+                </button>
+            </Link>
         </div>
     </div>
 }

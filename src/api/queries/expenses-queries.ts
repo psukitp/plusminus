@@ -36,11 +36,23 @@ const fetchExpensesByLastMonthes = async (): Promise<ExpensesLastMonthes> => {
     return result
 }
 
+const deleteExpense = async (id: Key): Promise<Key | null> => {
+    const result = await expensesService.deleteExpense(id)
+    return result
+}
+
+const editExpense = async (expense: { id: Key | null, categoryId: Key | null, amount: number | null }): Promise<ExpensesRecord | null> => {
+    const result = await expensesService.editExpense(expense)
+    return result
+}
+
 export const expensesQueries = {
     fetchExpenses,
     fetchExpensesByCategory,
     createNewExpense,
     fetchExpensesSum,
     fetchExpensesByCategoryMonth,
-    fetchExpensesByLastMonthes
+    fetchExpensesByLastMonthes,
+    deleteExpense,
+    editExpense
 }

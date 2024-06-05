@@ -1,4 +1,4 @@
-import React, { Key, useEffect, useState } from "react"
+import { Key, useEffect } from "react"
 import { expensesCategoriesQueries } from "@api/queries/expenses-categories-queries"
 import { Category } from "@common/types"
 import { ColumnsType } from "antd/es/table"

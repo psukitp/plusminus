@@ -1,11 +1,15 @@
+import { Key } from "react"
+
 export type ExpensesRecord = {
-    id: number
+    id: Key
     date: Date | string
+    categoryId: Key
     categoryName: string
     amount: number
 }
 
 export type ExpensesByCategoryRecord = {
+    id: Key
     categoryName: string
     amount: number
     color: string

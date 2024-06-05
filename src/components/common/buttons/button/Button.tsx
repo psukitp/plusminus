@@ -1,9 +1,13 @@
 import { ButtonProps, Button as AntdButton } from "antd";
 import './Button.less'
 
-export const Button = (props: ButtonProps) => {
+type PlusminusButtonProps = ButtonProps & {
+    margin?: boolean
+}
+
+export const Button = ({ margin = true, ...rest }: PlusminusButtonProps) => {
     return <AntdButton
-        {...props}
-        className="plusminus-button"
+        {...rest}
+        className={`plusminus-button ${margin ? 'default-margin' : ''}`}
     />
 }
