@@ -5,6 +5,7 @@ export type ExpensesRecord = {
     date: Date | string
     categoryId: Key
     categoryName: string
+    categoryColor: string
     amount: number
 }
 

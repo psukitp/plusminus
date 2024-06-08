@@ -13,6 +13,7 @@ type UseSmallWidgetDataResult = [
     ExpensesThisMonth,
     IncomesThisMonth,
     RemainingThisMonth,
+    number
 ]
 
 export const useSmallWidgetData = (): UseSmallWidgetDataResult => {
@@ -20,15 +21,21 @@ export const useSmallWidgetData = (): UseSmallWidgetDataResult => {
     const [incomesTotal, setIncomesTotal] = useState<number>(0)
     const [expensesDiff, setExpensesDiff] = useState<number>(0)
     const [incomesDiff, setIncomessDiff] = useState<number>(0)
+    const [diffTotal, setDiffTotal] = useState<number>(0)
 
     useEffect(() => {
         expensesQueries.fetchExpensesSum().then(result => {
             setExpensesDiff(result.expensesDiff)
             setExpensesTotal(result.expensesTotal)
         })
+
         incomesQueries.fecthIncomesSum().then(result => {
             setIncomesTotal(result.incomesTotal)
             setIncomessDiff(result.incomesDiff)
+        })
+
+        incomesQueries.getTotalDiff().then(result => {
+            setDiffTotal(result)
         })
     }, [])
 
@@ -37,5 +44,5 @@ export const useSmallWidgetData = (): UseSmallWidgetDataResult => {
         remainingDiff: (incomesTotal - incomesDiff) - (expensesTotal - expensesDiff)
     }), [incomesTotal, expensesTotal, incomesDiff, expensesDiff])
 
-    return [{ expensesTotal, expensesDiff }, { incomesTotal, incomesDiff }, remainingSum]
+    return [{ expensesTotal, expensesDiff }, { incomesTotal, incomesDiff }, remainingSum, diffTotal]
 }

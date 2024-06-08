@@ -20,8 +20,8 @@ const initialModal: ModalRecordInfo = {
 
 export const IncomesPage = () => {
     const [
-        [records, columns],
-        [summarizedRecords, summarizedColumns],
+        [records, columns, recordsLoading],
+        [summarizedRecords, summarizedColumns, summarizedRecordsLoading],
         {
             createNewIncomes,
             getIncomes,
@@ -32,15 +32,14 @@ export const IncomesPage = () => {
     const [categories, , categoriesLoading] = useIncomesCategories()
     const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
     const [viewModal, setViewModal] = useState<boolean>(false)
+    const [mode, setMode] = useState<"create" | "edit">("create")
 
     const [modalInfo, setModalInfo] = useState<ModalRecordInfo>({ ...initialModal })
 
-    const queriesOnCreate = async (data: NewRecord) => {
-        await createNewIncomes({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
-        await getIncomesByCategories(dayjs(currentDate).format('YYYY-MM-DD'))
-    }
+    const queriesOnCreate = async (data: NewRecord) => createNewIncomes({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
 
     const onEditIncome = useCallback((record: IncomesRecord) => {
+        setMode("edit")
         setModalInfo({
             amount: record.amount,
             categoryId: record.categoryId,
@@ -93,8 +92,11 @@ export const IncomesPage = () => {
                     value={dayjs(currentDate)}
                     className="calendar" />
                 <Button
-                    // disabled={recordsLoading}
-                    onClick={() => setViewModal(true)}>
+                    disabled={recordsLoading}
+                    onClick={() => {
+                        setMode("create")
+                        setViewModal(true)
+                    }}>
                     <PlusOutlined />
                 </Button>
                 <Table
@@ -102,7 +104,7 @@ export const IncomesPage = () => {
                     rowKey="id"
                     columns={columnsToRender}
                     records={records}
-                // loading={recordsLoading}
+                    loading={recordsLoading}
                 />
             </Col>
             <Col>
@@ -110,20 +112,21 @@ export const IncomesPage = () => {
                     rowKey="categoryName"
                     records={summarizedRecords}
                     columns={summarizedColumns}
-                // loading={summarizedRecordsLoading}
+                    loading={summarizedRecordsLoading}
                 />
             </Col>
         </Flex>
         {viewModal && <RecordModal
+            onChangeRecordInfo={(data) => setModalInfo(data)}
             categories={categories}
             categoriesLoading={categoriesLoading}
-            title={modalInfo.id === null ? "Новый доход" : "Редактирование"}
+            title={mode === "create" ? "Новая трата" : "Редактирование"}
             open={viewModal}
             onCancel={() => {
                 setViewModal(false)
                 setModalInfo({ ...initialModal })
             }}
-            mode={modalInfo.id === null ? "create" : "edit"}
+            mode={mode}
             onCreate={(data: NewRecord) => queriesOnCreate(data)}
             onEdit={(record) => editIncome({ amount: record.amount, categoryId: record.categoryId, id: record.id })}
             recordInfo={modalInfo}

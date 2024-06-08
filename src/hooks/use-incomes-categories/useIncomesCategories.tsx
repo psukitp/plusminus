@@ -2,7 +2,7 @@ import { Key, useEffect } from "react";
 import { Category } from "@common/types";
 import { incomesCategoriesQueries } from "@api/queries/incomes-categories-queries";
 import { ColumnsType } from "antd/es/table";
-import { useIncomesCategoriesData } from "@store/store";
+import { useIncomesCategoriesData } from "@store";
 
 type UseIncomesCategoriesResult = [
     Category[],

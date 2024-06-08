@@ -1,52 +1,10 @@
 import { Key, useEffect, useState } from "react"
-import { ExpensesByCategoryRecord, ExpensesRecord } from "@components/expenses/expenses-page/types"
+import { ExpensesRecord } from "@components/expenses/expenses-page/types"
 import { expensesQueries } from "@api/queries/expenses-queries"
-import { ColumnsType } from "antd/es/table"
 import dayjs from "dayjs"
-import { useSummarizedExpensesData } from "@store/store"
-
-const columns: ColumnsType<ExpensesRecord> = [
-    {
-        title: 'Категория',
-        dataIndex: 'categoryName',
-        key: 'categoryName',
-    },
-    {
-        title: 'Сумма',
-        dataIndex: 'amount',
-        key: 'amount',
-    },
-    {
-        title: 'Действия',
-        dataIndex: 'actions',
-        key: 'actions',
-    }
-]
-
-const summarizedColumns: ColumnsType<ExpensesByCategoryRecord> = [
-    {
-        title: 'Категория',
-        dataIndex: 'categoryName',
-        key: 'categoryName',
-    },
-    {
-        title: 'Сумма',
-        dataIndex: 'amount',
-        key: 'amount',
-    },
-]
-
-type UseExpensesResult = [
-    [ExpensesRecord[], ColumnsType<ExpensesRecord>, boolean],
-    [ExpensesByCategoryRecord[], ColumnsType<ExpensesByCategoryRecord>, boolean],
-    {
-        createNewExpense: ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => void,
-        getExpenses: (date: string) => void,
-        getExpensesByCategories: (date: string) => void
-        deleteExpense: (expenseInfo: Pick<ExpensesRecord, "id" | "amount" | "categoryId">) => void
-        editExpense: (expense: { amount: number | null, categoryId: Key | null, id: Key | null }) => void
-    }
-]
+import { useSummarizedExpensesData } from "@store"
+import { columns, summarizedColumns } from "./staticUseExpenses"
+import { UseExpensesResult } from "./types"
 
 export const useExpenses = (): UseExpensesResult => {
     const [loading, setLoading] = useState({ records: false, summarizedRecords: false })
@@ -54,7 +12,6 @@ export const useExpenses = (): UseExpensesResult => {
 
     const {
         data: sumRecords,
-        editAmount,
         fetchData,
         deleteExpense: deleteExpenseState,
         isDataFetched,
@@ -76,6 +33,7 @@ export const useExpenses = (): UseExpensesResult => {
     const createNewExpense = async ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => {
         await expensesQueries.createNewExpense({ amount, categoryId, date })
             .then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
+            .then(() => fetchData(date))
     }
 
     const getExpenses = async (date: string) => {
@@ -110,6 +68,12 @@ export const useExpenses = (): UseExpensesResult => {
     return [
         [records, columns, loading.records],
         [sumRecords, summarizedColumns, sumLoading],
-        { createNewExpense, getExpenses, getExpensesByCategories: fetchData, deleteExpense, editExpense }
+        {
+            createNewExpense,
+            getExpenses,
+            getExpensesByCategories: fetchData,
+            deleteExpense,
+            editExpense
+        }
     ]
 }

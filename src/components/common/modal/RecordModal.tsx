@@ -1,6 +1,6 @@
 import { Col, InputNumber, Modal, Select, notification } from "antd"
-import { IRecordModal, NewRecord } from "./types"
-import { Key, useEffect, useState } from "react"
+import { IRecordModal } from "./types"
+import { Key } from "react"
 
 export type ModalRecordInfo = {
     id: Key | null
@@ -18,15 +18,8 @@ export const RecordModal = ({
 
     onCancel,
     onCreate,
-    onEdit }: IRecordModal) => {
-    const [newRecord, setNewRecordata] = useState<NewRecord>({ categoryId: null, amount: null })
-
-    useEffect(() => {
-        setNewRecordata({
-            amount: recordInfo.amount,
-            categoryId: recordInfo.categoryId
-        })
-    }, [recordInfo])
+    onEdit,
+    onChangeRecordInfo }: IRecordModal) => {
 
     return <Modal
         destroyOnClose
@@ -37,9 +30,9 @@ export const RecordModal = ({
         open={open}
         onCancel={onCancel}
         onOk={() => {
-            if (newRecord.amount && newRecord.categoryId) {
-                mode === "create" && onCreate && onCreate(newRecord)
-                mode === "edit" && onEdit && onEdit({ ...newRecord, id: recordInfo.id })
+            if (recordInfo.amount && recordInfo.categoryId) {
+                mode === "create" && onCreate && onCreate(recordInfo)
+                mode === "edit" && onEdit && onEdit({ ...recordInfo, id: recordInfo.id })
 
                 onCancel()
             }
@@ -55,8 +48,8 @@ export const RecordModal = ({
                 disabled={categoriesLoading}
                 style={{ maxWidth: '300px', width: '100%' }}
                 placeholder='Категория'
-                value={newRecord.categoryId}
-                onChange={(value) => setNewRecordata(prev => ({ ...prev, categoryId: value }))}>
+                value={recordInfo.categoryId}
+                onChange={(value) => onChangeRecordInfo(prev => ({ ...prev, categoryId: value }))}>
                 {categories.map(c => (
                     <Select.Option key={c.id}>
                         <span style={{ color: c.color }}>{c.name}</span>
@@ -67,8 +60,8 @@ export const RecordModal = ({
             <InputNumber
                 style={{ maxWidth: '300px', width: '100%' }}
                 placeholder='Сумма'
-                value={newRecord.amount}
-                onChange={(value) => setNewRecordata(prev => ({ ...prev, amount: value }))} />
+                value={recordInfo.amount}
+                onChange={(value) => onChangeRecordInfo(prev => ({ ...prev, amount: value }))} />
         </Col>
     </Modal>
 }

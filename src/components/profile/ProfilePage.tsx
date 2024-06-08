@@ -1,4 +1,4 @@
-import { useUser } from "@store/store"
+import { useUser } from "@store"
 import { Input } from "antd"
 import './ProfilePage.less'
 import { Button } from "@components/common/buttons"
@@ -25,9 +25,9 @@ export const ProfilePage = () => {
             value={userData.email}
             prefixCls="plusminus" />
 
-        <Button>
+        {/* <Button>
             Сохранить
-        </Button>
+        </Button> */}
     </div>
     )
 }

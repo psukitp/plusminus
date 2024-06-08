@@ -101,4 +101,15 @@ export class IncomesService extends BaseService {
             return null
         }
     }
+
+    async getTotalDiff(): Promise<number> {
+        try {
+            const response = await this.client.get<ServiceResponse<number>>(`${this.url}/totalDiff`)
+            const { data: { data } } = response
+            return data
+        } catch (e) {
+            console.log(e)
+            return 0
+        }
+    }
 }

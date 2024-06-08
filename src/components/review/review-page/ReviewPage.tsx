@@ -7,14 +7,15 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 export const ReviewPage = () => {
-  const [expenses, incomes, remainingSum] = useSmallWidgetData()
+  const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData()
   const [expByMonth, expLastMonthes, incLastMonthes] = useChartWidget()
   const layout = {
     lg: [
-      { i: "exp-by-month", x: 0, y: 0, w: 3, h: 1 },
-      { i: "inc-by-month", x: 3, y: 0, w: 3, h: 1 },
-      { i: "remainder", x: 6, y: 0, w: 3, h: 1 },
-      { i: "forecast", x: 9, y: 0, w: 3, h: 1 },
+      { i: "exp-by-month", x: 0, y: 0, w: 2.4, h: 1 },
+      { i: "inc-by-month", x: 2.4, y: 0, w: 2.4, h: 1 },
+      { i: "moth-diff", x: 4.8, y: 0, w: 2.4, h: 1 },
+      { i: "total-diff", x: 7.2, y: 0, w: 2.4, h: 1 },
+      { i: "capital", x: 9.6, y: 0, w: 2.4, h: 1 },
       { i: "exp-by-category", x: 0, y: 1, w: 6, h: 2.2 },
       { i: "exp-dynamic", x: 6, y: 1, w: 6, h: 2.2 },
       { i: "inc-dynamic", x: 0, y: 1.2, w: 12, h: 2.75 }
@@ -46,14 +47,19 @@ export const ReviewPage = () => {
             positive={incomes.incomesDiff > 0} />
 
         </div>
-        <div key="remainder">
+        <div key="moth-diff">
           <SmallWidget
-            title='Остаток от дохода'
+            title='Остаток, месяц'
             text={`${remainingSum.remainingTotal} ₽`}
             diff={remainingSum.remainingDiff}
             positive={remainingSum.remainingDiff > 0} />
         </div>
-        <div key="forecast">
+        <div key="total-diff">
+          <SmallWidget
+            title='Остаток, все время'
+            text={`${diffTotal} ₽`} />
+        </div>
+        <div key="capital">
           <SmallWidget
             title='Накопления (прогресс)'
             text='coming soon' />

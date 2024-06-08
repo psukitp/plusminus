@@ -18,4 +18,5 @@ export interface IRecordModal {
     onCancel: () => void
     onCreate: (data: NewRecord) => void
     onEdit: (data: NewRecord & { id: Key | null }) => void
+    onChangeRecordInfo: (value: React.SetStateAction<ModalRecordInfo>) => void
 }

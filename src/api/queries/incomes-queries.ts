@@ -41,6 +41,11 @@ const editIncome = async (income: { id: Key | null, categoryId: Key | null, amou
     return result
 }
 
+const getTotalDiff = async (): Promise<number> => {
+    const result = await incomesService.getTotalDiff()
+    return result
+}
+
 export const incomesQueries = {
     fetchIncomes,
     fetchIncomesByCategory,
@@ -48,5 +53,6 @@ export const incomesQueries = {
     fecthIncomesSum,
     fetchIncomesLastMonthes,
     deleteIncome,
-    editIncome
+    editIncome,
+    getTotalDiff
 }

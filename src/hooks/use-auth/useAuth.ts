@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { userQueries } from "../../api/queries/user-queries"
 import { AuthFormData } from "../../components/auth/types"
 import { RegisterFormData } from "../../components/register/types"
-import { useUser } from "../../store/store"
+import { useUser } from "@store"
 
 export const useAuth = () => {
 

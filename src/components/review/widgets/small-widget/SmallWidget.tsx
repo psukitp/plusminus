@@ -8,6 +8,8 @@ import { useMemo } from "react";
 export const SmallWidget = ({ text, title, diff, positive }: ISmallWidgetProps) => {
 
   const Marker = useMemo(() => {
+    if (!diff)
+      return <></>
     if (positive && diff > 0)
       return <Tooltip style={{ textAlign: "center" }} title={`Больше на ${diff}, чем в прошлом месяце`} color="#75B246"><PositiveDiff /></Tooltip>
     if (positive && diff < 0)

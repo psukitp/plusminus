@@ -35,8 +35,10 @@ export const ExpensesPage = () => {
     const [viewModal, setViewModal] = useState<boolean>(false)
     const [categories, , categoriesLoading] = useExpensesCategories()
     const [modalInfo, setModalInfo] = useState<ModalRecordInfo>({ ...initialModal })
+    const [mode, setMode] = useState<"create" | "edit">("create")
 
     const onEditExpense = useCallback((record: ExpensesRecord) => {
+        setMode("edit")
         setModalInfo({
             amount: record.amount,
             categoryId: record.categoryId,
@@ -46,12 +48,7 @@ export const ExpensesPage = () => {
         setViewModal(true)
     }, [setModalInfo, setViewModal])
 
-    const queriesOnCreate = async (data: NewRecord) => {
-        //TODO убрать any, щас пока что хочется функционально сделать
-        await createNewExpense({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
-        //TODO только при изменении месяца и/или года
-        await getExpensesByCategories(dayjs(currentDate).format('YYYY-MM-DD'))
-    }
+    const queriesOnCreate = async (data: NewRecord) => createNewExpense({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
 
     const columnsToRender = useMemo(() => columns
         .map(c => c.key === 'actions'
@@ -97,7 +94,10 @@ export const ExpensesPage = () => {
                     className="calendar" />
                 <Button
                     disabled={recordsLoading}
-                    onClick={() => setViewModal(true)}>
+                    onClick={() => {
+                        setMode("create")
+                        setViewModal(true)
+                    }}>
                     <PlusOutlined />
                 </Button>
                 <Table
@@ -118,8 +118,9 @@ export const ExpensesPage = () => {
         </Flex>
         {viewModal && <RecordModal
             recordInfo={modalInfo}
-            title={modalInfo.id === null ? "Новая трата" : "Редактирование"}
-            mode={modalInfo.id === null ? "create" : "edit"}
+            onChangeRecordInfo={(data) => setModalInfo(data)}
+            title={mode === "create" ? "Новая трата" : "Редактирование"}
+            mode={mode}
             categories={categories}
             categoriesLoading={categoriesLoading}
             open={viewModal}

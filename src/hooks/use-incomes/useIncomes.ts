@@ -1,94 +1,52 @@
 import { Key, useEffect, useState } from "react"
-import { ColumnsType } from "antd/es/table"
-import { IncomesByCategoryRecord, IncomesRecord } from "@components/incomes/incomes-page/types"
+import { IncomesRecord } from "@components/incomes/incomes-page/types"
 import { incomesQueries } from "@api/queries/incomes-queries"
 import dayjs from "dayjs"
-
-const columns: ColumnsType<IncomesRecord> = [
-    {
-        title: 'Категория',
-        dataIndex: 'categoryName',
-        key: 'categoryName',
-    },
-    {
-        title: 'Сумма',
-        dataIndex: 'amount',
-        key: 'amount',
-    },
-    {
-        title: 'Действия',
-        dataIndex: 'actions',
-        key: 'actions',
-    }
-]
-
-const summarizedColumns: ColumnsType<IncomesByCategoryRecord> = [
-    {
-        title: 'Категория',
-        dataIndex: 'categoryName',
-        key: 'categoryName',
-    },
-    {
-        title: 'Сумма',
-        dataIndex: 'amount',
-        key: 'amount',
-    },
-]
-
-type UseIncomesResult = [
-    [IncomesRecord[], ColumnsType<IncomesRecord>],
-    [IncomesByCategoryRecord[], ColumnsType<IncomesByCategoryRecord>],
-    {
-        createNewIncomes: ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => void,
-        getIncomes: (date: string) => void
-        getIncomesByCategories: (date: string) => void
-        deleteIncome: (incomeInfo: { amount: number, id: Key, categoryId: Key }) => void
-        editIncome: (income: { amount: number | null, categoryId: Key | null, id: Key | null }) => void
-    }
-]
-
+import { useSummarizedIncomesData } from "@store"
+import { columns, summarizedColumns } from "./staticUseIncomes"
+import { UseIncomesResult } from "./types"
 
 export const useIncomes = (): UseIncomesResult => {
+    const [recordsLoading, setRecordsLoading] = useState(false)
     const [records, setRecords] = useState<IncomesRecord[]>([])
-    const [summarizedRecords, setSummarizedRecords] = useState<IncomesByCategoryRecord[]>([])
+
+    const {
+        data: sumRecords,
+        fetchData,
+        deleteIncome: deleteIncomeState,
+        isDataFetched,
+        loading: sumLoading
+    } = useSummarizedIncomesData()
 
     useEffect(() => {
-        incomesQueries.fetchIncomes(dayjs().format('YYYY-MM-DD')).then(result => setRecords(result))
+        if (!isDataFetched)
+            fetchData(dayjs().format('YYYY-MM-DD'))
+    }, [])
 
-        incomesQueries.fetchIncomesByCategory(dayjs().format('YYYY-MM-DD')).then(result => setSummarizedRecords(result.map(e => ({
-            id: e.id,
-            categoryName: e.categoryName,
-            amount: e.amount,
-            color: e.color
-        }))))
+    useEffect(() => {
+        setRecordsLoading(true)
+        incomesQueries.fetchIncomes(dayjs().format('YYYY-MM-DD'))
+            .then(result => setRecords(result))
+            .finally(() => setRecordsLoading(false))
     }, [])
 
     const createNewIncomes = async ({ amount, categoryId, date }: { amount: number, categoryId: Key, date: string }) => {
         await incomesQueries.createNewIncomes({ amount, categoryId, date })
             .then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
+            .then(() => fetchData(date))
     }
 
     const getIncomes = async (date: string) => {
+        setRecordsLoading(true)
         await incomesQueries.fetchIncomes(date)
             .then(result => setRecords(result.map(e => ({ ...e, date: dayjs(e.date).format('YYYY-MM-DD') }))))
+            .finally(() => setRecordsLoading(false))
     }
 
-    const getIncomesByCategories = async (date: string) => {
-        await incomesQueries.fetchIncomesByCategory(date)
-            .then(result => setSummarizedRecords
-                (result.map(e => ({
-                    id: e.id,
-                    categoryName: e.categoryName,
-                    amount: e.amount,
-                    color: e.color
-                })))
-            )
-    }
-
-    const deleteIncome = async (incomeInfo: { amount: number, id: Key, categoryId: Key }) => {
+    const deleteIncome = async (incomeInfo: Pick<IncomesRecord, "id" | "amount" | "categoryId">) => {
         await incomesQueries.deleteIncome(incomeInfo.id)
             .then(result => {
-                setSummarizedRecords(prev => prev.map(c => c.id === incomeInfo?.categoryId ? { ...c, amount: c.amount - incomeInfo.amount } : c))
+                deleteIncomeState(incomeInfo)
                 setRecords(prev => prev.filter(e => e.id != result))
             })
     }
@@ -103,18 +61,19 @@ export const useIncomes = (): UseIncomesResult => {
                 return result
             }).then(result => {
                 if (result?.date)
-                    getIncomesByCategories(result?.date.toString())
+                    fetchData(result?.date.toString())
             })
     }
 
-
-    return [[records, columns],
-    [summarizedRecords, summarizedColumns],
-    {
-        createNewIncomes,
-        getIncomes,
-        getIncomesByCategories,
-        deleteIncome,
-        editIncome
-    }]
+    return [
+        [records, columns, recordsLoading],
+        [sumRecords, summarizedColumns, sumLoading],
+        {
+            createNewIncomes,
+            getIncomes,
+            getIncomesByCategories: fetchData,
+            deleteIncome,
+            editIncome
+        }
+    ]
 }

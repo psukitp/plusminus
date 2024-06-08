@@ -1,9 +1,10 @@
 import { Key } from "react"
 
 export type IncomesRecord = {
-    id: number
+    id: Key
     date: Date | string
     categoryId: number
+    categoryName: string
     amount: number
 }
 
