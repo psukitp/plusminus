@@ -40,10 +40,10 @@ export const CategoriesPage = () => {
     const [openModal, setOpenModal] = useState({ expense: false, income: false })
     const [modalInfo, setModalInfo] = useState<ModalInfo>({ ...initialModal })
 
-    const onEditExpense = useCallback((category: Category, mode: "expense" | "income") => {
+    const onEdit = useCallback((category: Category, mode: "expense" | "income") => {
         setModalInfo({
             id: category.id,
-            title: 'Расходы',
+            title: mode === "expense" ? 'Расходы' : "Доходы",
             color: category.color,
             name: category.name
         })
@@ -61,7 +61,7 @@ export const CategoriesPage = () => {
                     <Button
                         margin={false}
                         type="text"
-                        onClick={() => onEditExpense(record, "expense")}>
+                        onClick={() => onEdit(record, "expense")}>
                         <EditOutlined />
                     </Button>
                     <Button
@@ -83,7 +83,7 @@ export const CategoriesPage = () => {
                     <Button
                         margin={false}
                         type="text"
-                        onClick={() => onEditExpense(record, "expense")}>
+                        onClick={() => onEdit(record, "income")}>
                         <EditOutlined />
                     </Button>
                     <Button
@@ -150,7 +150,7 @@ export const CategoriesPage = () => {
                     records={incRecords} />
             </Col>
         </Row>
-        <CategoryModal
+        {(!!openModal.expense || !!openModal.income) && <CategoryModal
             onCancel={() => {
                 setModalInfo({ ...initialModal })
                 setOpenModal({ expense: false, income: false })
@@ -160,5 +160,6 @@ export const CategoriesPage = () => {
             onCreate={openModal.expense ? createExpenseCategory : createIncomeCategory}
             open={openModal.expense || openModal.income}
             modalInfo={modalInfo} />
+        }
     </div>
 }

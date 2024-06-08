@@ -16,6 +16,11 @@ export const SettingsPage = () => {
         </div>
         <div>
             <Button>
+                Изменить язык
+            </Button>
+        </div>
+        <div>
+            <Button>
                 Изменить валюту
             </Button>
         </div>

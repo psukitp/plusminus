@@ -1,6 +1,6 @@
 import { Col, InputNumber, Modal, Select, notification } from "antd"
 import { IRecordModal } from "./types"
-import { Key } from "react"
+import { Key, useEffect } from "react"
 
 export type ModalRecordInfo = {
     id: Key | null
@@ -30,12 +30,18 @@ export const RecordModal = ({
         open={open}
         onCancel={onCancel}
         onOk={() => {
-            if (recordInfo.amount && recordInfo.categoryId) {
+            if (recordInfo.amount && recordInfo.categoryId && recordInfo.amount > 0) {
                 mode === "create" && onCreate && onCreate(recordInfo)
                 mode === "edit" && onEdit && onEdit({ ...recordInfo, id: recordInfo.id })
 
                 onCancel()
             }
+            else if (recordInfo.amount != null && recordInfo.amount <= 0)
+                notification.warning({
+                    message: "Сумма должна быть положительным числом",
+                    placement: "topRight",
+                    duration: 3
+                })
             else
                 notification.warning({
                     message: "Не все данные заполнены",
@@ -45,10 +51,11 @@ export const RecordModal = ({
         }}>
         <Col style={{ marginBottom: '15px' }}>
             <Select
+                notFoundContent={<div>Сначала нужно создать хотя бы одну категорию!</div>}
                 disabled={categoriesLoading}
                 style={{ maxWidth: '300px', width: '100%' }}
                 placeholder='Категория'
-                value={recordInfo.categoryId}
+                value={recordInfo.categoryId?.toString()}
                 onChange={(value) => onChangeRecordInfo(prev => ({ ...prev, categoryId: value }))}>
                 {categories.map(c => (
                     <Select.Option key={c.id}>
@@ -58,6 +65,8 @@ export const RecordModal = ({
         </Col>
         <Col>
             <InputNumber
+                max={2147483646}
+                min={1}
                 style={{ maxWidth: '300px', width: '100%' }}
                 placeholder='Сумма'
                 value={recordInfo.amount}

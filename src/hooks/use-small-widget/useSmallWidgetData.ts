@@ -17,32 +17,26 @@ type UseSmallWidgetDataResult = [
 ]
 
 export const useSmallWidgetData = (): UseSmallWidgetDataResult => {
-    const [expensesTotal, setExpensesTotal] = useState<number>(0)
-    const [incomesTotal, setIncomesTotal] = useState<number>(0)
-    const [expensesDiff, setExpensesDiff] = useState<number>(0)
-    const [incomesDiff, setIncomessDiff] = useState<number>(0)
+    const [expensesThisMonth, setExpensesThisMonth] = useState<ExpensesThisMonth>({
+        expensesDiff: 0,
+        expensesTotal: 0
+    })
+    const [incomesThisMonth, setIncomesThisMonth] = useState<IncomesThisMonth>({
+        incomesDiff: 0,
+        incomesTotal: 0
+    })
     const [diffTotal, setDiffTotal] = useState<number>(0)
 
     useEffect(() => {
-        expensesQueries.fetchExpensesSum().then(result => {
-            setExpensesDiff(result.expensesDiff)
-            setExpensesTotal(result.expensesTotal)
-        })
-
-        incomesQueries.fecthIncomesSum().then(result => {
-            setIncomesTotal(result.incomesTotal)
-            setIncomessDiff(result.incomesDiff)
-        })
-
-        incomesQueries.getTotalDiff().then(result => {
-            setDiffTotal(result)
-        })
+        expensesQueries.fetchExpensesSum().then(result => setExpensesThisMonth({ ...result }))
+        incomesQueries.fecthIncomesSum().then(result => setIncomesThisMonth({ ...result }))
+        incomesQueries.getTotalDiff().then(result => setDiffTotal(result))
     }, [])
 
     const remainingSum = useMemo<RemainingThisMonth>(() => ({
-        remainingTotal: incomesTotal - expensesTotal,
-        remainingDiff: (incomesTotal - incomesDiff) - (expensesTotal - expensesDiff)
-    }), [incomesTotal, expensesTotal, incomesDiff, expensesDiff])
+        remainingTotal: incomesThisMonth.incomesTotal - expensesThisMonth.expensesTotal,
+        remainingDiff: (incomesThisMonth.incomesTotal - incomesThisMonth.incomesDiff) - (expensesThisMonth.expensesTotal - expensesThisMonth.expensesDiff)
+    }), [expensesThisMonth, incomesThisMonth])
 
-    return [{ expensesTotal, expensesDiff }, { incomesTotal, incomesDiff }, remainingSum, diffTotal]
+    return [expensesThisMonth, incomesThisMonth, remainingSum, diffTotal]
 }

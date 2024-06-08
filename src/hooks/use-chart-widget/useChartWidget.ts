@@ -24,9 +24,17 @@ export const useChartWidget = () => {
         incomesQueries.fetchIncomesLastMonthes().then(result => setIncLastMonthes(result))
     }, [])
 
-    const expByMonthOptions = useMemo(() => generateExpByMonth(expByCategoryMonth), [expByCategoryMonth])
-    const expLastMonthesOptions = useMemo(() => generateExpLastMonthes(expLastMonthes), [expLastMonthes])
-    const incLastMonthesOptions = useMemo(() => generateIncLastMonthes(incLastMonthes), [incLastMonthes])
+    const expByMonthOptions = useMemo(() => expByCategoryMonth
+        ? generateExpByMonth(expByCategoryMonth)
+        : {}, [expByCategoryMonth])
+        
+    const expLastMonthesOptions = useMemo(() => expLastMonthes
+        ? generateExpLastMonthes(expLastMonthes)
+        : {}, [expLastMonthes])
+
+    const incLastMonthesOptions = useMemo(() => incLastMonthes
+        ? generateIncLastMonthes(incLastMonthes)
+        : {}, [incLastMonthes])
 
     return [expByMonthOptions, expLastMonthesOptions, incLastMonthesOptions]
 }

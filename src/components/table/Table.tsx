@@ -13,7 +13,7 @@ export const Table = ({ records, loading, ...rest }: ITableProps) => {
                 dataSource={records}
                 pagination={false}
                 {...rest} />
-            : <div>{`Данных нет :(`}</div>
+            : <div>{`Кажется, ничего не нашлось :(`}</div>
     }, [records, rest])
 
     return loading

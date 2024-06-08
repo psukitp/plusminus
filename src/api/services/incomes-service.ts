@@ -89,10 +89,10 @@ export class IncomesService extends BaseService {
         }
     }
 
-    async editIncome(expense: { id: Key | null, categoryId: Key | null, amount: number | null }): Promise<IncomesRecord | null> {
+    async editIncome(income: { id: Key | null, categoryId: Key | null, amount: number | null }): Promise<IncomesRecord | null> {
         try {
             const response = await this.client.patch<ServiceResponse<IncomesRecord>>(`${this.url}/update`, {
-                ...expense
+                ...income
             })
             const { data: { data } } = response
             return data
