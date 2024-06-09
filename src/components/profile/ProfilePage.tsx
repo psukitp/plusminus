@@ -1,13 +1,14 @@
 import { useUser } from "@store"
 import { Input } from "antd"
 import './ProfilePage.less'
-import { Button } from "@components/common/buttons"
 
 export const ProfilePage = () => {
     const userData = useUser(state => state.data)
 
     return (<div className="profile">
         <div className="title">Профиль</div>
+        <div>Когда-то потом можно будет поменять!</div>
+        <div>Но не сейчас.</div>
         <Input
             addonBefore="Имя"
             value={userData.name}

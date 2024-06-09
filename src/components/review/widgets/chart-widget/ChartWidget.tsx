@@ -12,8 +12,6 @@ export const ChartWidget = ({ options, title }: IChartWidgetProps) => {
   const parentRef = useRef<HTMLDivElement | null>(null)
   const size = useResize(parentRef)
 
-
-
   return <>
     <Widget ref={parentRef} title={title}>
       <Highchart
