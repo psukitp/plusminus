@@ -5,6 +5,7 @@ export type IncomesRecord = {
     date: Date | string
     categoryId: number
     categoryName: string
+    categoryColor: string
     amount: number
 }
 

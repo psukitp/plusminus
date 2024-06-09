@@ -3,6 +3,11 @@ import { userQueries } from "../../api/queries/user-queries"
 import { AuthFormData } from "../../components/auth/types"
 import { RegisterFormData } from "../../components/register/types"
 import { useUser } from "@store"
+import { openNotificationWarning } from "@common/notification/notification"
+
+const validateFieldNoEmpty = (fields: any) => {
+    return Object.values(fields).every(value => value !== null && value !== undefined && value !== "")
+}
 
 export const useAuth = () => {
 
@@ -10,24 +15,32 @@ export const useAuth = () => {
     const setLoading = useUser(state => state.setLoading)
     const navigate = useNavigate()
 
-    const onAuth = async ({ login, password }: AuthFormData) => {
-        setLoading(true)
-        const userData = await userQueries.auth(login, password)
-        if (userData) {
-            setUserData(userData)
-            navigate('/review')
+    const onAuth = async (authData: AuthFormData) => {
+        if (validateFieldNoEmpty(authData)) {
+            setLoading(true)
+            const userData = await userQueries.auth(authData.login, authData.password)
+            if (userData) {
+                setUserData(userData)
+                navigate('/review')
+            }
+            setLoading(false)
+        } else {
+            openNotificationWarning("Не все данные заполнены")
         }
-        setLoading(false)
     }
 
     const onRegister = async (registerData: RegisterFormData) => {
-        setLoading(true)
-        const userData = await userQueries.register(registerData)
-        if (userData) {
-            setUserData(userData)
-            navigate('/review')
+        if (validateFieldNoEmpty(registerData)) {
+            setLoading(true)
+            const userData = await userQueries.register(registerData)
+            if (userData) {
+                setUserData(userData)
+                navigate('/review')
+            }
+            setLoading(false)
+        } else {
+            openNotificationWarning("Не все данные заполнены")
         }
-        setLoading(false)
     }
 
     const onCheck = async () => {

@@ -6,9 +6,12 @@ export const columns: ColumnsType<ExpensesRecord> = [
         title: 'Категория',
         dataIndex: 'categoryName',
         key: 'categoryName',
-        render: (_: any, record) => <span style={{
-            borderBottom: `1px ${record.categoryColor} solid`
-        }}>{record.categoryName}</span>
+        render: (_: any, record) => <span
+            style={{
+                borderBottom: `1px ${record.categoryColor} solid`
+            }}>
+            {record.categoryName}
+        </span>
     },
     {
         title: 'Сумма',

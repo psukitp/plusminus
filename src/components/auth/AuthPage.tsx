@@ -16,7 +16,7 @@ export const AuthPage = () => {
     const [form, setForm] = useState<AuthFormData>({ ...initialForm })
     const { onAuth } = useAuth()
     return (
-        <div className="container">
+        <div className="auth-container">
             <div>
                 <div className="logo">
                     <Logo />

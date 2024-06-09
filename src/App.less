@@ -2,3 +2,26 @@ a {
     color: black;
     text-decoration: none;
 }
+
+html {
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        position: relative;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        cursor: pointer;
+        background: #555;
+    }
+}

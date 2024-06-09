@@ -3,6 +3,7 @@ import { BaseService } from "./base-service";
 import { ServiceResponse } from "@common/types";
 import { AuthResponseData } from "@components/auth/types";
 import { RegisterFormData } from "@components/register/types";
+import { openNotificationError } from "@common/notification/notification";
 
 export class UserService extends BaseService {
 
@@ -21,7 +22,8 @@ export class UserService extends BaseService {
             }, {
                 withCredentials: true
             })
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)

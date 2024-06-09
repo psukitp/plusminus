@@ -1,3 +1,4 @@
+import { openNotificationWarning } from "@common/notification/notification"
 import { Category } from "@common/types"
 import { Col, ColorPicker, Input, Modal, notification } from "antd"
 import { Key, useEffect, useState } from "react"
@@ -54,11 +55,7 @@ export const CategoryModal = ({
                 onCancel()
             }
             else
-                notification.warning({
-                    message: "Не все данные заполнены",
-                    placement: "topRight",
-                    duration: 3
-                })
+                openNotificationWarning("Не все данные заполнены")
         }}>
         <Col style={{ marginBottom: '15px' }}>
             <Input

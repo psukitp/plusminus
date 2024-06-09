@@ -122,3 +122,9 @@ export const genereateCalendarCfg = (locale: Locale): PickerLocale => {
         monthFormat: "YYYY-MM"
     }
 }
+
+export const getFormattedAmount = (amount: number | string) => {
+    const stringAmount = amount.toString()
+    return stringAmount.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+}

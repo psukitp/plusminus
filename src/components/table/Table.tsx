@@ -10,6 +10,9 @@ export const Table = ({ records, loading, ...rest }: ITableProps) => {
     const resultView = useMemo(() => {
         return records.length > 0
             ? <AntTable
+                style={{
+                    fontFamily: "RobotoRegular, sans-serif"
+                }}
                 dataSource={records}
                 pagination={false}
                 {...rest} />

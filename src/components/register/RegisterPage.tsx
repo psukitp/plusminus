@@ -1,4 +1,4 @@
-import { Flex, Input } from "antd"
+import { Checkbox, Flex, Input, Space, Switch, Tooltip } from "antd"
 import './RegisterPage.less'
 import { useState } from "react"
 import { RegisterFormData } from "./types"
@@ -6,22 +6,23 @@ import { useAuth } from "@hooks"
 import { Button } from "@components/common/buttons"
 import { Link } from "react-router-dom"
 import Logo from "@common/svgs/logo.svg"
+import { TooltipText } from "./TooltipText"
 
 const initialForm: RegisterFormData = {
     login: '',
     password: '',
     email: '',
     name: '',
-    phone: '',
+    baseCategories: true,
     secondName: ''
 }
 
 export const RegisterPage = () => {
     const [form, setForm] = useState<RegisterFormData>({ ...initialForm })
-    const [passwordRepeat, setPasswordRepeat] = useState('')
+    const [passwordRepeat, setPasswordRepeat] = useState<string>('')
     const { onRegister } = useAuth()
     return (
-        <div className="container">
+        <div className="reg-container">
             <div>
                 <div className="logo">
                     <Logo />
@@ -47,12 +48,6 @@ export const RegisterPage = () => {
                         onChange={(e) => setForm(prev => ({ ...prev, login: e.target.value }))} />
                     <Input
                         className="reg-input"
-                        placeholder="Номер телефона"
-                        type="tel"
-                        value={form.phone}
-                        onChange={(e) => setForm(prev => ({ ...prev, phone: e.target.value }))} />
-                    <Input
-                        className="reg-input"
                         placeholder="email"
                         type="email"
                         value={form.email}
@@ -69,10 +64,20 @@ export const RegisterPage = () => {
                         type="password"
                         value={passwordRepeat}
                         onChange={(e) => setPasswordRepeat(e.target.value)} />
+                    <Space>
+                        <Switch
+                            checked={form.baseCategories}
+                            onChange={(baseCategories) => setForm(prev => ({ ...prev, baseCategories }))} />
+                        <Tooltip
+                            title={<TooltipText />}>
+                            Базовые категории
+                        </Tooltip>
+                    </Space>
                     {
                         form.password !== passwordRepeat && <p style={{ color: 'red' }}>Пароли не совпадают</p>
                     }
                     <Flex
+                        style={{ marginTop: form.password !== passwordRepeat ? "0" : "19px" }}
                         align="center"
                         justify="center"
                         gap={15}>

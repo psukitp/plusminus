@@ -3,6 +3,7 @@ import { useSmallWidgetData } from "@hooks";
 import { ChartWidget, SmallWidget } from "../widgets";
 import './ReviewPage.less';
 import { Responsive, WidthProvider } from "react-grid-layout";
+import { getFormattedAmount } from "@common/utils";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -35,14 +36,14 @@ export const ReviewPage = () => {
         <div key="exp-by-month">
           <SmallWidget
             title='Расход за месяц'
-            text={`${expenses.expensesTotal} ₽`}
+            text={`${getFormattedAmount(expenses.expensesTotal)} ₽`}
             diff={expenses.expensesDiff}
             positive={expenses.expensesDiff < 0} />
         </div>
         <div key="inc-by-month">
           <SmallWidget
             title='Доход за месяц'
-            text={`${incomes.incomesTotal} ₽`}
+            text={`${getFormattedAmount(incomes.incomesTotal)} ₽`}
             diff={incomes.incomesDiff}
             positive={incomes.incomesDiff > 0} />
 
@@ -50,14 +51,14 @@ export const ReviewPage = () => {
         <div key="moth-diff">
           <SmallWidget
             title='Остаток, месяц'
-            text={`${remainingSum.remainingTotal} ₽`}
+            text={`${getFormattedAmount(remainingSum.remainingTotal)} ₽`}
             diff={remainingSum.remainingDiff}
             positive={remainingSum.remainingDiff > 0} />
         </div>
         <div key="total-diff">
           <SmallWidget
             title='Остаток, все время'
-            text={`${diffTotal} ₽`} />
+            text={`${getFormattedAmount(diffTotal)} ₽`} />
         </div>
         <div key="capital">
           <SmallWidget

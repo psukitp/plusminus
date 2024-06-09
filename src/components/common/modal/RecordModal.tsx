@@ -1,6 +1,7 @@
 import { Col, InputNumber, Modal, Select, notification } from "antd"
 import { IRecordModal } from "./types"
 import { Key, useEffect } from "react"
+import { openNotificationWarning } from "@common/notification/notification"
 
 export type ModalRecordInfo = {
     id: Key | null
@@ -37,17 +38,9 @@ export const RecordModal = ({
                 onCancel()
             }
             else if (recordInfo.amount != null && recordInfo.amount <= 0)
-                notification.warning({
-                    message: "Сумма должна быть положительным числом",
-                    placement: "topRight",
-                    duration: 3
-                })
+                openNotificationWarning("Сумма должна быть положительным числом")
             else
-                notification.warning({
-                    message: "Не все данные заполнены",
-                    placement: "topRight",
-                    duration: 3
-                })
+                openNotificationWarning("Не все данные заполнены")
         }}>
         <Col style={{ marginBottom: '15px' }}>
             <Select

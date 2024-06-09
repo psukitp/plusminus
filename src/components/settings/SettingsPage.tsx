@@ -1,5 +1,4 @@
 
-
 //TODO сделать настройки
 
 import { Button } from "@components/common/buttons"
@@ -10,17 +9,17 @@ export const SettingsPage = () => {
             Не заходи сюда, эти кнопки можно кликать, но они ничего не меняют
         </div>
         <div>
-            <Button>
+            <Button onClick={() => console.log("Ладно, что-то все-таки делают. В консоль пишут:)")}>
                 Переключить тему
             </Button>
         </div>
         <div>
-            <Button>
+            <Button onClick={() => console.log("Ладно, что-то все-таки делают. В консоль пишут:)")}>
                 Изменить язык
             </Button>
         </div>
         <div>
-            <Button>
+            <Button onClick={() => console.log("Ладно, что-то все-таки делают. В консоль пишут:)")}>
                 Изменить валюту
             </Button>
         </div>
