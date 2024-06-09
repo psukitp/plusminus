@@ -1,76 +1,38 @@
 import { Table } from '@components/table'
 import './IncomesPage.less'
-import { Calendar, Col, Flex, Space } from "antd"
-import { useIncomes } from "@hooks"
-import { useCallback, useMemo, useState } from "react"
+import { Calendar, Col, Flex } from "antd"
 import dayjs from "dayjs"
 import { RecordModal, NewRecord } from "@components/common/modal"
-import { useIncomesCategories } from "@hooks"
 import { Button } from '@components/common/buttons'
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 import { genereateCalendarCfg } from '@common/utils'
-import { ModalRecordInfo } from '@components/common/modal/RecordModal'
-import { IncomesRecord } from './types'
+import { IIncomesPageProps } from './types'
+import { initialModal } from './utils'
 
-const initialModal: ModalRecordInfo = {
-    amount: null,
-    categoryId: null,
-    id: null
-}
 
-export const IncomesPage = () => {
-    const [
-        [records, columns, recordsLoading],
-        [summarizedRecords, summarizedColumns, summarizedRecordsLoading],
-        {
-            createNewIncomes,
-            getIncomes,
-            getIncomesByCategories,
-            deleteIncome,
-            editIncome
-        }] = useIncomes()
-    const [categories, , categoriesLoading] = useIncomesCategories()
-    const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
-    const [viewModal, setViewModal] = useState<boolean>(false)
-    const [mode, setMode] = useState<"create" | "edit">("create")
-
-    const [modalInfo, setModalInfo] = useState<ModalRecordInfo>({ ...initialModal })
-
-    const queriesOnCreate = async (data: NewRecord) => createNewIncomes({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
-
-    const onEditIncome = useCallback((record: IncomesRecord) => {
-        setMode("edit")
-        setModalInfo({
-            amount: record.amount,
-            categoryId: record.categoryId,
-            id: record.id
-        })
-
-        setViewModal(true)
-    }, [setModalInfo, setViewModal])
-
-    const columnsToRender = useMemo(() => columns
-        .map(c => c.key === 'actions'
-            ? {
-                ...c,
-                render: (_: any, record: IncomesRecord) => <Space size="middle">
-                    <Button
-                        margin={false}
-                        type="text"
-                        onClick={() => onEditIncome(record)}>
-                        <EditOutlined />
-                    </Button>
-                    <Button
-                        margin={false}
-                        type="text"
-                        onClick={() => deleteIncome({ id: record.id, amount: record.amount, categoryId: record.categoryId })}>
-                        <DeleteOutlined />
-                    </Button>
-                </Space >
-            }
-            : c
-        ), [columns, onEditIncome, deleteIncome])
-
+export const IncomesPage = ({
+    currentDate,
+    columns,
+    records,
+    categories,
+    mode,
+    categoriesLoading,
+    modalInfo,
+    recordsLoading,
+    summarizedRecords,
+    summarizedColumns,
+    summarizedRecordsLoading,
+    viewModal,
+    
+    setModalInfo,
+    queriesOnCreate,
+    editIncome,
+    getIncomes,
+    getIncomesByCategories,
+    setCurrentDate,
+    setMode,
+    setViewModal,
+}: IIncomesPageProps) => {
     return <div className='incomes'>
         <Flex align='center' className='title'>
             <div className='title-text'>
@@ -102,7 +64,7 @@ export const IncomesPage = () => {
                 <Table
                     className="expenses-table"
                     rowKey="id"
-                    columns={columnsToRender}
+                    columns={columns}
                     records={records}
                     loading={recordsLoading}
                 />

@@ -1,3 +1,7 @@
+import { Category } from "@common/types"
+import { NewRecord } from "@components/common/modal"
+import { ModalRecordInfo } from "@components/common/modal/RecordModal"
+import { ColumnsType } from "antd/es/table"
 import { Key } from "react"
 
 export type ExpensesRecord = {
@@ -24,4 +28,33 @@ export type ExpensesLastMonthes = {
 export type ExpensesThisMonth = {
     expensesTotal: number
     expensesDiff: number
+}
+
+export interface IExpensesPage {
+    currentDate: string
+    columns: ColumnsType<ExpensesRecord>
+    records: ExpensesRecord[]
+    modalInfo: ModalRecordInfo
+    recordsLoading: boolean
+    summarizedRecords: ExpensesByCategoryRecord[]
+    summarizedColumns: ColumnsType<ExpensesByCategoryRecord>
+    categories: Category[]
+    mode: "create" | "edit"
+    categoriesLoading: boolean
+    summarizedRecordsLoading: boolean
+    viewModal: boolean
+
+    setModalInfo: React.Dispatch<React.SetStateAction<ModalRecordInfo>>
+    queriesOnCreate: (data: NewRecord) => Promise<void>
+    editExpense: (expense: {
+        amount: number | null;
+        categoryId: React.Key | null;
+        id: React.Key | null;
+    }) => void
+    getExpenses: (date: string) => void
+    getExpensesByCategories: (date: string) => void
+    setCurrentDate: React.Dispatch<React.SetStateAction<string>>
+    setMode: React.Dispatch<React.SetStateAction<"create" | "edit">>
+    setViewModal: React.Dispatch<React.SetStateAction<boolean>>
+
 }

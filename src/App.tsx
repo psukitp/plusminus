@@ -4,15 +4,16 @@ import { ReviewPage } from '@components/review/review-page'
 import { Sider } from '@components/sider'
 import { ActiveCaption } from '@components/sider/types'
 import { ExpensesPage } from '@components/expenses/expenses-page'
-import { IncomesPage } from '@components/incomes/incomes-page'
 import { RegisterPage } from '@components/register'
 import { AuthPage } from '@components/auth'
 import { Routes, Route } from 'react-router-dom'
 import { useUser } from '@store'
 import { useAuth } from '@hooks'
-import { CategoriesPage } from '@components/categories/categories-page'
 import { ProfilePage } from '@components/profile/ProfilePage'
 import { SettingsPage } from '@components/settings/SettingsPage'
+import { IncomesPageDataContainer } from '@components/incomes/incomes-page/IncomesPageDataConteiner'
+import { CategoriesPageDataContainer } from '@components/categories/categories-page/CategoriesPageDataContainer'
+import { ExpensesPageDataContainer } from '@components/expenses/expenses-page/ExpensesPageDataContainer'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -53,9 +54,9 @@ const App = () => {
         <Route path='/auth' element={<AuthPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/review' element={<ReviewPage />} />
-        <Route path='/expenses' element={<ExpensesPage />} />
-        <Route path='/incomes' element={<IncomesPage />} />
-        <Route path='/categories' element={<CategoriesPage />} />
+        <Route path='/expenses' element={<ExpensesPageDataContainer />} />
+        <Route path='/incomes' element={<IncomesPageDataContainer />} />
+        <Route path='/categories' element={<CategoriesPageDataContainer />} />
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/settings' element={<SettingsPage />} />
       </Routes>

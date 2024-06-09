@@ -1,6 +1,6 @@
 import { openNotificationWarning } from "@common/notification/notification"
 import { Category } from "@common/types"
-import { Col, ColorPicker, Input, Modal, notification } from "antd"
+import { Col, ColorPicker, Input, Modal } from "antd"
 import { Key, useEffect, useState } from "react"
 
 export type ModalInfo = {

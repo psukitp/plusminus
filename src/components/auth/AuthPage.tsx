@@ -6,11 +6,7 @@ import { useAuth } from "@hooks"
 import { Link } from "react-router-dom"
 import { Button } from "@components/common/buttons"
 import Logo from "@common/svgs/logo.svg"
-
-const initialForm: AuthFormData = {
-    login: '',
-    password: ''
-}
+import { initialForm } from "./utils"
 
 export const AuthPage = () => {
     const [form, setForm] = useState<AuthFormData>({ ...initialForm })

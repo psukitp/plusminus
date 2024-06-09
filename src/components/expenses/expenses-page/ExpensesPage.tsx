@@ -1,76 +1,41 @@
 import { Table } from "@components/table"
-import { Calendar, Col, Flex, Space } from "antd"
-import { useExpenses } from "@hooks"
-import { useCallback, useMemo, useState } from "react"
+import { Calendar, Col, Flex } from "antd"
 import dayjs from "dayjs"
 import { RecordModal, NewRecord } from "@components/common/modal"
-
 import './ExpensesPage.less'
-import { useExpensesCategories } from "@hooks"
 import { Button } from "@components/common/buttons"
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons"
+import { PlusOutlined } from "@ant-design/icons"
 import { genereateCalendarCfg } from "@common/utils"
-import { ExpensesRecord } from "./types"
 import { ModalRecordInfo } from "@components/common/modal/RecordModal"
+import { IncomesByCategoryRecord, IncomesRecord } from "@components/incomes/incomes-page/types"
+import { ColumnsType } from "antd/es/table"
+import { Category } from "@common/types"
+import { initialModal } from "./utils"
+import { IExpensesPage } from "./types"
 
-const initialModal: ModalRecordInfo = {
-    amount: null,
-    categoryId: null,
-    id: null
-}
+export const ExpensesPage = ({
+    currentDate,
+    columns,
+    records,
+    categories,
+    mode,
+    categoriesLoading,
+    modalInfo,
+    recordsLoading,
+    summarizedRecords,
+    summarizedColumns,
+    summarizedRecordsLoading,
+    viewModal,
 
-export const ExpensesPage = () => {
-    const [
-        [records, columns, recordsLoading],
-        [summarizedRecords, summarizedColumns, summarizedRecordsLoading],
-        {
-            createNewExpense,
-            getExpenses,
-            getExpensesByCategories,
-            deleteExpense,
-            editExpense
-        }] = useExpenses()
-
-    const [currentDate, setCurrentDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
-    const [viewModal, setViewModal] = useState<boolean>(false)
-    const [categories, , categoriesLoading] = useExpensesCategories()
-    const [modalInfo, setModalInfo] = useState<ModalRecordInfo>({ ...initialModal })
-    const [mode, setMode] = useState<"create" | "edit">("create")
-
-    const onEditExpense = useCallback((record: ExpensesRecord) => {
-        setMode("edit")
-        setModalInfo({
-            amount: record.amount,
-            categoryId: record.categoryId,
-            id: record.id
-        })
-
-        setViewModal(true)
-    }, [setModalInfo, setViewModal])
-
-    const queriesOnCreate = async (data: NewRecord) => createNewExpense({ ...data, date: dayjs(currentDate).format('YYYY-MM-DD') } as any)
-
-    const columnsToRender = useMemo(() => columns
-        .map(c => c.key === 'actions'
-            ? {
-                ...c,
-                render: (_: any, record: ExpensesRecord) => <Space size="middle">
-                    <Button
-                        margin={false}
-                        type="text"
-                        onClick={() => onEditExpense(record)}>
-                        <EditOutlined />
-                    </Button>
-                    <Button
-                        margin={false}
-                        type="text"
-                        onClick={() => deleteExpense({ id: record.id, amount: record.amount, categoryId: record.categoryId })}>
-                        <DeleteOutlined />
-                    </Button>
-                </Space >
-            }
-            : c
-        ), [columns, onEditExpense, deleteExpense])
+    setModalInfo,
+    queriesOnCreate,
+    editExpense,
+    getExpenses,
+    getExpensesByCategories,
+    setCurrentDate,
+    setMode,
+    setViewModal,
+}: IExpensesPage) => {
 
     return <div className='expenses'>
         <Flex align='center' className='title'>
@@ -103,7 +68,7 @@ export const ExpensesPage = () => {
                 <Table
                     className="expenses-table"
                     rowKey="id"
-                    columns={columnsToRender}
+                    columns={columns}
                     records={records}
                     loading={recordsLoading} />
             </Col>
