@@ -30,7 +30,15 @@ export const useAuth = () => {
     }
 
     const onRegister = async (registerData: RegisterFormData) => {
-        if (validateFieldNoEmpty(registerData)) {
+        const emailRegExp = /@/
+
+        if (!validateFieldNoEmpty(registerData)) {
+            openNotificationWarning("Не все данные заполнены")
+        } else if (registerData.password.length < 8) {
+            openNotificationWarning("Минимальная длина пароля - 8 символов")
+        } else if (!(emailRegExp.test(registerData.email))) {
+            openNotificationWarning("Кажется, введена некорректная почта.")
+        } else {
             setLoading(true)
             const userData = await userQueries.register(registerData)
             if (userData) {
@@ -38,8 +46,6 @@ export const useAuth = () => {
                 navigate('/review')
             }
             setLoading(false)
-        } else {
-            openNotificationWarning("Не все данные заполнены")
         }
     }
 
