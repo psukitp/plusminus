@@ -11,9 +11,7 @@ export const useSummarizedExpensesData = create<ISummarizedExpensesData>(set => 
         const result = await expensesQueries.fetchExpensesByCategory(date)
         set({ data: result, loading: false, isDataFetched: true })
     },
-    editExpense: (prevExpense, newExpense) => {
-        console.log(prevExpense, newExpense)
-    },
+    editExpense: (prevExpense, newExpense) => { },
     deleteExpense: (expense) => {
         set((state) => ({
             data: state.data
