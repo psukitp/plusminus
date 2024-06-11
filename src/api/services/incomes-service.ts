@@ -3,6 +3,7 @@ import { BaseService } from "./base-service";
 import { IncomesByCategoryRecord, IncomesLastMonthes, IncomesRecord, IncomesThisMonth } from "@components/incomes/incomes-page/types";
 import { ServiceResponse } from "@common/types";
 import { Key } from "react";
+import { openNotificationError } from "@common/notification/notification";
 
 export class IncomesService extends BaseService {
 
@@ -16,7 +17,8 @@ export class IncomesService extends BaseService {
     async getIncomes(date: string): Promise<IncomesRecord[]> {
         try {
             const response = await this.client.get<ServiceResponse<IncomesRecord[]>>(`${this.url}?date=${date}`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -27,7 +29,8 @@ export class IncomesService extends BaseService {
     async getIncomesByCategories(date: string): Promise<IncomesByCategoryRecord[]> {
         try {
             const response = await this.client.get<ServiceResponse<IncomesByCategoryRecord[]>>(`${this.url}/bycategory?date=${date}`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -42,7 +45,8 @@ export class IncomesService extends BaseService {
                 categoryId,
                 amount
             })
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -53,7 +57,8 @@ export class IncomesService extends BaseService {
     async fetchIncomesSum(): Promise<IncomesThisMonth> {
         try {
             const response = await this.client.get<ServiceResponse<IncomesThisMonth>>(`${this.url}/sum`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -67,7 +72,8 @@ export class IncomesService extends BaseService {
     async getIncomesLastMonthes(): Promise<IncomesLastMonthes> {
         try {
             const response = await this.client.get<ServiceResponse<IncomesLastMonthes>>(`${this.url}/dynamicmonth`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -81,7 +87,8 @@ export class IncomesService extends BaseService {
     async deleteIncome(id: Key): Promise<Key | null> {
         try {
             const response = await this.client.delete<ServiceResponse<Key>>(`${this.url}/${id}`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -94,7 +101,8 @@ export class IncomesService extends BaseService {
             const response = await this.client.patch<ServiceResponse<IncomesRecord>>(`${this.url}/update`, {
                 ...income
             })
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -105,7 +113,8 @@ export class IncomesService extends BaseService {
     async getTotalDiff(): Promise<number> {
         try {
             const response = await this.client.get<ServiceResponse<number>>(`${this.url}/totalDiff`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)

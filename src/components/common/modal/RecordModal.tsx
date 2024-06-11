@@ -58,7 +58,7 @@ export const RecordModal = ({
         </Col>
         <Col>
             <InputNumber
-                max={2147483646}
+                max={1000000}
                 min={1}
                 style={{ maxWidth: '300px', width: '100%' }}
                 placeholder='Сумма'

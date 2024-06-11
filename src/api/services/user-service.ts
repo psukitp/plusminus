@@ -36,7 +36,8 @@ export class UserService extends BaseService {
             const response = await this.client.post<ServiceResponse<AuthResponseData>>(`${this.url}register`, {
                 ...registerData
             })
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -47,7 +48,8 @@ export class UserService extends BaseService {
     async checkAuth(): Promise<AuthResponseData | null> {
         try {
             const response = await this.client.post<ServiceResponse<AuthResponseData>>(`${this.url}check`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)

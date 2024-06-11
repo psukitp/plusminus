@@ -2,6 +2,7 @@ import { AxiosInstance } from "axios";
 import { BaseService } from "./base-service";
 import { Category, ServiceResponse } from "@common/types";
 import { Key } from "react";
+import { openNotificationError } from "@common/notification/notification";
 
 export class IncomesCategoriesService extends BaseService {
 
@@ -15,7 +16,8 @@ export class IncomesCategoriesService extends BaseService {
     async getCategories(): Promise<Category[]> {
         try {
             const response = await this.client.get<ServiceResponse<Category[]>>(`${this.url}`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -29,7 +31,8 @@ export class IncomesCategoriesService extends BaseService {
                 name,
                 color
             })
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -42,7 +45,8 @@ export class IncomesCategoriesService extends BaseService {
             const response = await this.client.patch<ServiceResponse<Category>>(`${this.url}/category/incomes/update`, {
                 ...category
             })
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
@@ -53,7 +57,8 @@ export class IncomesCategoriesService extends BaseService {
     async deleteCategory(id: Key): Promise<Key | null> {
         try {
             const response = await this.client.delete<ServiceResponse<Key>>(`${this.url}/category/incomes/${id}`)
-            const { data: { data } } = response
+            const { data: { data, message, success } } = response
+            if (!success) openNotificationError(message)
             return data
         } catch (e) {
             console.log(e)
