@@ -19,7 +19,7 @@ interface IAddNewCategoryModalProps {
     onEdit: (record: Partial<Category>) => void
 }
 
-type NewCategory = Partial<Pick<Category, "color" | "name">>
+export type NewCategory = Partial<Pick<Category, "color" | "name">>
 export const CategoryModal = ({
     open,
     modalInfo,

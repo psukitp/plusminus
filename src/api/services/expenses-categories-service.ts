@@ -3,6 +3,7 @@ import { BaseService } from "./base-service";
 import { Category, ServiceResponse } from "@common/types";
 import { Key } from "react";
 import { openNotificationError } from "@common/notification/notification";
+import { NewCategory } from "@components/categories/categories-modal/CategoryModal";
 
 export class ExpensesCategoriesService extends BaseService {
 
@@ -25,7 +26,7 @@ export class ExpensesCategoriesService extends BaseService {
         }
     }
 
-    async postCategory({ name, color }: Pick<Category, "color" | "name">): Promise<Category | null> {
+    async postCategory({ name, color }: NewCategory): Promise<Category | null> {
         try {
             const response = await this.client.post<ServiceResponse<Category>>(`${this.url}/category/expenses/add`, {
                 name,

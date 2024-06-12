@@ -1,4 +1,4 @@
-import { Checkbox, Flex, Input, Space, Switch, Tooltip } from "antd"
+import { Flex, Input, Space, Switch, Tooltip } from "antd"
 import './RegisterPage.less'
 import { useState } from "react"
 import { RegisterFormData } from "./types"

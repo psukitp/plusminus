@@ -11,7 +11,7 @@ export const useSummarizedIncomesData = create<ISummarizedIncomesData>(set => ({
         const result = await incomesQueries.fetchIncomesByCategory(date)
         set({ data: result, loading: false, isDataFetched: true })
     },
-    editIncome: (prevIncome, newIncome) => { },
+    editIncome: () => { },
     deleteIncome: (income) => {
         set((state) => ({
             data: state.data

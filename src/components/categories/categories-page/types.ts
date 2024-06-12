@@ -1,5 +1,5 @@
 import { Category } from "@common/types";
-import { ModalInfo } from "../categories-modal/CategoryModal";
+import { ModalInfo, NewCategory } from "../categories-modal/CategoryModal";
 import { ColumnsType } from "antd/es/table";
 
 export interface ICategoriesPageProps {
@@ -26,6 +26,6 @@ export interface ICategoriesPageProps {
     setModalInfo: React.Dispatch<React.SetStateAction<ModalInfo>>
     editExpenseCategory: (category: Partial<Category>) => void
     editIncomeCategory: (category: Partial<Category>) => void
-    createExpenseCategory: (newCategory: Pick<Category, "name" | "color">) => void
-    createIncomeCategory: (newCategory: Pick<Category, "name" | "color">) => void
+    createExpenseCategory: (newCategory: NewCategory) => void
+    createIncomeCategory: (newCategory: NewCategory) => void
 }

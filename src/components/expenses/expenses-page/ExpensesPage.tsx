@@ -6,10 +6,6 @@ import './ExpensesPage.less'
 import { Button } from "@components/common/buttons"
 import { PlusOutlined } from "@ant-design/icons"
 import { genereateCalendarCfg } from "@common/utils"
-import { ModalRecordInfo } from "@components/common/modal/RecordModal"
-import { IncomesByCategoryRecord, IncomesRecord } from "@components/incomes/incomes-page/types"
-import { ColumnsType } from "antd/es/table"
-import { Category } from "@common/types"
 import { initialModal } from "./utils"
 import { IExpensesPage } from "./types"
 

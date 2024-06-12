@@ -1,6 +1,6 @@
-import { Col, InputNumber, Modal, Select, notification } from "antd"
+import { Col, InputNumber, Modal, Select } from "antd"
 import { IRecordModal } from "./types"
-import { Key, useEffect } from "react"
+import { Key } from "react"
 import { openNotificationWarning } from "@common/notification/notification"
 
 export type ModalRecordInfo = {

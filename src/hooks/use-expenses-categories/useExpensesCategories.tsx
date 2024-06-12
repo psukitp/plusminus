@@ -3,13 +3,14 @@ import { expensesCategoriesQueries } from "@api/queries/expenses-categories-quer
 import { Category } from "@common/types"
 import { ColumnsType } from "antd/es/table"
 import { useExpensesCategoriesData } from "@store"
+import { NewCategory } from "@components/categories/categories-modal/CategoryModal"
 
 type useExpensesCategoriesResult = [
     Category[],
     ColumnsType<Category>,
     boolean,
     {
-        createNewCategory: (newCategory: Pick<Category, "color" | "name">) => void
+        createNewCategory: (newCategory: NewCategory) => void
         editCategory: (category: Partial<Category>) => void
         deleteCategory: (id: Key) => void
         refreshData: () => void
@@ -60,7 +61,7 @@ export const useExpensesCategories = (): useExpensesCategoriesResult => {
     }, [isDataFetched])
 
 
-    const createNewCategory = (newCategory: Pick<Category, "color" | "name">) => {
+    const createNewCategory = (newCategory: NewCategory) => {
         expensesCategoriesQueries.createNewCategory(newCategory).then(result => {
             if (result != null)
                 addCategoryState(result)

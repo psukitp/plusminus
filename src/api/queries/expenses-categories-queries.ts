@@ -2,6 +2,7 @@ import { Key } from "react"
 import { getAxiosInstance } from "../axios-client"
 import { ExpensesCategoriesService } from "../services/expenses-categories-service"
 import { Category } from "@common/types"
+import { NewCategory } from "@components/categories/categories-modal/CategoryModal"
 
 const client = getAxiosInstance()
 const expensesCategoriesService = new ExpensesCategoriesService(client)
@@ -11,7 +12,7 @@ const fetchExpensesCategories = async (): Promise<Category[]> => {
     return result
 }
 
-const createNewCategory = async (newCategory: Pick<Category, "color" | "name">): Promise<Category | null> => {
+const createNewCategory = async (newCategory: NewCategory): Promise<Category | null> => {
     const result = await expensesCategoriesService.postCategory(newCategory)
     return result
 }
