@@ -47,8 +47,8 @@ export const generateExpByMonth = (data: ExpensesByCategoryRecord[]): Highcharts
             type: "pie",
             data: chartSeries.map(s => ({
                 name: s.name,
-                y: s.y,
-                color: s.color
+                y: (s as any).y,
+                color: (s as any).color
             }))
         }]
     }
