@@ -2,52 +2,56 @@ import { SeriesOptionsType } from "highcharts";
 import { ExpensesByCategoryRecord } from "@components/expenses/expenses-page/types";
 
 export const generateExpByMonth = (data: ExpensesByCategoryRecord[]): Highcharts.Options => {
-    const xAxisCategories: string[] = data.
-        sort((a, b) => a.amount - b.amount)
-        .map(el => el.categoryName)
+    const chartSeries: SeriesOptionsType[] = data.map(el => ({
+        type: 'pie',
+        name: el.categoryName,
+        y: el.amount,
+        color: el.color
+    }))
 
-    const chartSeries: SeriesOptionsType[] = data
-        .sort((a, b) => b.amount - a.amount)
-        .map(el => ({
-            type: 'column',
-            name: el.categoryName,
-            data: [el.amount],
-            color: el.color
-        }))
-
-    const expByMoth: Highcharts.Options = {
+    const expByMonth: Highcharts.Options = {
+        chart: {
+            type: 'pie',
+            plotShadow: false,
+            borderRadius: 15,
+        },
         title: {
             text: ''
         },
         tooltip: {
-            enabled: false,
+            headerFormat: "",
+            pointFormat: '{point.name}: <b>{point.y} ₽</b>'
+        },
+        legend: {
+            enabled: true,
+            align: 'left',
+            verticalAlign: 'top',
+            layout: 'vertical',
         },
         plotOptions: {
-            column: {
-                borderRadius: 15,
+            pie: {
+                innerSize: "70%",
+                allowPointSelect: true,
+                cursor: 'pointer',
+                showInLegend: true,
                 dataLabels: {
-                    enabled: true,
+                    enabled: false
                 }
-            }
-        },
-        xAxis: {
-            categories: xAxisCategories,
-            visible: false,
-            title: {
-                text: ''
-            },
-            crosshair: false
-        },
-        yAxis: {
-            title: {
-                text: ''
             }
         },
         credits: {
             enabled: false
         },
-        series: chartSeries
+        series: [{
+            name: 'Категории',
+            type: "pie",
+            data: chartSeries.map(s => ({
+                name: s.name,
+                y: s.y,
+                color: s.color
+            }))
+        }]
     }
 
-    return expByMoth
+    return expByMonth
 }
