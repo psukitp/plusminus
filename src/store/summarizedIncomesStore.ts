@@ -9,7 +9,7 @@ export const useSummarizedIncomesData = create<ISummarizedIncomesData>(set => ({
     fetchData: async (date) => {
         set({ loading: true })
         const result = await incomesQueries.fetchIncomesByCategory(date)
-        set({ data: result, loading: false, isDataFetched: true })
+        set({ data: result.sort((a, b) => b.amount - a.amount), loading: false, isDataFetched: true })
     },
     editIncome: () => { },
     deleteIncome: (income) => {
