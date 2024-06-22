@@ -5,8 +5,8 @@ export const getAxiosInstance = () => {
     const client = axios.create({
         withCredentials: true
     })
-    //TODO брать из ENV, там DEV и PROD версии
-    client.defaults.baseURL = 'http://localhost:5213/api/'
+
+    client.defaults.baseURL = import.meta.env.VITE_BASE_URL;
     client.defaults.headers.common['Content-Type'] = 'application/json'
     client.defaults.headers.delete['Content-Type'] = 'application/json'
     client.defaults.headers.post['Content-Type'] = 'application/json'
