@@ -16,7 +16,7 @@ export const SiderButton = ({
             <button
                 className={`sider-button ${active ? 'button-on' : ''}`}
                 onClick={onClick}>
-                <span>{icon}</span> {text}
+                <span className='icon'>{icon}</span> {text}
             </button >
         </Link>
     )

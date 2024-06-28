@@ -47,7 +47,7 @@ const App = () => {
 
 
   return (
-    <div style={{ height: '100%', display: 'flex', background: 'linear-gradient(135deg, #f7f8fa 0%, #e6e7ed 100%)' }}>
+    <div className="app">
       {loading ? (
         <div className='fullscreen_loader'>
           <Loader fontSize={50} />

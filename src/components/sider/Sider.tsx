@@ -1,7 +1,7 @@
 import { SiderButton } from '@components/common/buttons'
 import { ISiderProps } from './types'
 import './Sider.less'
-import { SettingOutlined } from '@ant-design/icons'
+import { BarChartOutlined, MinusSquareOutlined, PlusSquareOutlined, SettingOutlined, UnorderedListOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 
 export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
@@ -13,6 +13,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
                 active={activeCaption.review}
                 text="Обзор"
                 linkTo='review'
+                icon={<BarChartOutlined />}
                 onClick={() => setActiveButton({
                     review: true
                 })} />
@@ -20,6 +21,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
                 active={activeCaption.expenses}
                 text="Расходы"
                 linkTo='expenses'
+                icon={<MinusSquareOutlined />}
                 onClick={() => setActiveButton({
                     expenses: true
                 })} />
@@ -27,6 +29,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
                 active={activeCaption.incomes}
                 text="Доходы"
                 linkTo='incomes'
+                icon={<PlusSquareOutlined />}
                 onClick={() => setActiveButton({
                     incomes: true
                 })} />
@@ -34,6 +37,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
                 active={activeCaption.categories}
                 text="Категории"
                 linkTo='categories'
+                icon={<UnorderedListOutlined />}
                 onClick={() => setActiveButton({
                     categories: true
                 })} />
@@ -45,7 +49,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
                     onClick={() => setActiveButton({
                         profile: true
                     })}>
-                    Профиль
+                    <UserOutlined />
                 </button>
             </Link>
             <Link to='/settings' className='settings-link'>

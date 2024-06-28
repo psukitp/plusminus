@@ -13,7 +13,7 @@ export const generateExpByMonth = (data: ExpensesByCategoryRecord[]): Highcharts
         chart: {
             type: 'pie',
             plotShadow: false,
-            borderRadius: 15,
+            borderRadius: 10,
         },
         title: {
             text: ''

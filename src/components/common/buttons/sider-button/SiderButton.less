@@ -7,21 +7,27 @@
     }
 
     .sider-button {
-        box-shadow: 6px 6px 10px 0 rgba(0, 0, 0, 0.15), -6px -6px 10px 0 rgba(255, 255, 255, 0.3);
-        background: #fafafa;
-        border-radius: 30px;
-        padding: 22px 0;
+        box-shadow: @box-shadow;
+        background: @background-component;
+        border: @border;
+        border-radius: @border-radius;
+        padding: 15px 15px;
         max-width: 250px;
         font-size: 20px;
         line-height: 20px;
         width: 100%;
         color: #000;
         user-select: none;
+        text-align: left;
+
+        .icon {
+            margin-right: 20px;
+        }
     }
 
     .button-on {
         box-shadow: @box-shadow;
-        color: #fff;
-        background: @orange-bg;
+        background: @active-bg;
+        color: @active-font;
     }
 }
