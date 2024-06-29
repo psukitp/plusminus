@@ -14,6 +14,10 @@ import { IncomesPageDataContainer } from '@components/incomes/incomes-page/Incom
 import { CategoriesPageDataContainer } from '@components/categories/categories-page/CategoriesPageDataContainer'
 import { ExpensesPageDataContainer } from '@components/expenses/expenses-page/ExpensesPageDataContainer'
 import { Loader } from '@components/common/loaders'
+import { ThemeProvider } from 'styled-components'
+// import { themeDark } from '@common/theme-dark'
+import { AppContainer } from './App-styled'
+import { themeLight } from '@common/theme-light'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -47,32 +51,34 @@ const App = () => {
 
 
   return (
-    <div className="app">
-      {loading ? (
-        <div className='fullscreen_loader'>
-          <Loader fontSize={50} />
-        </div>
-      ) : (
-        <>
-          {!!user.id && (
-            <Sider
-              activeCaption={activeCaption}
-              setActiveButton={(value: Partial<ActiveCaption>) => onChangeActiveCaption(value)}
-            />
-          )}
-          <Routes>
-            <Route path='/auth' element={<AuthPage />} />
-            <Route path='/register' element={<RegisterPage />} />
-            <Route path='/review' element={<ReviewPage />} />
-            <Route path='/expenses' element={<ExpensesPageDataContainer />} />
-            <Route path='/incomes' element={<IncomesPageDataContainer />} />
-            <Route path='/categories' element={<CategoriesPageDataContainer />} />
-            <Route path='/profile' element={<ProfilePage />} />
-            <Route path='/settings' element={<SettingsPage />} />
-          </Routes>
-        </>
-      )}
-    </div>
+    <ThemeProvider theme={themeLight}>
+      <AppContainer>
+        {loading ? (
+          <div className='fullscreen_loader'>
+            <Loader fontSize={50} />
+          </div>
+        ) : (
+          <>
+            {!!user.id && (
+              <Sider
+                activeCaption={activeCaption}
+                setActiveButton={(value: Partial<ActiveCaption>) => onChangeActiveCaption(value)}
+              />
+            )}
+            <Routes>
+              <Route path='/auth' element={<AuthPage />} />
+              <Route path='/register' element={<RegisterPage />} />
+              <Route path='/review' element={<ReviewPage />} />
+              <Route path='/expenses' element={<ExpensesPageDataContainer />} />
+              <Route path='/incomes' element={<IncomesPageDataContainer />} />
+              <Route path='/categories' element={<CategoriesPageDataContainer />} />
+              <Route path='/profile' element={<ProfilePage />} />
+              <Route path='/settings' element={<SettingsPage />} />
+            </Routes>
+          </>
+        )}
+      </AppContainer>
+    </ThemeProvider>
   )
 }
 

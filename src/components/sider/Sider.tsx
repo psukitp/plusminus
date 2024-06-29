@@ -1,14 +1,14 @@
 import { SiderButton } from '@components/common/buttons'
 import { ISiderProps } from './types'
-import './Sider.less'
 import { BarChartOutlined, MinusSquareOutlined, PlusSquareOutlined, SettingOutlined, UnorderedListOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
+import { SiderBottom, SiderBottomButton, SiderContainer, SiderMain } from './Sider-styled'
 
 export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
 
 
-    return <div className='sider'>
-        <div className='sider-main'>
+    return <SiderContainer>
+        <SiderMain>
             <SiderButton
                 active={activeCaption.review}
                 text="Обзор"
@@ -41,26 +41,26 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
                 onClick={() => setActiveButton({
                     categories: true
                 })} />
-        </div>
-        <div className='sider-bottom'>
+        </SiderMain>
+        <SiderBottom>
             <Link to='/profile'>
-                <button
-                    className={`sider-profile ${activeCaption.profile ? 'on' : ''}`}
+                <SiderBottomButton
+                    active={activeCaption.profile}
                     onClick={() => setActiveButton({
                         profile: true
                     })}>
                     <UserOutlined />
-                </button>
+                </SiderBottomButton>
             </Link>
             <Link to='/settings' className='settings-link'>
-                <button
-                    className={`sider-settings ${activeCaption.settings ? 'on' : ''}`}
+                <SiderBottomButton
+                    active={activeCaption.settings}
                     onClick={() => setActiveButton({
                         settings: true
                     })}>
                     <SettingOutlined />
-                </button>
+                </SiderBottomButton>
             </Link>
-        </div>
-    </div>
+        </SiderBottom>
+    </SiderContainer>
 }

@@ -1,34 +1,29 @@
 import { useUser } from "@store"
-import { Input } from "antd"
-import './ProfilePage.less'
+import { ProfileContainer, ProfileInput, Title } from "./ProfilePage-styled"
 
 export const ProfilePage = () => {
     const userData = useUser(state => state.data)
 
-    return (<div className="profile">
-        <div className="title">Профиль</div>
+    return (<ProfileContainer>
+        <Title>Профиль</Title>
         <div>Когда-то потом можно будет поменять!</div>
         <div>Но не сейчас.</div>
-        <Input
+        <ProfileInput
             addonBefore="Имя"
-            value={userData.name}
-            prefixCls="plusminus" />
-        <Input
+            value={userData.name} />
+        <ProfileInput
             addonBefore="Фамилия"
-            value={userData.secondName}
-            prefixCls="plusminus" />
-        <Input
+            value={userData.secondName} />
+        <ProfileInput
             addonBefore="Логин"
-            value={userData.login}
-            prefixCls="plusminus" />
-        <Input
+            value={userData.login} />
+        <ProfileInput
             addonBefore="Email"
-            value={userData.email}
-            prefixCls="plusminus" />
+            value={userData.email} />
 
         {/* <Button>
             Сохранить
         </Button> */}
-    </div>
+    </ProfileContainer>
     )
 }

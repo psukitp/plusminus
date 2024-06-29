@@ -1,13 +1,12 @@
 import { Table } from '@components/table'
-import './IncomesPage.less'
-import { Calendar, Col, Flex } from "antd"
-import dayjs from "dayjs"
+import { Col, Flex } from "antd"
 import { RecordModal, NewRecord } from "@components/common/modal"
 import { Button } from '@components/common/buttons'
 import { PlusOutlined } from '@ant-design/icons'
-import { genereateCalendarCfg } from '@common/utils'
 import { IIncomesPageProps } from './types'
 import { initialModal } from './utils'
+import { Calendar } from '@components/calendar/Calendar'
+import { IncomesContainer, Text, Title } from './IncomesPage-styled'
 
 
 export const IncomesPage = ({
@@ -23,7 +22,7 @@ export const IncomesPage = ({
     summarizedColumns,
     summarizedRecordsLoading,
     viewModal,
-    
+
     setModalInfo,
     queriesOnCreate,
     editIncome,
@@ -33,26 +32,23 @@ export const IncomesPage = ({
     setMode,
     setViewModal,
 }: IIncomesPageProps) => {
-    return <div className='incomes'>
-        <Flex align='center' className='title'>
-            <div className='title-text'>
+    return <IncomesContainer>
+        <Title>
+            <Text>
                 Доходы
-            </div>
-        </Flex>
+            </Text>
+        </Title>
         <Flex justify="space-between">
             <Col>
                 <Calendar
-                    //TODO брать локаль из настроек
-                    locale={genereateCalendarCfg("ru")}
-                    fullscreen={false}
+                    value={currentDate}
                     onChange={(value) => {
                         const formattedDate = value.format('YYYY-MM-DD')
                         getIncomes(formattedDate)
                         getIncomesByCategories(formattedDate)
                         setCurrentDate(formattedDate)
                     }}
-                    value={dayjs(currentDate)}
-                    className="calendar" />
+                />
                 <Button
                     disabled={recordsLoading}
                     onClick={() => {
@@ -93,5 +89,5 @@ export const IncomesPage = ({
             onEdit={(record) => editIncome({ amount: record.amount, categoryId: record.categoryId, id: record.id })}
             recordInfo={modalInfo}
         />}
-    </div>
+    </IncomesContainer>
 }

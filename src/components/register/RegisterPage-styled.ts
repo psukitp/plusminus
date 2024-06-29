@@ -1,4 +1,7 @@
-.reg-container {
+import { Input } from "antd"
+import styled from "styled-components"
+
+export const RegisterContainer = styled.div`
     width: 100%;
     height: 100%;
     position: fixed;
@@ -16,15 +19,16 @@
         margin: auto;
     }
 
-    .reg-input {
-        max-width: 400px;
-        width: 100%;
-        margin-bottom: 10px;
-        text-align: center;
-        display: block;
+`
 
-        &::placeholder {
-            text-align: center;
-        }
+export const RegisterInput = styled(Input)`
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+    display: block;
+
+    &::placeholder {
+        text-align: center;
     }
-}
+`

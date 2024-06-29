@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import './SiderButton.less'
 import { SiderButtonProps } from './types'
+import { IconContainer, SiderButtonContainer } from './SiderButton-styled'
 
 export const SiderButton = ({
     active,
@@ -13,11 +13,11 @@ export const SiderButton = ({
 
     return (
         <Link to={`/${linkTo}`}>
-            <button
-                className={`sider-button ${active ? 'button-on' : ''}`}
+            <SiderButtonContainer
+                active={active}
                 onClick={onClick}>
-                <span className='icon'>{icon}</span> {text}
-            </button >
+                <IconContainer>{icon}</IconContainer> {text}
+            </SiderButtonContainer >
         </Link>
     )
 }

@@ -1,4 +1,7 @@
-.auth-container {
+import { Input } from "antd"
+import styled from "styled-components"
+
+export const AuthContainer = styled.div`
     width: 100%;
     height: 100%;
     position: fixed;
@@ -15,15 +18,15 @@
         height: 300px;
         margin: auto;
     }
+`
 
-    .auth-input {
-        max-width: 400px;
-        width: 100%;
-        margin-bottom: 10px;
+export const AuthInput = styled(Input)`
+    max-width: 400px;
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+
+    &::placeholder {
         text-align: center;
-
-        &::placeholder {
-            text-align: center;
-        }
     }
-}
+`

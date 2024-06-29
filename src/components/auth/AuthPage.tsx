@@ -1,5 +1,4 @@
 import { Flex, Input } from "antd"
-import './AuthPage.less'
 import { useState } from "react"
 import { AuthFormData } from "./types"
 import { useAuth } from "@hooks"
@@ -7,25 +6,24 @@ import { Link } from "react-router-dom"
 import { Button } from "@components/common/buttons"
 import Logo from "@common/svgs/logo.svg"
 import { initialForm } from "./utils"
+import { AuthContainer, AuthInput } from "./AuthPage-styled"
 
 export const AuthPage = () => {
     const [form, setForm] = useState<AuthFormData>({ ...initialForm })
     const { onAuth } = useAuth()
     return (
-        <div className="auth-container">
+        <AuthContainer>
             <div>
                 <div className="logo">
                     <Logo />
                 </div>
                 <div>
-                    <Input
-                        className="auth-input"
+                    <AuthInput
                         placeholder="Логин"
                         type="login"
                         value={form.login}
                         onChange={(e) => setForm(prev => ({ ...prev, login: e.target.value }))} />
-                    <Input
-                        className="auth-input"
+                    <AuthInput
                         placeholder="Пароль"
                         type="password"
                         value={form.password}
@@ -48,6 +46,6 @@ export const AuthPage = () => {
                     </Flex>
                 </div>
             </div>
-        </div >
+        </AuthContainer >
     )
 }

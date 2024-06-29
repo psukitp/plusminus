@@ -1,11 +1,14 @@
 import { Col, Flex, Row } from "antd"
-import './CategoriesPage.less'
 import { Table } from "@components/table"
 import { CategoryModal } from "../categories-modal/CategoryModal"
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons"
 import { Button } from "@components/common/buttons"
 import { ICategoriesPageProps } from "./types"
 import { initialModal } from "./utils"
+import styled from "styled-components"
+import { CategoriesContainer, SubTitle, Title } from "./CategoriesPage-styled"
+
+
 
 export const CategoriesPage = ({
     openModal,
@@ -29,16 +32,16 @@ export const CategoriesPage = ({
     createIncomeCategory
 }: ICategoriesPageProps) => {
 
-    return <div className='categories'>
-        <div className='title-text'>
-            Категория
-        </div>
+    return <CategoriesContainer>
+        <Title>
+            Категории
+        </Title>
         <Row>
             <Col span={12}>
                 <Flex align="center">
-                    <div className='subtitle-text'>
+                    <SubTitle>
                         Расходы
-                    </div>
+                    </SubTitle>
                     <Button
                         style={{ marginRight: '10px' }}
                         type="text"
@@ -59,9 +62,9 @@ export const CategoriesPage = ({
             </Col>
             <Col span={12}>
                 <Flex align="center">
-                    <div className='subtitle-text'>
+                    <SubTitle>
                         Доходы
-                    </div>
+                    </SubTitle>
                     <Button
                         style={{ marginRight: '10px' }}
                         type="text"
@@ -92,5 +95,5 @@ export const CategoriesPage = ({
             open={openModal.expense || openModal.income}
             modalInfo={modalInfo} />
         }
-    </div>
+    </CategoriesContainer>
 }

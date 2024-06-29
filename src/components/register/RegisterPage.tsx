@@ -1,5 +1,4 @@
-import { Flex, Input, Space, Switch, Tooltip } from "antd"
-import './RegisterPage.less'
+import { Flex, Space, Switch, Tooltip } from "antd"
 import { useState } from "react"
 import { RegisterFormData } from "./types"
 import { useAuth } from "@hooks"
@@ -7,6 +6,7 @@ import { Button } from "@components/common/buttons"
 import { Link } from "react-router-dom"
 import Logo from "@common/svgs/logo.svg"
 import { TooltipText } from "./TooltipText"
+import { RegisterContainer, RegisterInput } from "./RegisterPage-styled"
 
 const initialForm: RegisterFormData = {
     login: '',
@@ -22,44 +22,38 @@ export const RegisterPage = () => {
     const [passwordRepeat, setPasswordRepeat] = useState<string>('')
     const { onRegister } = useAuth()
     return (
-        <div className="reg-container">
+        <RegisterContainer>
             <div>
                 <div className="logo">
                     <Logo />
                 </div>
                 <div>
-                    <Input
-                        className="reg-input"
+                    <RegisterInput
                         placeholder="Имя"
                         type="name"
                         value={form.name}
                         onChange={(e) => setForm(prev => ({ ...prev, name: e.target.value }))} />
-                    <Input
-                        className="reg-input"
+                    <RegisterInput
                         placeholder="Фамилия"
                         type="secondName"
                         value={form.secondName}
                         onChange={(e) => setForm(prev => ({ ...prev, secondName: e.target.value }))} />
-                    <Input
-                        className="reg-input"
+                    <RegisterInput
                         placeholder="Логин"
                         type="login"
                         value={form.login}
                         onChange={(e) => setForm(prev => ({ ...prev, login: e.target.value }))} />
-                    <Input
-                        className="reg-input"
+                    <RegisterInput
                         placeholder="email"
                         type="email"
                         value={form.email}
                         onChange={(e) => setForm(prev => ({ ...prev, email: e.target.value }))} />
-                    <Input
-                        className="reg-input"
+                    <RegisterInput
                         placeholder="Пароль"
                         type="password"
                         value={form.password}
                         onChange={(e) => setForm(prev => ({ ...prev, password: e.target.value }))} />
-                    <Input
-                        className="reg-input"
+                    <RegisterInput
                         placeholder="Повторите пароль"
                         type="password"
                         value={passwordRepeat}
@@ -96,6 +90,6 @@ export const RegisterPage = () => {
                     </Flex>
                 </div>
             </div>
-        </div >
+        </RegisterContainer >
     )
 }

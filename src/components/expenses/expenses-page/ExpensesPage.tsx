@@ -1,13 +1,13 @@
 import { Table } from "@components/table"
-import { Calendar, Col, Flex } from "antd"
-import dayjs from "dayjs"
 import { RecordModal, NewRecord } from "@components/common/modal"
-import './ExpensesPage.less'
 import { Button } from "@components/common/buttons"
 import { PlusOutlined } from "@ant-design/icons"
-import { genereateCalendarCfg } from "@common/utils"
 import { initialModal } from "./utils"
 import { IExpensesPage } from "./types"
+import { Calendar } from "@components/calendar/Calendar"
+import styled from "styled-components"
+import { Col, Flex } from "antd"
+import { ExpensesContainer, Text, Title } from "./ExpensesPage-styled"
 
 export const ExpensesPage = ({
     currentDate,
@@ -33,26 +33,23 @@ export const ExpensesPage = ({
     setViewModal,
 }: IExpensesPage) => {
 
-    return <div className='expenses'>
-        <Flex align='center' className='title'>
-            <div className='title-text'>
+    return <ExpensesContainer>
+        <Title>
+            <Text>
                 Расходы
-            </div>
-        </Flex>
+            </Text>
+        </Title>
         <Flex justify="space-between">
             <Col>
                 <Calendar
                     //TODO брать локаль из настроек
-                    locale={genereateCalendarCfg("ru")}
-                    fullscreen={false}
                     onChange={(value) => {
                         const formattedDate = value.format('YYYY-MM-DD')
                         getExpenses(formattedDate)
                         getExpensesByCategories(formattedDate)
                         setCurrentDate(formattedDate)
                     }}
-                    value={dayjs(currentDate)}
-                    className="calendar" />
+                    value={currentDate} />
                 <Button
                     disabled={recordsLoading}
                     onClick={() => {
@@ -92,5 +89,5 @@ export const ExpensesPage = ({
             }}
             onCreate={(data: NewRecord) => queriesOnCreate(data)}
         />}
-    </div>
+    </ExpensesContainer>
 }
