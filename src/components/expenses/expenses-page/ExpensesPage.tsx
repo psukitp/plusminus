@@ -5,7 +5,6 @@ import { PlusOutlined } from "@ant-design/icons"
 import { initialModal } from "./utils"
 import { IExpensesPage } from "./types"
 import { Calendar } from "@components/calendar/Calendar"
-import styled from "styled-components"
 import { Col, Flex } from "antd"
 import { ExpensesContainer, Text, Title } from "./ExpensesPage-styled"
 

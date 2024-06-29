@@ -1,4 +1,4 @@
-import { Flex, Input } from "antd"
+import { Flex } from "antd"
 import { useState } from "react"
 import { AuthFormData } from "./types"
 import { useAuth } from "@hooks"

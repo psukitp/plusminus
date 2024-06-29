@@ -5,7 +5,6 @@ import { PlusOutlined, ReloadOutlined } from "@ant-design/icons"
 import { Button } from "@components/common/buttons"
 import { ICategoriesPageProps } from "./types"
 import { initialModal } from "./utils"
-import styled from "styled-components"
 import { CategoriesContainer, SubTitle, Title } from "./CategoriesPage-styled"
 
 
