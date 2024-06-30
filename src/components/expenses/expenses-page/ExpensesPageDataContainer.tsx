@@ -28,6 +28,10 @@ export const ExpensesPageDataContainer = () => {
     const [modalInfo, setModalInfo] = useState<ModalRecordInfo>({ ...initialModal })
     const [mode, setMode] = useState<"create" | "edit">("create")
 
+    const summaryExpensesPerDay = useMemo(() => {
+        return records.reduce((sum, obj) => sum + obj.amount, 0)
+    }, [records])
+
     const onEditExpense = useCallback((record: ExpensesRecord) => {
         setMode("edit")
         setModalInfo({
@@ -76,6 +80,7 @@ export const ExpensesPageDataContainer = () => {
         summarizedRecordsLoading={summarizedRecordsLoading}
         viewModal={viewModal}
         recordsLoading={recordsLoading}
+        summaryExpenses={summaryExpensesPerDay}
 
         editExpense={editExpense}
         getExpenses={getExpenses}

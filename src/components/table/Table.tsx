@@ -4,17 +4,20 @@ import { useMemo } from "react";
 import { TableContainer } from "./Table-styled";
 
 
-export const Table = ({ records, loading, ...rest }: ITableProps) => {
+export const Table = ({ records, loading, summary, ...rest }: ITableProps) => {
 
     const resultView = useMemo(() => {
         return records.length > 0
-            ? <TableContainer
-                style={{
-                    fontFamily: "RobotoRegular, sans-serif"
-                }}
-                dataSource={records}
-                pagination={false}
-                {...rest} />
+            ? <>
+                {!!summary ? summary : null}
+                <TableContainer
+                    style={{
+                        fontFamily: "RobotoRegular, sans-serif"
+                    }}
+                    dataSource={records}
+                    pagination={false}
+                    {...rest} />
+            </>
             : <div>{`Кажется, ничего не нашлось :(`}</div>
     }, [records, rest])
 

@@ -11,12 +11,12 @@ export class UserService extends BaseService {
 
     constructor(client: AxiosInstance) {
         super(client)
-        this.url = 'Users/users/'
+        this.url = 'Users'
     }
 
     async auth(login: string, password: string): Promise<AuthResponseData | null> {
         try {
-            const response = await this.client.post<ServiceResponse<AuthResponseData>>(`${this.url}auth`, {
+            const response = await this.client.post<ServiceResponse<AuthResponseData>>(`${this.url}/auth`, {
                 login,
                 password
             }, {
@@ -33,7 +33,7 @@ export class UserService extends BaseService {
 
     async register(registerData: RegisterFormData): Promise<AuthResponseData | null> {
         try {
-            const response = await this.client.post<ServiceResponse<AuthResponseData>>(`${this.url}register`, {
+            const response = await this.client.post<ServiceResponse<AuthResponseData>>(`${this.url}/register`, {
                 ...registerData
             })
             const { data: { data, message, success } } = response
@@ -47,7 +47,7 @@ export class UserService extends BaseService {
 
     async checkAuth(): Promise<AuthResponseData | null> {
         try {
-            const response = await this.client.post<ServiceResponse<AuthResponseData>>(`${this.url}check`)
+            const response = await this.client.post<ServiceResponse<AuthResponseData>>(`${this.url}/check`)
             const { data: { data, message, success } } = response
             if (!success) openNotificationError(message)
             return data

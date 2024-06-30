@@ -20,3 +20,7 @@ export const Text = styled.div`
     font-size: 48px;
     margin-right: 20px;
 `
+
+export const Summary = styled.div`
+margin-bottom: 15px;
+`

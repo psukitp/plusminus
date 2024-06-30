@@ -11,7 +11,7 @@ export class ExpensesService extends BaseService {
 
     constructor(client: AxiosInstance) {
         super(client)
-        this.url = 'Expenses/expanses'
+        this.url = 'Expenses'
     }
 
     async getExpenses(date: string): Promise<ExpensesRecord[]> {

@@ -11,7 +11,7 @@ export class ExpensesCategoriesService extends BaseService {
 
     constructor(client: AxiosInstance) {
         super(client)
-        this.url = 'CategoryExpanses'
+        this.url = 'CategoryExpenses'
     }
 
     async getCategories(): Promise<Category[]> {
@@ -28,7 +28,7 @@ export class ExpensesCategoriesService extends BaseService {
 
     async postCategory({ name, color }: NewCategory): Promise<Category | null> {
         try {
-            const response = await this.client.post<ServiceResponse<Category>>(`${this.url}/category/expenses/add`, {
+            const response = await this.client.post<ServiceResponse<Category>>(`${this.url}/add`, {
                 name,
                 color
             })
@@ -43,7 +43,7 @@ export class ExpensesCategoriesService extends BaseService {
 
     async editCategory(category: Partial<Category>): Promise<Category | null> {
         try {
-            const response = await this.client.patch<ServiceResponse<Category>>(`${this.url}/category/expenses/update`, {
+            const response = await this.client.patch<ServiceResponse<Category>>(`${this.url}/update`, {
                 ...category
             })
             const { data: { data, message, success } } = response
@@ -57,7 +57,7 @@ export class ExpensesCategoriesService extends BaseService {
 
     async deleteCategory(id: Key): Promise<Key | null> {
         try {
-            const response = await this.client.delete<ServiceResponse<Key>>(`${this.url}/category/expenses/${id}`)
+            const response = await this.client.delete<ServiceResponse<Key>>(`${this.url}/${id}`)
             const { data: { data, message, success } } = response
             if (!success) openNotificationError(message)
             return data

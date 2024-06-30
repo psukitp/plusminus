@@ -6,7 +6,7 @@ import { initialModal } from "./utils"
 import { IExpensesPage } from "./types"
 import { Calendar } from "@components/calendar/Calendar"
 import { Col, Flex } from "antd"
-import { ExpensesContainer, Text, Title } from "./ExpensesPage-styled"
+import { ExpensesContainer, Summary, Text, Title } from "./ExpensesPage-styled"
 
 export const ExpensesPage = ({
     currentDate,
@@ -21,6 +21,7 @@ export const ExpensesPage = ({
     summarizedColumns,
     summarizedRecordsLoading,
     viewModal,
+    summaryExpenses,
 
     setModalInfo,
     queriesOnCreate,
@@ -62,7 +63,8 @@ export const ExpensesPage = ({
                     rowKey="id"
                     columns={columns}
                     records={records}
-                    loading={recordsLoading} />
+                    loading={recordsLoading}
+                    summary={<Summary>Итого: {summaryExpenses} ₽</Summary>} />
             </Col>
             <Col>
                 <Table

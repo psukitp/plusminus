@@ -15,6 +15,7 @@ export interface ITableProps {
     style?: CSSProperties
     className?: string
     loading?: boolean
+    summary?: React.ReactNode
 
     // onRow?: GetComponentProps
 }

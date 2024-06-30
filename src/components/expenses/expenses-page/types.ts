@@ -43,6 +43,7 @@ export interface IExpensesPage {
     categoriesLoading: boolean
     summarizedRecordsLoading: boolean
     viewModal: boolean
+    summaryExpenses: number
 
     setModalInfo: React.Dispatch<React.SetStateAction<ModalRecordInfo>>
     queriesOnCreate: (data: NewRecord) => Promise<void>
