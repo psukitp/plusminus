@@ -6,8 +6,8 @@ export const genereateCalendarCfg = (locale: Locale): PickerLocale => {
     return {
         lang: {
             locale: isLangRu
-                ? "ru_RU"
-                : "en_US",
+                ? "ru"
+                : "en",
             placeholder: isLangRu
                 ? "Выбор даты"
                 : "Select date",

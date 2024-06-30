@@ -4,6 +4,12 @@ import { border, borderRadius } from "@common/variables"
 import { Calendar as AntdCalendar } from "antd"
 import dayjs from "dayjs"
 import styled from "styled-components"
+import updateLocale from 'dayjs/plugin/updateLocale';
+
+dayjs.extend(updateLocale)
+dayjs.updateLocale('en', {
+    weekStart: 1
+})
 
 const CalendarContainer = styled(AntdCalendar) <StyledComponentProps>`
     max-width: 600px;
