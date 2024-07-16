@@ -2,14 +2,20 @@ import { useChartWidget, useSmallWidgetData } from "@hooks";
 import { ChartWidget, SmallWidget } from "../widgets";
 import { getFormattedAmount } from "@common/utils";
 import { ReviewContainer, WidgetContainer } from './ReviewPage-styled';
+import { isMobile } from "react-device-detect";
+import { useMemo } from "react";
+import { generateGrid } from "./utils";
+import { GridElement } from "./types";
 
 export const ReviewPage = () => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData();
   const [expByMonth, expLastMonthes, incLastMonthes] = useChartWidget();
 
+  const grid = useMemo<GridElement[]>(() => generateGrid(isMobile), [isMobile, generateGrid])
+
   return (
     <ReviewContainer>
-      <WidgetContainer startRow={1} startCol={1} endRow={2} endCol={2} id="exp-by-month">
+      <WidgetContainer {...grid[0]}>
         <SmallWidget
           title='Расход за месяц'
           text={`${getFormattedAmount(expenses.expensesTotal)} ₽`}
@@ -17,7 +23,7 @@ export const ReviewPage = () => {
           positive={expenses.expensesDiff < 0}
         />
       </WidgetContainer>
-      <WidgetContainer startRow={1} startCol={2} endRow={2} endCol={3} id="inc-by-month">
+      <WidgetContainer {...grid[1]}>
         <SmallWidget
           title='Доход за месяц'
           text={`${getFormattedAmount(incomes.incomesTotal)} ₽`}
@@ -25,7 +31,7 @@ export const ReviewPage = () => {
           positive={incomes.incomesDiff > 0}
         />
       </WidgetContainer>
-      <WidgetContainer startRow={1} startCol={3} endRow={2} endCol={4} id="moth-diff">
+      <WidgetContainer {...grid[2]}>
         <SmallWidget
           title='Остаток, месяц'
           text={`${getFormattedAmount(remainingSum.remainingTotal)} ₽`}
@@ -33,27 +39,27 @@ export const ReviewPage = () => {
           positive={remainingSum.remainingDiff > 0}
         />
       </WidgetContainer>
-      <WidgetContainer startRow={1} startCol={4} endRow={2} endCol={5} id="total-diff">
+      <WidgetContainer {...grid[3]}>
         <SmallWidget
           title='Остаток, все время'
           text={`${getFormattedAmount(diffTotal)} ₽`}
         />
       </WidgetContainer>
-      <WidgetContainer startRow={2} startCol={1} endRow={4} endCol={3} id="exp-by-category">
+      <WidgetContainer {...grid[4]}>
         <ChartWidget
           options={expByMonth}
           title='Расходы по категориями'
           text='Тут будет график'
         />
       </WidgetContainer>
-      <WidgetContainer startRow={2} startCol={3} endRow={4} endCol={5} id="exp-dynamic">
+      <WidgetContainer {...grid[5]}>
         <ChartWidget
           options={expLastMonthes}
           title='Расходы с начала года'
           text='Тут будет график'
         />
       </WidgetContainer>
-      <WidgetContainer startRow={4} startCol={1} endRow={7} endCol={5} id="inc-dynamic">
+      <WidgetContainer {...grid[6]}>
         <ChartWidget
           options={incLastMonthes}
           title='Доходы с начала года'

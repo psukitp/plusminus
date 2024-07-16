@@ -1,9 +1,12 @@
 import { StyledComponentProps } from "@common/theme-light"
 import { border, borderRadius } from "@common/variables"
+import { isMobile } from "react-device-detect"
 import styled from "styled-components"
 
 export const IconContainer = styled.span`
-    margin-right: 20px;
+    margin-right: ${isMobile
+        ? 0
+        : '20px'};
 `
 
 export const SiderButtonContainer = styled.button<StyledComponentProps & { active: boolean }>`

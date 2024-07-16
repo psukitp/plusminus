@@ -10,6 +10,9 @@ export const themeDark: Theme = {
         textColor: {
             default: "#ffffff",
             active: "#ffffff"
+        },
+        mobile: {
+            containerBackground: 'TODO'
         }
     }
 }

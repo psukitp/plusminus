@@ -7,6 +7,7 @@ import { IExpensesPage } from "./types"
 import { Calendar } from "@components/calendar/Calendar"
 import { Col, Flex } from "antd"
 import { ExpensesContainer, Summary, Text, Title } from "./ExpensesPage-styled"
+import { isMobile } from "react-device-detect"
 
 export const ExpensesPage = ({
     currentDate,
@@ -39,8 +40,12 @@ export const ExpensesPage = ({
                 Расходы
             </Text>
         </Title>
-        <Flex justify="space-between">
-            <Col>
+        <Flex
+            vertical={isMobile}
+            justify="space-between">
+            <Col style={{
+                paddingBottom: isMobile ? "15px" : 0
+            }}>
                 <Calendar
                     //TODO брать локаль из настроек
                     onChange={(value) => {

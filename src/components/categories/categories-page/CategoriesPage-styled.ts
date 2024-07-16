@@ -1,3 +1,4 @@
+import { isMobile } from "react-device-detect"
 import styled from "styled-components"
 
 export const Title = styled.div`
@@ -20,6 +21,6 @@ export const CategoriesContainer = styled.div`
     width: 100%;
 
     .ant-table-wrapper {
-        max-width: 70%;
+        max-width: ${isMobile ? '100%' : '70%'};
     }
 `

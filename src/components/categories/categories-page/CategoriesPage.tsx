@@ -6,6 +6,7 @@ import { Button } from "@components/common/buttons"
 import { ICategoriesPageProps } from "./types"
 import { initialModal } from "./utils"
 import { CategoriesContainer, SubTitle, Title } from "./CategoriesPage-styled"
+import { isMobile } from "react-device-detect"
 
 
 
@@ -36,7 +37,10 @@ export const CategoriesPage = ({
             Категории
         </Title>
         <Row>
-            <Col span={12}>
+            <Col span={isMobile ? 24 : 12}
+                style={{
+                    paddingBottom: isMobile ? '15px' : 0
+                }}>
                 <Flex align="center">
                     <SubTitle>
                         Расходы
@@ -59,7 +63,7 @@ export const CategoriesPage = ({
                     columns={expColumns}
                     records={expRecords} />
             </Col>
-            <Col span={12}>
+            <Col span={isMobile ? 24 : 12}>
                 <Flex align="center">
                     <SubTitle>
                         Доходы

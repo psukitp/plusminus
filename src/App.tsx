@@ -18,6 +18,8 @@ import { ThemeProvider } from 'styled-components'
 // import { themeDark } from '@common/theme-dark'
 import { AppContainer } from './App-styled'
 import { themeLight } from '@common/theme-light'
+import { isBrowser, isMobile } from 'react-device-detect'
+import { MobileMenu } from '@components/mobile-menu'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -49,7 +51,6 @@ const App = () => {
     })
   }
 
-
   return (
     <ThemeProvider theme={themeLight}>
       <AppContainer>
@@ -59,11 +60,16 @@ const App = () => {
           </div>
         ) : (
           <>
-            {!!user.id && (
-              <Sider
-                activeCaption={activeCaption}
-                setActiveButton={(value: Partial<ActiveCaption>) => onChangeActiveCaption(value)}
-              />
+
+            {!!user.id && isBrowser && (<Sider
+              activeCaption={activeCaption}
+              setActiveButton={(value: Partial<ActiveCaption>) => onChangeActiveCaption(value)}
+            />
+            )}
+            {!!user.id && isMobile && (<MobileMenu
+              activeCaption={activeCaption}
+              setActiveButton={(value: Partial<ActiveCaption>) => onChangeActiveCaption(value)}
+            />
             )}
             <Routes>
               <Route path='/auth' element={<AuthPage />} />

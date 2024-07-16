@@ -11,6 +11,9 @@ interface Colors {
         default: string
         active: string
     }
+    mobile: {
+        containerBackground: string
+    }
 }
 
 export interface Theme extends DefaultTheme {
@@ -31,6 +34,9 @@ export const themeLight: Theme = {
         textColor: {
             default: "#000000",
             active: "#ffffff"
+        },
+        mobile: {
+            containerBackground: '#f5f6fa'
         }
     }
 }

@@ -7,6 +7,7 @@ import { IIncomesPageProps } from './types'
 import { initialModal } from './utils'
 import { Calendar } from '@components/calendar/Calendar'
 import { IncomesContainer, Text, Title } from './IncomesPage-styled'
+import { isMobile } from 'react-device-detect'
 
 
 export const IncomesPage = ({
@@ -38,8 +39,13 @@ export const IncomesPage = ({
                 Доходы
             </Text>
         </Title>
-        <Flex justify="space-between">
-            <Col>
+        <Flex
+            vertical={isMobile}
+            justify="space-between">
+            <Col
+                style={{
+                    paddingBottom: isMobile ? "15px" : 0
+                }}>
                 <Calendar
                     value={currentDate}
                     onChange={(value) => {
