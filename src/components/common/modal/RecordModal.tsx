@@ -2,6 +2,7 @@ import { Col, InputNumber, Modal, Select } from "antd"
 import { IRecordModal } from "./types"
 import { Key } from "react"
 import { openNotificationWarning } from "@common/notification/notification"
+import { DefaultOptionType } from "antd/es/select"
 
 export type ModalRecordInfo = {
     id: Key | null
@@ -44,10 +45,17 @@ const RecordModal = ({
         }}>
         <Col style={{ marginBottom: '15px' }}>
             <Select
-                notFoundContent={<div>Сначала нужно создать хотя бы одну категорию!</div>}
+                showSearch
+                notFoundContent={<div>{`${categories?.length ? 'Упс :( Ничего такого у тебя нет' : 'Сначала нужно создать хотя бы одну категорию!'}`}</div>}
+                allowClear
                 disabled={categoriesLoading}
                 style={{ maxWidth: '300px', width: '100%' }}
                 placeholder='Категория'
+                filterOption={(input, option) => ((option?.children as Omit<DefaultOptionType, "children">)?.props?.children ?? '')
+                    .toString()
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
                 value={recordInfo.categoryId?.toString()}
                 onChange={(value) => onChangeRecordInfo(prev => ({ ...prev, categoryId: value }))}>
                 {categories.map(c => (
