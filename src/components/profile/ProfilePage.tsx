@@ -1,7 +1,7 @@
 import { useUser } from "@store"
 import { ProfileContainer, ProfileInput, Title } from "./ProfilePage-styled"
 
-export const ProfilePage = () => {
+const ProfilePage = () => {
     const userData = useUser(state => state.data)
 
     return (<ProfileContainer>
@@ -27,3 +27,5 @@ export const ProfilePage = () => {
     </ProfileContainer>
     )
 }
+
+export default ProfilePage

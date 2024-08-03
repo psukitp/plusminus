@@ -10,7 +10,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { IncomesPage } from "./IncomesPage"
 import { initialModal } from "./utils"
 
-export const IncomesPageDataContainer = () => {
+const IncomesPageDataContainer = () => {
     const [
         [records, columns, recordsLoading],
         [summarizedRecords, summarizedColumns, summarizedRecordsLoading],
@@ -87,3 +87,5 @@ export const IncomesPageDataContainer = () => {
         setViewModal={setViewModal}
     />
 }
+
+export default IncomesPageDataContainer

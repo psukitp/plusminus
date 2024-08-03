@@ -9,7 +9,7 @@ export type ModalRecordInfo = {
     amount: number | null
 }
 
-export const RecordModal = ({
+const RecordModal = ({
     open,
     title,
     categories,
@@ -67,3 +67,5 @@ export const RecordModal = ({
         </Col>
     </Modal>
 }
+
+export default RecordModal

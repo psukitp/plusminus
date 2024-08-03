@@ -8,11 +8,11 @@ import { AuthPage } from '@components/auth'
 import { Routes, Route } from 'react-router-dom'
 import { useUser } from '@store'
 import { useAuth } from '@hooks'
-import { ProfilePage } from '@components/profile/ProfilePage'
-import { SettingsPage } from '@components/settings/SettingsPage'
-import { IncomesPageDataContainer } from '@components/incomes/incomes-page/IncomesPageDataConteiner'
-import { CategoriesPageDataContainer } from '@components/categories/categories-page/CategoriesPageDataContainer'
-import { ExpensesPageDataContainer } from '@components/expenses/expenses-page/ExpensesPageDataContainer'
+import { ProfilePage } from '@components/profile'
+import { SettingsPage } from '@components/settings'
+import { IncomesPageDataContainer } from '@components/incomes/incomes-page'
+import { CategoriesPageDataContainer } from '@components/categories/categories-page'
+import { ExpensesPageDataContainer } from '@components/expenses/expenses-page'
 import { Loader } from '@components/common/loaders'
 import { ThemeProvider } from 'styled-components'
 // import { themeDark } from '@common/theme-dark'
@@ -20,6 +20,7 @@ import { AppContainer } from './App-styled'
 import { themeLight } from '@common/theme-light'
 import { isBrowser, isMobile } from 'react-device-detect'
 import { MobileMenu } from '@components/mobile-menu'
+import { LazyComponent } from '@common/lazy-component/LazyComponents'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -72,14 +73,14 @@ const App = () => {
             />
             )}
             <Routes>
-              <Route path='/auth' element={<AuthPage />} />
-              <Route path='/register' element={<RegisterPage />} />
-              <Route path='/review' element={<ReviewPage />} />
-              <Route path='/expenses' element={<ExpensesPageDataContainer />} />
-              <Route path='/incomes' element={<IncomesPageDataContainer />} />
-              <Route path='/categories' element={<CategoriesPageDataContainer />} />
-              <Route path='/profile' element={<ProfilePage />} />
-              <Route path='/settings' element={<SettingsPage />} />
+              <Route path='/auth' element={<LazyComponent component={<AuthPage />} />} />
+              <Route path='/register' element={<LazyComponent component={<RegisterPage />} />} />
+              <Route path='/review' element={<LazyComponent component={<ReviewPage />} />} />
+              <Route path='/expenses' element={<LazyComponent component={<ExpensesPageDataContainer />} />} />
+              <Route path='/incomes' element={<LazyComponent component={<IncomesPageDataContainer />} />} />
+              <Route path='/categories' element={<LazyComponent component={<CategoriesPageDataContainer />} />} />
+              <Route path='/profile' element={<LazyComponent component={<ProfilePage />} />} />
+              <Route path='/settings' element={<LazyComponent component={<SettingsPage />} />} />
             </Routes>
           </>
         )}

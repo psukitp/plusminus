@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { generateGrid } from "./utils";
 import { GridElement } from "./types";
 
-export const ReviewPage = () => {
+const ReviewPage = () => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData();
   const [expByMonth, expLastMonthes, incLastMonthes] = useChartWidget();
 
@@ -70,4 +70,4 @@ export const ReviewPage = () => {
   );
 };
 
-export default ReviewPage;
+export default ReviewPage

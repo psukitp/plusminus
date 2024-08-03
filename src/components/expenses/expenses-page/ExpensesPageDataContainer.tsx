@@ -10,7 +10,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { ExpensesPage } from "./ExpensesPage"
 import { initialModal } from "./utils"
 
-export const ExpensesPageDataContainer = () => {
+const ExpensesPageDataContainer = () => {
     const [
         [records, columns, recordsLoading],
         [summarizedRecords, summarizedColumns, summarizedRecordsLoading],
@@ -93,3 +93,5 @@ export const ExpensesPageDataContainer = () => {
 
     />
 }
+
+export default ExpensesPageDataContainer

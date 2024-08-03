@@ -6,4 +6,4 @@ export const Loader = ({ fontSize }: { fontSize?: number }) => <LoaderContainer>
     <LoaderItem>
         <Spin indicator={<LoadingOutlined style={{ fontSize: fontSize ?? 24 }} spin />} />
     </LoaderItem>
-</LoaderContainer>
+</LoaderContainer >

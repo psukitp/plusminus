@@ -1,1 +1,3 @@
-export { AuthPage } from './AuthPage'
+import { lazy } from "react";
+
+export const AuthPage = lazy(() => import('./AuthPage'))

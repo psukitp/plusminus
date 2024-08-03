@@ -1,1 +1,3 @@
-export { IncomesPage } from './IncomesPage'
+import { lazy } from "react";
+
+export const IncomesPageDataContainer = lazy(() => import('./IncomesPageDataContainer'))

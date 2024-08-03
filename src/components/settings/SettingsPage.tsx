@@ -3,7 +3,7 @@
 
 import { Button } from "@components/common/buttons"
 
-export const SettingsPage = () => {
+const SettingsPage = () => {
     return <div>
         <div>
             Не заходи сюда, эти кнопки можно кликать, но они ничего не меняют
@@ -25,3 +25,5 @@ export const SettingsPage = () => {
         </div>
     </div>
 }
+
+export default SettingsPage

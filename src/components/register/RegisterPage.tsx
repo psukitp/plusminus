@@ -17,7 +17,7 @@ const initialForm: RegisterFormData = {
     secondName: ''
 }
 
-export const RegisterPage = () => {
+const RegisterPage = () => {
     const [form, setForm] = useState<RegisterFormData>({ ...initialForm })
     const [passwordRepeat, setPasswordRepeat] = useState<string>('')
     const { onRegister } = useAuth()
@@ -93,3 +93,5 @@ export const RegisterPage = () => {
         </RegisterContainer >
     )
 }
+
+export default RegisterPage

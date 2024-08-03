@@ -8,7 +8,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { CategoriesPage } from "./CategoriesPage"
 import { initialModal } from "./utils"
 
-export const CategoriesPageDataContainer = () => {
+const CategoriesPageDataContainer = () => {
     const [
         expRecords,
         expColumns,
@@ -110,3 +110,5 @@ export const CategoriesPageDataContainer = () => {
         setOpenModal={setOpenModal}
     />
 }
+
+export default CategoriesPageDataContainer

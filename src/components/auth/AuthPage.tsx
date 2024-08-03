@@ -8,7 +8,7 @@ import Logo from "@common/svgs/logo.svg"
 import { initialForm } from "./utils"
 import { AuthContainer, AuthInput } from "./AuthPage-styled"
 
-export const AuthPage = () => {
+const AuthPage = () => {
     const [form, setForm] = useState<AuthFormData>({ ...initialForm })
     const { onAuth } = useAuth()
     return (
@@ -49,3 +49,5 @@ export const AuthPage = () => {
         </AuthContainer >
     )
 }
+
+export default AuthPage
