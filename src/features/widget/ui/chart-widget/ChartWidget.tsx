@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo, useRef } from "react"
 import './ChartWidget.css'
 import { useResize } from "@shared/hooks"
 import { Highchart } from "@shared/lib"
@@ -11,8 +11,7 @@ const HEIGHT_PADDING = 20
 const TITLE_PADDING = 25 + 20
 const WIDTH_PADDING = 25
 
-export const ChartWidget = ({ options, title, isLoading }: IChartWidgetProps) => {
-  const [isDataReady, setIsDataReady] = useState<boolean>(false)
+export const ChartWidget = ({ options, title, isLoading, haveData }: IChartWidgetProps) => {
   const parentRef = useRef<HTMLDivElement | null>(null)
   const size = useResize(parentRef)
 
@@ -29,21 +28,11 @@ export const ChartWidget = ({ options, title, isLoading }: IChartWidgetProps) =>
     },
   }), [options, size])
 
-  useEffect(() => {
-    if (!isLoading && chartOptions?.series?.every(s => (s as any).data.length)) {
-      setIsDataReady(true)
-    } else {
-      setIsDataReady(false)
-    }
-  }, [isLoading, chartOptions])
-
-
   return <Widget ref={parentRef} title={title}>
     <>
       {isLoading && <Loader />}
-      {!isLoading && isDataReady && <Highchart options={chartOptions} />}
-      {!isLoading && !isDataReady && <Empty description="Нет данных" />}
+      {!isLoading && haveData && <Highchart options={chartOptions} />}
+      {!isLoading && !haveData && <Empty description="Нет данных" />}
     </>
   </Widget >
-
 }

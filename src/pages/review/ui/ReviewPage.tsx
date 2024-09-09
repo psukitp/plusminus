@@ -52,6 +52,7 @@ const ReviewPage = () => {
       <WidgetContainer {...grid[4]}>
         <ChartWidget
           options={expByMonth.options}
+          haveData={!!expByMonth.options?.series?.every(s => (s as unknown as { data: [] }).data.length)}
           isLoading={expByMonth.loading}
           title='Расходы по категориями'
           text='Тут будет график'
@@ -60,6 +61,7 @@ const ReviewPage = () => {
       <WidgetContainer {...grid[5]}>
         <ChartWidget
           options={expLastMonthes.options}
+          haveData={!!expLastMonthes.options?.series?.every(s => (s as unknown as { data: [] }).data.length)}
           isLoading={expLastMonthes.loading}
           title='Расходы с начала года'
           text='Тут будет график'
@@ -68,6 +70,7 @@ const ReviewPage = () => {
       <WidgetContainer {...grid[6]}>
         <ChartWidget
           options={incLastMonthes.options}
+          haveData={!!incLastMonthes.options?.series?.every(s => (s as unknown as { data: [] }).data.length)}
           isLoading={incLastMonthes.loading}
           title='Доходы с начала года'
           text='Тут будет график'
