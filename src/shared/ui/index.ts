@@ -6,4 +6,4 @@ export { RecordModal } from "./record-modal/RecordModal";
 export { Sider } from "./sider";
 export { SiderButton } from "./sider-button/SiderButton";
 export { Table } from "./table/Table";
-
+export { LazyComponent } from './lazy'

@@ -1,4 +1,4 @@
-import { Loader } from "@shared/ui"
+import { Loader } from "../loader/Loader"
 import { ReactNode, Suspense } from "react"
 
 

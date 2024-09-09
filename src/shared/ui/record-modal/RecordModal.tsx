@@ -1,14 +1,7 @@
 import { Col, InputNumber, Modal, Select } from "antd"
 import { IRecordModal } from "./types"
-import { Key } from "react"
-import { openNotificationWarning } from "@shared/lib"
+import { openNotificationWarning } from "../../lib/notification"
 import { DefaultOptionType } from "antd/es/select"
-
-export type ModalRecordInfo = {
-    id: Key | null
-    categoryId: Key | null
-    amount: number | null
-}
 
 export const RecordModal = ({
     open,

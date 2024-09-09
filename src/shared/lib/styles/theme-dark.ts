@@ -1,5 +1,5 @@
 import { common } from "./common";
-import { Theme } from "./theme-light";
+import { Theme } from "./types";
 
 export const themeDark: Theme = {
     common: { ...common },

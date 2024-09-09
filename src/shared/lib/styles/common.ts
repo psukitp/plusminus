@@ -1,4 +1,4 @@
-import { Common } from "./theme-light";
+import { Common } from "./types";
 
 export const common: Common = {
     border: '0',

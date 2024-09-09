@@ -1,25 +1,9 @@
 import { openNotificationWarning } from "@shared/lib"
-import { Category } from "@shared/lib"
 import { Col, ColorPicker, Input, Modal } from "antd"
-import { Key, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import { IAddNewCategoryModalProps, NewCategory } from "./types"
 
-export type ModalInfo = {
-    id: Key
-    title: string
-    color: string
-    name: string
-}
 
-interface IAddNewCategoryModalProps {
-    open: boolean
-    modalInfo: ModalInfo
-    mode: "create" | "edit"
-    onCancel: () => void
-    onCreate: (newRecord: NewCategory) => void
-    onEdit: (record: Partial<Category>) => void
-}
-
-export type NewCategory = Partial<Pick<Category, "color" | "name">>
 export const CategoryModal = ({
     open,
     modalInfo,

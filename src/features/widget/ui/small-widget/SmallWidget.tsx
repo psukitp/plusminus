@@ -1,5 +1,4 @@
 import { Flex, Tooltip } from "antd";
-import { Widget } from "..";
 import PositiveDiff from '@features/review/lib/svgs/positive_diff.svg'
 import NegativeDiff from '@features/review/lib/svgs/equal_diff.svg'
 import EqualDiff from '@features/review/lib/svgs/equal_diff.svg'
@@ -7,6 +6,7 @@ import { useMemo } from "react";
 import { WidgetText } from "./SmallWidget-styled";
 import { ISmallWidgetProps } from "../types";
 import { Loader } from "@shared/ui";
+import { Widget } from "../Widget";
 
 export const SmallWidget = ({ text, title, diff, positive, isLoading }: ISmallWidgetProps) => {
 

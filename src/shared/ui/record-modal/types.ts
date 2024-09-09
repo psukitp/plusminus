@@ -1,6 +1,11 @@
 import { Key } from "react"
 import { Category } from "@shared/lib"
-import { ModalRecordInfo } from "./RecordModal"
+
+export type ModalRecordInfo = {
+    id: Key | null
+    categoryId: Key | null
+    amount: number | null
+}
 
 export type NewRecord = {
     categoryId: Key | null
