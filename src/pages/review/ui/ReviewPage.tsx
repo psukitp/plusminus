@@ -19,6 +19,7 @@ const ReviewPage = () => {
         <SmallWidget
           title='Расход за месяц'
           text={`${getFormattedAmount(expenses.expensesTotal)} ₽`}
+          isLoading={expenses.loading}
           diff={expenses.expensesDiff}
           positive={expenses.expensesDiff < 0}
         />
@@ -27,6 +28,7 @@ const ReviewPage = () => {
         <SmallWidget
           title='Доход за месяц'
           text={`${getFormattedAmount(incomes.incomesTotal)} ₽`}
+          isLoading={incomes.loading}
           diff={incomes.incomesDiff}
           positive={incomes.incomesDiff > 0}
         />
@@ -35,6 +37,7 @@ const ReviewPage = () => {
         <SmallWidget
           title='Остаток, месяц'
           text={`${getFormattedAmount(remainingSum.remainingTotal)} ₽`}
+          isLoading={expenses.loading && incomes.loading}
           diff={remainingSum.remainingDiff}
           positive={remainingSum.remainingDiff > 0}
         />
@@ -42,26 +45,30 @@ const ReviewPage = () => {
       <WidgetContainer {...grid[3]}>
         <SmallWidget
           title='Остаток, все время'
-          text={`${getFormattedAmount(diffTotal)} ₽`}
+          isLoading={diffTotal.loading}
+          text={`${getFormattedAmount(diffTotal.diffTotal)} ₽`}
         />
       </WidgetContainer>
       <WidgetContainer {...grid[4]}>
         <ChartWidget
-          options={expByMonth}
+          options={expByMonth.options}
+          isLoading={expByMonth.loading}
           title='Расходы по категориями'
           text='Тут будет график'
         />
       </WidgetContainer>
       <WidgetContainer {...grid[5]}>
         <ChartWidget
-          options={expLastMonthes}
+          options={expLastMonthes.options}
+          isLoading={expLastMonthes.loading}
           title='Расходы с начала года'
           text='Тут будет график'
         />
       </WidgetContainer>
       <WidgetContainer {...grid[6]}>
         <ChartWidget
-          options={incLastMonthes}
+          options={incLastMonthes.options}
+          isLoading={incLastMonthes.loading}
           title='Доходы с начала года'
           text='Тут будет график'
         />

@@ -8,6 +8,10 @@ import { generateIncLastMonthes } from "./generateIncLastMonthes"
 import { ExpensesByCategoryRecord, ExpensesLastMonthes } from "@pages/expenses/ui/types"
 
 export const useChartWidget = () => {
+    const [expByCategoryMonthLoading, setExpByCategoryMonthLoading] = useState<boolean>(false)
+    const [expLastMonthesLoading, setExpLastMonthesLoading] = useState<boolean>(false)
+    const [incLastMonthesLoading, setIncLastMonthesLoading] = useState<boolean>(false)
+
     const [expByCategoryMonth, setExpByCategoryMonth] = useState<ExpensesByCategoryRecord[]>([])
     const [expLastMonthes, setExpLastMonthes] = useState<ExpensesLastMonthes>({
         monthes: [],
@@ -19,15 +23,18 @@ export const useChartWidget = () => {
     })
 
     useEffect(() => {
-        expensesQueries.fetchExpensesByCategoryMonth().then(result => setExpByCategoryMonth(result))
-        expensesQueries.fetchExpensesByLastMonthes().then(result => setExpLastMonthes(result))
-        incomesQueries.fetchIncomesLastMonthes().then(result => setIncLastMonthes(result))
+        setExpByCategoryMonthLoading(true)
+        setExpLastMonthesLoading(true)
+        setIncLastMonthesLoading(true)
+        expensesQueries.fetchExpensesByCategoryMonth().then(result => setExpByCategoryMonth(result)).finally(() => setExpByCategoryMonthLoading(false))
+        expensesQueries.fetchExpensesByLastMonthes().then(result => setExpLastMonthes(result)).finally(() => setExpLastMonthesLoading(false))
+        incomesQueries.fetchIncomesLastMonthes().then(result => setIncLastMonthes(result)).finally(() => setIncLastMonthesLoading(false))
     }, [])
 
     const expByMonthOptions = useMemo(() => expByCategoryMonth
         ? generateExpByMonth(expByCategoryMonth)
         : {}, [expByCategoryMonth])
-        
+
     const expLastMonthesOptions = useMemo(() => expLastMonthes
         ? generateExpLastMonthes(expLastMonthes)
         : {}, [expLastMonthes])
@@ -36,5 +43,7 @@ export const useChartWidget = () => {
         ? generateIncLastMonthes(incLastMonthes)
         : {}, [incLastMonthes])
 
-    return [expByMonthOptions, expLastMonthesOptions, incLastMonthesOptions]
+    return [{ options: expByMonthOptions, loading: expLastMonthesLoading },
+    { options: expLastMonthesOptions, loading: incLastMonthesLoading },
+    { options: incLastMonthesOptions, loading: expByCategoryMonthLoading }]
 }

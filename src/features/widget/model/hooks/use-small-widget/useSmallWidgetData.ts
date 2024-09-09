@@ -9,28 +9,41 @@ type RemainingThisMonth = {
     remainingDiff: number
 }
 
+type DiffTotal = {
+    diffTotal: number
+    loading: boolean
+}
+
 type UseSmallWidgetDataResult = [
     ExpensesThisMonth,
     IncomesThisMonth,
     RemainingThisMonth,
-    number
+    DiffTotal
 ]
 
 export const useSmallWidgetData = (): UseSmallWidgetDataResult => {
     const [expensesThisMonth, setExpensesThisMonth] = useState<ExpensesThisMonth>({
+        loading: false,
         expensesDiff: 0,
         expensesTotal: 0
     })
     const [incomesThisMonth, setIncomesThisMonth] = useState<IncomesThisMonth>({
+        loading: false,
         incomesDiff: 0,
         incomesTotal: 0
     })
-    const [diffTotal, setDiffTotal] = useState<number>(0)
+    const [diffTotal, setDiffTotal] = useState<DiffTotal>({
+        diffTotal: 0,
+        loading: false
+    })
 
     useEffect(() => {
-        expensesQueries.fetchExpensesSum().then(result => setExpensesThisMonth({ ...result }))
-        incomesQueries.fecthIncomesSum().then(result => setIncomesThisMonth({ ...result }))
-        incomesQueries.getTotalDiff().then(result => setDiffTotal(result))
+        setExpensesThisMonth(prev => ({ ...prev, loading: true }))
+        setIncomesThisMonth(prev => ({ ...prev, loading: true }))
+        setDiffTotal(prev => ({ ...prev, loading: true }))
+        expensesQueries.fetchExpensesSum().then(result => setExpensesThisMonth({ loading: false, ...result }))
+        incomesQueries.fecthIncomesSum().then(result => setIncomesThisMonth({ loading: false, ...result }))
+        incomesQueries.getTotalDiff().then(result => setDiffTotal({ loading: false, diffTotal: result }))
     }, [])
 
     const remainingSum = useMemo<RemainingThisMonth>(() => ({

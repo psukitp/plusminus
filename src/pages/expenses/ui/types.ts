@@ -26,6 +26,7 @@ export type ExpensesLastMonthes = {
 }
 
 export type ExpensesThisMonth = {
+    loading: boolean
     expensesTotal: number
     expensesDiff: number
 }

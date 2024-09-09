@@ -1,3 +1,18 @@
+@font-face {
+    font-family: 'RobotoRegular';
+    src: url('../shared/lib/fonts/Roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'RobotoBold';
+    src: url('../shared/lib/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
+}
+  
+  
+body {
+    font-family: 'RobotoRegular', sans-serif;
+}
+
 a {
     color: black;
     text-decoration: none;

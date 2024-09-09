@@ -81,9 +81,9 @@ export class ExpensesService extends BaseService {
         }
     }
 
-    async fetchExpensesSum(): Promise<ExpensesThisMonth> {
+    async fetchExpensesSum(): Promise<Omit<ExpensesThisMonth, "loading">> {
         try {
-            const response = await this.client.get<ServiceResponse<ExpensesThisMonth>>(`${this.url}/sum`)
+            const response = await this.client.get<ServiceResponse<Omit<ExpensesThisMonth, "loading">>>(`${this.url}/sum`)
             const { data: { data, message, success } } = response
             if (!success) openNotificationError(message)
             return data

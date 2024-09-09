@@ -6,8 +6,9 @@ import EqualDiff from '@features/review/lib/svgs/equal_diff.svg'
 import { useMemo } from "react";
 import { WidgetText } from "./SmallWidget-styled";
 import { ISmallWidgetProps } from "../types";
+import { Loader } from "@shared/ui";
 
-export const SmallWidget = ({ text, title, diff, positive }: ISmallWidgetProps) => {
+export const SmallWidget = ({ text, title, diff, positive, isLoading }: ISmallWidgetProps) => {
 
   const Marker = useMemo(() => {
     if (!diff)
@@ -25,9 +26,12 @@ export const SmallWidget = ({ text, title, diff, positive }: ISmallWidgetProps) 
   }, [diff, positive])
 
   return <Widget title={title}>
-    <Flex align="center">
-      <WidgetText>{text}</WidgetText>
-      {Marker}
-    </Flex>
+    {isLoading
+      ? <Loader />
+      : <Flex align="center">
+        <WidgetText>{text}</WidgetText>
+        {Marker}
+      </Flex>
+    }
   </Widget>
 }

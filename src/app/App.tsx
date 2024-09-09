@@ -1,4 +1,4 @@
-import './App.less'
+import './App.css'
 import { useEffect, useState } from 'react'
 import { ReviewPage } from '@pages/review'
 import { Routes, Route } from 'react-router-dom'

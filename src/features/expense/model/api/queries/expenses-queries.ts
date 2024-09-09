@@ -21,7 +21,7 @@ const createNewExpense = async ({ date, categoryId, amount }: { date: string, ca
     return result
 }
 
-const fetchExpensesSum = async (): Promise<ExpensesThisMonth> => {
+const fetchExpensesSum = async (): Promise<Omit<ExpensesThisMonth, "loading">> => {
     const result = await expensesService.fetchExpensesSum()
     return result
 }

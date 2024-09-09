@@ -8,6 +8,7 @@ export interface IWidgetProps {
 export interface ISmallWidgetProps {
   title: string
   text: string
+  isLoading: boolean
   diff?: number
   positive?: boolean
 }
@@ -15,5 +16,6 @@ export interface ISmallWidgetProps {
 export interface IChartWidgetProps {
   title: string
   options: Highcharts.Options
+  isLoading: boolean
   text: string
 }
