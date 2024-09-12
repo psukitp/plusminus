@@ -6,4 +6,5 @@ export { openNotificationError, openNotificationSuccess, openNotificationWarning
 export { themeDark } from "./styles/theme-dark";
 export { themeLight } from "./styles/theme-light";
 export { getFormattedAmount, genereateCalendarCfg } from "./utils";
+export * from './styles'
 

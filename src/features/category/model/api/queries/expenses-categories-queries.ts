@@ -2,7 +2,7 @@ import { Key } from "react"
 import { getAxiosInstance } from "@shared/lib"
 import { ExpensesCategoriesService } from "../services/expenses-categories-service"
 import { Category } from "@shared/lib"
-import { NewCategory } from "@features/category/ui/modal/CategoryModal"
+import { NewCategory } from "@features/category/ui/modal/types"
 
 const client = getAxiosInstance()
 const expensesCategoriesService = new ExpensesCategoriesService(client)

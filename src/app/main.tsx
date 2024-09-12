@@ -7,7 +7,7 @@ import './index.less'
 import { ConfigProvider } from 'antd'
 import { ThemeProvider } from 'styled-components'
 import { themeLight } from '@shared/lib/index.ts'
-import { GlobalStyle } from '@shared/lib/styles/global-styles.ts'
+import { GlobalStyle } from '@shared/lib'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

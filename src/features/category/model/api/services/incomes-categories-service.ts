@@ -1,4 +1,4 @@
-import { NewCategory } from "@features/category/ui/modal/CategoryModal"
+import { NewCategory } from "@features/category/ui/modal/types"
 import { BaseService, Category, openNotificationError, ServiceResponse } from "@shared/lib"
 import { AxiosInstance } from "axios"
 import { Key } from "react"

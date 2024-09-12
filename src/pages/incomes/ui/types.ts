@@ -1,6 +1,6 @@
 import { Category } from "@shared/lib"
 import { NewRecord } from "@shared/ui/record-modal/types"
-import { ModalRecordInfo } from "@shared/ui/record-modal/RecordModal"
+import { ModalRecordInfo } from "@shared/ui/record-modal/types"
 import { ColumnsType } from "antd/es/table"
 import { Key } from "react"
 

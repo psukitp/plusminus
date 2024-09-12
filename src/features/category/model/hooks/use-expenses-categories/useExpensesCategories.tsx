@@ -1,4 +1,4 @@
-import { NewCategory } from "@features/category/ui/modal/CategoryModal"
+import { NewCategory } from "@features/category/ui/modal/types"
 import { Category } from "@shared/lib"
 import { ColumnsType } from "antd/es/table"
 import { Key, useEffect } from "react"

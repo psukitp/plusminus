@@ -1,4 +1,4 @@
-import { StyledComponentProps } from "@shared/lib/styles/theme-light";
+import { StyledComponentProps } from "@shared/lib"
 import { ButtonProps, Button as AntdButton } from "antd";
 import styled from "styled-components";
 

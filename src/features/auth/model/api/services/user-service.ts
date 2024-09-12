@@ -1,4 +1,6 @@
+//TODO это плохой импорт. Нужна entity для прослойки, ходить из фич выше нельзя.
 import { AuthResponseData } from "@pages/auth/ui/types";
+//TODO это плохой импорт. Нужна entity для прослойки, ходить из фич выше нельзя.
 import { RegisterFormData } from "@pages/register/ui/types";
 import { BaseService, openNotificationError, ServiceResponse } from "@shared/lib";
 import { AxiosInstance } from "axios";

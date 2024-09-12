@@ -1,3 +1,4 @@
+//TODO это плохой импорт. Нужна entity для прослойки, ходить из фич выше нельзя.
 import { ExpensesByCategoryRecord, ExpensesRecord } from "@pages/expenses/ui/types"
 
 export interface ISummarizedExpensesData {

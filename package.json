@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "cruise": "npx depcruise src --include-only \"^src\" --output-type dot --config .dependency-cruiser.cjs ./ | dot -Gsplines=ortho -Grankdir=LR -Tsvg | depcruise-wrap-stream-in-html > dependencygraph.html"
+    "cruise": "npx depcruise --include-only \"^src\" --output-type dot --config .dependency-cruiser.cjs ./ | dot -Gsplines=ortho -Grankdir=LR -Tsvg | depcruise-wrap-stream-in-html > dependencygraph.html"
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.6",

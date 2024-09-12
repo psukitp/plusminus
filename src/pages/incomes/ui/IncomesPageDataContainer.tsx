@@ -1,5 +1,5 @@
 import { NewRecord } from "@shared/ui/record-modal/types"
-import { ModalRecordInfo } from "@shared/ui/record-modal/RecordModal"
+import { ModalRecordInfo } from "@shared/ui/record-modal/types"
 import dayjs from "dayjs"
 import { useCallback, useMemo, useState } from "react"
 import { IncomesRecord } from "./types"

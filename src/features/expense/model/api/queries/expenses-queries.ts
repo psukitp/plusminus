@@ -1,7 +1,8 @@
 import { Key } from "react"
 import { getAxiosInstance } from "@shared/lib"
 import { ExpensesService } from "../services/expenses-service"
-import { ExpensesRecord, ExpensesByCategoryRecord, ExpensesLastMonthes, ExpensesThisMonth} from "@pages/expenses/ui/types"
+//TODO это плохой импорт. Нужна entity для прослойки, ходить из фич выше нельзя.
+import { ExpensesRecord, ExpensesByCategoryRecord, ExpensesLastMonthes, ExpensesThisMonth } from "@pages/expenses/ui/types"
 
 const client = getAxiosInstance()
 const expensesService = new ExpensesService(client)

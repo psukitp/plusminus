@@ -1,4 +1,4 @@
-import { ModalInfo, NewCategory } from "@features/category/ui/modal/CategoryModal";
+import { ModalInfo, NewCategory } from "@features/category/ui/modal/types";
 import { Category } from "@shared/lib";
 import { ColumnsType } from "antd/es/table";
 

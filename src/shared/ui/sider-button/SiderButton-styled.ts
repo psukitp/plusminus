@@ -1,4 +1,4 @@
-import { StyledComponentProps } from "@shared/lib/styles/theme-light"
+import { StyledComponentProps } from "@shared/lib"
 import { isMobile } from "react-device-detect"
 import styled from "styled-components"
 

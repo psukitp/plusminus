@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react"
-import { ModalInfo } from "@features/category/ui/modal/CategoryModal"
+import { ModalInfo } from "@features/category/ui/modal/types"
 import { Category } from "@shared/lib"
 import { Space } from "antd"
 import { Button } from "@shared/ui"

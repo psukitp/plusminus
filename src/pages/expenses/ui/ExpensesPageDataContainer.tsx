@@ -1,7 +1,7 @@
 import dayjs from "dayjs"
 import { useCallback, useMemo, useState } from "react"
 import { ExpensesRecord } from "./types"
-import { ModalRecordInfo } from "@shared/ui/record-modal/RecordModal"
+import { ModalRecordInfo } from "@shared/ui/record-modal/types"
 import { NewRecord } from "@shared/ui/record-modal/types"
 import { Space } from "antd"
 import { Button } from "@shared/ui"

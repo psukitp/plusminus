@@ -2,8 +2,7 @@ import { Calendar as AntdCalendar } from "antd"
 import dayjs from "dayjs"
 import styled from "styled-components"
 import updateLocale from 'dayjs/plugin/updateLocale';
-import { genereateCalendarCfg } from "@shared/lib";
-import { StyledComponentProps } from "@shared/lib/styles/theme-light";
+import { genereateCalendarCfg, StyledComponentProps } from "@shared/lib";
 
 dayjs.extend(updateLocale)
 dayjs.updateLocale('en', {
