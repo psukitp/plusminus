@@ -61,10 +61,12 @@ export const RecordModal = ({
             <InputNumber
                 max={1000000}
                 min={1}
+                parser={(value) => (value ? +(value.replace(',', '.')) : '')}
+                formatter={value => (value ? value.toString().replace('.', ',') : '')}
                 style={{ maxWidth: '300px', width: '100%' }}
                 placeholder='Сумма'
                 value={recordInfo.amount}
-                onChange={(value) => onChangeRecordInfo(prev => ({ ...prev, amount: value }))} />
+                onChange={(value) => onChangeRecordInfo(prev => ({ ...prev, amount: value } as any))} />
         </Col>
     </Modal>
 }

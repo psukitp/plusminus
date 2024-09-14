@@ -124,7 +124,8 @@ export const genereateCalendarCfg = (locale: Locale): PickerLocale => {
 }
 
 export const getFormattedAmount = (amount: number | string) => {
-    const stringAmount = amount.toString()
-    return stringAmount.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-
+    const stringAmount = amount.toString();
+    const [integerPart, decimalPart] = stringAmount.split(/[.,]/);
+    const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    return decimalPart ? `${formattedIntegerPart},${decimalPart}` : formattedIntegerPart;
 }
