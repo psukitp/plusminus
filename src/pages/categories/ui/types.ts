@@ -1,5 +1,5 @@
-import { ModalInfo, NewCategory } from "@features/category/ui/modal/types";
-import { Category } from "@shared/lib";
+import { ModalInfo } from "@features/category/ui/modal/types";
+import { Category, NewCategory } from "@entities/category";
 import { ColumnsType } from "antd/es/table";
 
 export interface ICategoriesPageProps {

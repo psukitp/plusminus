@@ -1,0 +1,1 @@
+export { useSummarizedExpensesData } from './summarizedExpensesStore'

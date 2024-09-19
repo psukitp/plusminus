@@ -1,9 +1,8 @@
-import { NewCategory } from "@features/category/ui/modal/types"
-import { Category } from "@shared/lib"
+import { NewCategory } from "@entities/category";
+import { Category } from "@entities/category";
 import { ColumnsType } from "antd/es/table"
 import { Key, useEffect } from "react"
-import { useExpensesCategoriesData } from "../../store/expensesCategoriesStore"
-import { expensesCategoriesQueries } from "../../api/queries/expenses-categories-queries"
+import { useExpensesCategoriesData, expensesCategoriesQueries } from "@entities/category";
 
 type useExpensesCategoriesResult = [
     Category[],

@@ -1,7 +1,8 @@
 import { openNotificationWarning } from "@shared/lib"
 import { Col, ColorPicker, Input, Modal } from "antd"
 import { useEffect, useState } from "react"
-import { IAddNewCategoryModalProps, NewCategory } from "./types"
+import { IAddNewCategoryModalProps } from "./types"
+import { NewCategory } from "@entities/category"
 
 
 export const CategoryModal = ({

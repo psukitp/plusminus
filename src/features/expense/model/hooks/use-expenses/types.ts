@@ -1,4 +1,4 @@
-import { ExpensesByCategoryRecord, ExpensesRecord } from "@pages/expenses/ui/types"
+import { ExpensesByCategoryRecord, ExpensesRecord } from "@entities/expense"
 import { ColumnsType } from "antd/es/table"
 import { Key } from "react"
 

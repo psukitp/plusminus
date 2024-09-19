@@ -1,0 +1,1 @@
+export { SmallWidget } from './SmallWidget'

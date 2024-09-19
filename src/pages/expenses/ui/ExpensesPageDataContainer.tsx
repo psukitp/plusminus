@@ -1,15 +1,14 @@
 import dayjs from "dayjs"
 import { useCallback, useMemo, useState } from "react"
-import { ExpensesRecord } from "./types"
-import { ModalRecordInfo } from "@shared/ui/record-modal/types"
-import { NewRecord } from "@shared/ui/record-modal/types"
+import { ExpensesRecord } from "@entities/expense"
+import { NewRecord, ModalRecordInfo } from "@features/category"
 import { Space } from "antd"
 import { Button } from "@shared/ui"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { ExpensesPage } from "./ExpensesPage"
 import { initialModal } from "./utils"
-import { useExpenses } from "@features/expense/model"
-import { useExpensesCategories } from "@features/category/model"
+import { useExpenses } from "@features/expense"
+import { useExpensesCategories } from "@features/category"
 
 const ExpensesPageDataContainer = () => {
     const [

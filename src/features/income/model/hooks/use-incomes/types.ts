@@ -1,4 +1,4 @@
-import { IncomesByCategoryRecord, IncomesRecord } from "@pages/incomes/ui/types"
+import { IncomesByCategoryRecord, IncomesRecord } from "@entities/income"
 import { ColumnsType } from "antd/es/table"
 import { Key } from "react"
 

@@ -1,10 +1,10 @@
 import { Flex, Space, Switch, Tooltip } from "antd"
 import { useState } from "react"
-import { RegisterFormData } from "./types"
-import { useAuth } from "@features/auth/model"
+import { RegisterFormData } from "@entities/user"
+import { useAuth } from "entities/user/model"
 import { Button } from "@shared/ui"
 import { Link } from "react-router-dom"
-import Logo from "@features/review/lib/svgs/logo.svg"
+import Logo from "@shared/lib/svgs/logo.svg"
 import { TooltipText } from "./TooltipText"
 import { RegisterContainer, RegisterInput } from "./RegisterPage-styled"
 

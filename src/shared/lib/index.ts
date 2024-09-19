@@ -1,10 +1,7 @@
-export type { Category, ComponentProps, ServiceResponse } from "./types";
-export { getAxiosInstance } from "./api/axios-client";
-export { BaseService } from "./api/base-service/base-service";
-export { Highchart } from "./highcharts/highchart";
-export { openNotificationError, openNotificationSuccess, openNotificationWarning } from "./notification/notification";
-export { themeDark } from "./styles/theme-dark";
-export { themeLight } from "./styles/theme-light";
+export type { ComponentProps, ServiceResponse } from "./types";
+export { getAxiosInstance, BaseService } from "./api";
+export { Highchart } from "./highcharts";
+export { openNotificationError, openNotificationSuccess, openNotificationWarning } from "./notification";
 export { getFormattedAmount, genereateCalendarCfg } from "./utils";
-export * from './styles'
+export { type StyledComponentProps, type Theme, type Common, GlobalStyle, common, themeDark, themeLight } from './styles'
 

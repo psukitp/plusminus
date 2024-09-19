@@ -1,35 +1,7 @@
-import { Category } from "@shared/lib"
-import { NewRecord } from "@shared/ui/record-modal/types"
-import { ModalRecordInfo } from "@shared/ui/record-modal/types"
+import { Category } from "@entities/category"
+import { ExpensesByCategoryRecord, ExpensesRecord } from "@entities/expense"
+import { NewRecord, ModalRecordInfo } from "@features/category"
 import { ColumnsType } from "antd/es/table"
-import { Key } from "react"
-
-export type ExpensesRecord = {
-    id: Key
-    date: Date | string
-    categoryId: Key
-    categoryName: string
-    categoryColor: string
-    amount: number
-}
-
-export type ExpensesByCategoryRecord = {
-    id: Key
-    categoryName: string
-    amount: number
-    color: string
-}
-
-export type ExpensesLastMonthes = {
-    monthes: string[]
-    values: number[]
-}
-
-export type ExpensesThisMonth = {
-    loading: boolean
-    expensesTotal: number
-    expensesDiff: number
-}
 
 export interface IExpensesPage {
     currentDate: string

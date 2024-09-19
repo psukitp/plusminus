@@ -1,14 +1,6 @@
-import { Category } from "@shared/lib"
+import { Category } from "@entities/category"
+import { NewCategory } from "@entities/category"
 import { Key } from "react"
-
-export type NewCategory = Partial<Pick<Category, "color" | "name">>
-
-export type CategoryRecord = {
-    id: number
-    date: Date | string
-    categoryName: string
-    amount: number
-}
 
 export type ModalInfo = {
     id: Key

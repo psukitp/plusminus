@@ -1,6 +1,6 @@
 import { Col, Flex, Row } from "antd"
 import { Table } from "@shared/ui"
-import { CategoryModal } from "@features/category/ui"
+import { CategoryModal } from "@features/category"
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons"
 import { Button } from "@shared/ui"
 import { ICategoriesPageProps } from "./types"

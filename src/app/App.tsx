@@ -5,15 +5,15 @@ import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import { isBrowser, isMobile } from 'react-device-detect'
 import { StyledComponentProps } from '@shared/lib'
-import { useAuth, useUser } from '@features/auth/model'
-import { ActiveCaption } from '@shared/ui/sider/types'
+import { useAuth, useUser } from 'entities/user'
+import { ActiveCaption } from '@shared/ui'
 import { Loader, MobileMenu, Sider } from '@shared/ui'
 import { LazyComponent } from '@shared/ui'
 import { AuthPage } from '@pages/auth'
 import { RegisterPage } from '@pages/register'
-import ExpensesPageDataContainer from '@pages/expenses/ui/ExpensesPageDataContainer'
-import IncomesPageDataContainer from '@pages/incomes/ui/IncomesPageDataContainer'
-import { CategoriesPageDataContainer } from '@pages/categories/ui'
+import { ExpensesPage } from '@pages/expenses'
+import { IncomesPage } from '@pages/incomes'
+import { CategoriesPage } from '@pages/categories'
 import { ProfilePage } from '@pages/profile'
 import { SettingsPage } from '@pages/settings'
 
@@ -70,9 +70,9 @@ const AppContainer = ({ className }: { className?: string }) => {
             <Route path='/auth' element={<LazyComponent component={<AuthPage />} />} />
             <Route path='/register' element={<LazyComponent component={<RegisterPage />} />} />
             <Route path='/review' element={<LazyComponent component={<ReviewPage />} />} />
-            <Route path='/expenses' element={<LazyComponent component={<ExpensesPageDataContainer />} />} />
-            <Route path='/incomes' element={<LazyComponent component={<IncomesPageDataContainer />} />} />
-            <Route path='/categories' element={<LazyComponent component={<CategoriesPageDataContainer />} />} />
+            <Route path='/expenses' element={<LazyComponent component={<ExpensesPage />} />} />
+            <Route path='/incomes' element={<LazyComponent component={<IncomesPage />} />} />
+            <Route path='/categories' element={<LazyComponent component={<CategoriesPage />} />} />
             <Route path='/profile' element={<LazyComponent component={<ProfilePage />} />} />
             <Route path='/settings' element={<LazyComponent component={<SettingsPage />} />} />
           </Routes>

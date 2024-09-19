@@ -4,8 +4,8 @@ import { isMobile } from "react-device-detect";
 import { useMemo } from "react";
 import { generateGrid } from "./utils";
 import { GridElement } from "./types";
-import { useChartWidget, useSmallWidgetData } from "@features/widget/model";
-import { ChartWidget, SmallWidget } from "@features/widget/ui";
+import { useChartWidget, useSmallWidgetData } from "@entities/widget";
+import { ChartWidget, SmallWidget } from "@entities/widget";
 
 const ReviewPage = () => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData();

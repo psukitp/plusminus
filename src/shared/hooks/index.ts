@@ -1,1 +1,1 @@
-export { useResize } from "./use-resize/useResize";
+export { useResize } from "./use-resize";

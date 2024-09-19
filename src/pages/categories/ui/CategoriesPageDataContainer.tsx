@@ -1,12 +1,12 @@
 import { useCallback, useMemo, useState } from "react"
 import { ModalInfo } from "@features/category/ui/modal/types"
-import { Category } from "@shared/lib"
+import { Category } from "@entities/category"
 import { Space } from "antd"
 import { Button } from "@shared/ui"
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons"
 import { CategoriesPage } from "./CategoriesPage"
 import { initialModal } from "./utils"
-import { useExpensesCategories, useIncomesCategories } from "@features/category/model"
+import { useExpensesCategories, useIncomesCategories } from "@features/category"
 
 const CategoriesPageDataContainer = () => {
     const [

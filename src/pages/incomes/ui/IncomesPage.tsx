@@ -1,4 +1,4 @@
-import { RecordModal, Table } from '@shared/ui'
+import { Table } from '@shared/ui'
 import { Col, Flex } from "antd"
 import { Button } from '@shared/ui'
 import { PlusOutlined } from '@ant-design/icons'
@@ -7,7 +7,8 @@ import { initialModal } from './utils'
 import { Calendar } from '@shared/ui'
 import { IncomesContainer, Text, Title } from './IncomesPage-styled'
 import { isMobile } from 'react-device-detect'
-import { NewRecord } from '@shared/ui/record-modal/types'
+import { NewRecord } from '@features/category'
+import { RecordModal } from '@features/category'
 
 
 export const IncomesPage = ({

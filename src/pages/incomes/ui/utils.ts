@@ -1,4 +1,4 @@
-import { ModalRecordInfo } from "@shared/ui/record-modal/types";
+import { ModalRecordInfo } from "@features/category";
 
 export const initialModal: ModalRecordInfo = {
     amount: null,

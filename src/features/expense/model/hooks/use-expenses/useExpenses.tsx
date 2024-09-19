@@ -1,8 +1,8 @@
 import { Key, useEffect, useState } from "react"
-import { ExpensesRecord } from "@pages/expenses/ui/types"
-import { expensesQueries } from "../../api/queries/expenses-queries"
+import { ExpensesRecord } from "@entities/expense"
+import { expensesQueries } from "@entities/expense"
 import dayjs from "dayjs"
-import { useSummarizedExpensesData } from "../../store/summarizedExpensesStore"
+import { useSummarizedExpensesData } from "@entities/expense"
 import { columns, summarizedColumns } from "./staticUseExpenses"
 import { UseExpensesResult } from "./types"
 

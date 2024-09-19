@@ -1,4 +1,4 @@
-import { AuthFormData } from "./types";
+import { AuthFormData } from "@entities/user"
 
 export const initialForm: AuthFormData = {
     login: '',

@@ -1,4 +1,4 @@
-import { useUser } from "@features/auth/model"
+import { useUser } from "@entities/user"
 import { ProfileContainer, ProfileInput, Title } from "./ProfilePage-styled"
 
 const ProfilePage = () => {

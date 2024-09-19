@@ -1,8 +1,8 @@
 import { Key, useEffect, useState } from "react"
-import { IncomesRecord } from "@pages/incomes/ui/types"
-import { incomesQueries } from "../../api/queries/incomes-queries"
+import { IncomesRecord } from "@entities/income"
+import { incomesQueries } from "@entities/income"
 import dayjs from "dayjs"
-import { useSummarizedIncomesData } from "../../store/summarizedIncomesStore"
+import { useSummarizedIncomesData } from "@entities/income"
 import { columns, summarizedColumns } from "./staticUseIncomes"
 import { UseIncomesResult } from "./types"
 

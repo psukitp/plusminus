@@ -1,0 +1,1 @@
+export { useSummarizedIncomesData } from './summarizedIncomesStore'

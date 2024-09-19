@@ -1,12 +1,12 @@
 import { Flex } from "antd"
 import { useState } from "react"
-import { AuthFormData } from "./types"
-import { useAuth } from "@features/auth/model"
+import { AuthFormData } from "@entities/user"
+import { useAuth } from "@entities/user"
 import { Link } from "react-router-dom"
 import { initialForm } from "./utils"
 import { AuthContainer, AuthInput } from "./AuthPage-styled"
 import { Button } from "@shared/ui"
-import Logo from "@features/review/lib/svgs/logo.svg"
+import Logo from "@shared/lib/svgs/logo.svg"
 
 const AuthPage = () => {
     const [form, setForm] = useState<AuthFormData>({ ...initialForm })

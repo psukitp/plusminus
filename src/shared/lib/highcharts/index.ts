@@ -1,0 +1,1 @@
+export { Highchart } from './highchart'
