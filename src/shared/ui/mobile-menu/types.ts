@@ -1,6 +1,6 @@
-import { ActiveCaption } from "../sider/types";
+import { ActiveCaption } from '../sider/types'
 
 export interface IMenuProps {
-    activeCaption: ActiveCaption
-    setActiveButton: (value: Partial<ActiveCaption>) => void
+  activeCaption: ActiveCaption
+  setActiveButton: (value: Partial<ActiveCaption>) => void
 }

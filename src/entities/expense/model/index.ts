@@ -1,1 +1,6 @@
-export { type ExpensesByCategoryRecord, type ExpensesLastMonthes, type ExpensesRecord, type ExpensesThisMonth, } from './types'
+export {
+  type ExpensesByCategoryRecord,
+  type ExpensesLastMonthes,
+  type ExpensesRecord,
+  type ExpensesThisMonth,
+} from './types'

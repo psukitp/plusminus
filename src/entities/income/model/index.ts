@@ -1,1 +1,6 @@
-export type { IncomesByCategoryRecord, IncomesLastMonthes, IncomesRecord, IncomesThisMonth } from './types'
+export type {
+  IncomesByCategoryRecord,
+  IncomesLastMonthes,
+  IncomesRecord,
+  IncomesThisMonth,
+} from './types'

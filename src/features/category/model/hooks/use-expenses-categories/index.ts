@@ -1,1 +1,1 @@
-export { useExpensesCategories } from "./useExpensesCategories";
+export { useExpensesCategories } from './useExpensesCategories'

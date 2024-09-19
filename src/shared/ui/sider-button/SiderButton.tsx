@@ -3,21 +3,18 @@ import { SiderButtonProps } from './types'
 import { IconContainer, SiderButtonContainer } from './SiderButton-styled'
 
 export const SiderButton = ({
-    active,
-    text,
-    icon,
-    linkTo,
+  active,
+  text,
+  icon,
+  linkTo,
 
-    onClick
+  onClick,
 }: SiderButtonProps) => {
-
-    return (
-        <Link to={`/${linkTo}`}>
-            <SiderButtonContainer
-                active={active}
-                onClick={onClick}>
-                <IconContainer>{icon}</IconContainer> {text}
-            </SiderButtonContainer >
-        </Link>
-    )
+  return (
+    <Link to={`/${linkTo}`}>
+      <SiderButtonContainer active={active} onClick={onClick}>
+        <IconContainer>{icon}</IconContainer> {text}
+      </SiderButtonContainer>
+    </Link>
+  )
 }

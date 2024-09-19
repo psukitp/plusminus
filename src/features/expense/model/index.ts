@@ -1,1 +1,1 @@
-export { useExpenses } from "./hooks";
+export { useExpenses } from './hooks'

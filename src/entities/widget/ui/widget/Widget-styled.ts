@@ -1,5 +1,5 @@
-import { StyledComponentProps } from "@shared/lib"
-import styled from "styled-components"
+import { StyledComponentProps } from '@shared/lib'
+import styled from 'styled-components'
 
 export const WidgetContainer = styled.div<StyledComponentProps>`
   padding: 20px 25px;
@@ -13,7 +13,7 @@ export const WidgetContainer = styled.div<StyledComponentProps>`
 `
 
 export const WidgetTitle = styled.div`
-    font-size: 20px;
-    line-height: 20px;
-    padding-bottom: 25px;
+  font-size: 20px;
+  line-height: 20px;
+  padding-bottom: 25px;
 `

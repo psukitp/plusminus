@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios";
+import { AxiosInstance } from 'axios'
 
 export class BaseService {
-    client: AxiosInstance
+  client: AxiosInstance
 
-    constructor(clientInstance: AxiosInstance) {
-        this.client = clientInstance
-    }
+  constructor(clientInstance: AxiosInstance) {
+    this.client = clientInstance
+  }
 }

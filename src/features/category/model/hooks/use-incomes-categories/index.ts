@@ -1,1 +1,1 @@
-export { useIncomesCategories } from "./useIncomesCategories";
+export { useIncomesCategories } from './useIncomesCategories'

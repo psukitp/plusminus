@@ -1,1 +1,1 @@
-export { useChartWidget } from "./useChartWidget";
+export { useChartWidget } from './useChartWidget'

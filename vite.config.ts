@@ -7,8 +7,8 @@ export default defineConfig({
   plugins: [
     react(),
     svgr({
-      include: "**/*.svg"
-    })
+      include: '**/*.svg',
+    }),
   ],
   resolve: {
     alias: {
@@ -16,7 +16,7 @@ export default defineConfig({
       '@entities': resolve(__dirname, 'src/entities'),
       '@features': resolve(__dirname, 'src/features'),
       '@shared': resolve(__dirname, 'src/shared'),
-      '@pages': resolve(__dirname, 'src/pages')
-    }
-  }
+      '@pages': resolve(__dirname, 'src/pages'),
+    },
+  },
 })

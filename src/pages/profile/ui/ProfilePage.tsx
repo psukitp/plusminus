@@ -1,31 +1,24 @@
-import { useUser } from "@entities/user"
-import { ProfileContainer, ProfileInput, Title } from "./ProfilePage-styled"
+import { useUser } from '@entities/user'
+import { ProfileContainer, ProfileInput, Title } from './ProfilePage-styled'
 
 const ProfilePage = () => {
-    const userData = useUser(state => state.data)
+  const userData = useUser((state) => state.data)
 
-    return (<ProfileContainer>
-        <Title>Профиль</Title>
-        <div>Когда-то потом можно будет поменять!</div>
-        <div>Но не сейчас.</div>
-        <ProfileInput
-            addonBefore="Имя"
-            value={userData.name} />
-        <ProfileInput
-            addonBefore="Фамилия"
-            value={userData.secondName} />
-        <ProfileInput
-            addonBefore="Логин"
-            value={userData.login} />
-        <ProfileInput
-            addonBefore="Email"
-            value={userData.email} />
+  return (
+    <ProfileContainer>
+      <Title>Профиль</Title>
+      <div>Когда-то потом можно будет поменять!</div>
+      <div>Но не сейчас.</div>
+      <ProfileInput addonBefore="Имя" value={userData.name} />
+      <ProfileInput addonBefore="Фамилия" value={userData.secondName} />
+      <ProfileInput addonBefore="Логин" value={userData.login} />
+      <ProfileInput addonBefore="Email" value={userData.email} />
 
-        {/* <Button>
+      {/* <Button>
             Сохранить
         </Button> */}
     </ProfileContainer>
-    )
+  )
 }
 
 export default ProfilePage

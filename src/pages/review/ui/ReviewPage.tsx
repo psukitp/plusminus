@@ -1,23 +1,26 @@
-import { getFormattedAmount } from "@shared/lib";
-import { ReviewContainer, WidgetContainer } from './ReviewPage-styled';
-import { isMobile } from "react-device-detect";
-import { useMemo } from "react";
-import { generateGrid } from "./utils";
-import { GridElement } from "./types";
-import { useChartWidget, useSmallWidgetData } from "@entities/widget";
-import { ChartWidget, SmallWidget } from "@entities/widget";
+import { getFormattedAmount } from '@shared/lib'
+import { ReviewContainer, WidgetContainer } from './ReviewPage-styled'
+import { isMobile } from 'react-device-detect'
+import { useMemo } from 'react'
+import { generateGrid } from './utils'
+import { GridElement } from './types'
+import { useChartWidget, useSmallWidgetData } from '@entities/widget'
+import { ChartWidget, SmallWidget } from '@entities/widget'
 
 const ReviewPage = () => {
-  const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData();
-  const [expByMonth, expLastMonthes, incLastMonthes] = useChartWidget();
+  const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData()
+  const [expByMonth, expLastMonthes, incLastMonthes] = useChartWidget()
 
-  const grid = useMemo<GridElement[]>(() => generateGrid(isMobile), [isMobile, generateGrid])
+  const grid = useMemo<GridElement[]>(
+    () => generateGrid(isMobile),
+    [isMobile, generateGrid],
+  )
 
   return (
     <ReviewContainer>
       <WidgetContainer {...grid[0]}>
         <SmallWidget
-          title='Расход за месяц'
+          title="Расход за месяц"
           text={`${getFormattedAmount(expenses.expensesTotal)} ₽`}
           isLoading={expenses.loading}
           diff={expenses.expensesDiff}
@@ -26,7 +29,7 @@ const ReviewPage = () => {
       </WidgetContainer>
       <WidgetContainer {...grid[1]}>
         <SmallWidget
-          title='Доход за месяц'
+          title="Доход за месяц"
           text={`${getFormattedAmount(incomes.incomesTotal)} ₽`}
           isLoading={incomes.loading}
           diff={incomes.incomesDiff}
@@ -35,7 +38,7 @@ const ReviewPage = () => {
       </WidgetContainer>
       <WidgetContainer {...grid[2]}>
         <SmallWidget
-          title='Остаток, месяц'
+          title="Остаток, месяц"
           text={`${getFormattedAmount(remainingSum.remainingTotal)} ₽`}
           isLoading={expenses.loading && incomes.loading}
           diff={remainingSum.remainingDiff}
@@ -44,7 +47,7 @@ const ReviewPage = () => {
       </WidgetContainer>
       <WidgetContainer {...grid[3]}>
         <SmallWidget
-          title='Остаток, все время'
+          title="Остаток, все время"
           isLoading={diffTotal.loading}
           text={`${getFormattedAmount(diffTotal.diffTotal)} ₽`}
         />
@@ -52,32 +55,44 @@ const ReviewPage = () => {
       <WidgetContainer {...grid[4]}>
         <ChartWidget
           options={expByMonth.options}
-          haveData={!!expByMonth.options?.series?.every(s => (s as unknown as { data: [] }).data.length)}
+          haveData={
+            !!expByMonth.options?.series?.every(
+              (s) => (s as unknown as { data: [] }).data.length,
+            )
+          }
           isLoading={expByMonth.loading}
-          title='Расходы по категориями'
-          text='Тут будет график'
+          title="Расходы по категориями"
+          text="Тут будет график"
         />
       </WidgetContainer>
       <WidgetContainer {...grid[5]}>
         <ChartWidget
           options={expLastMonthes.options}
-          haveData={!!expLastMonthes.options?.series?.every(s => (s as unknown as { data: [] }).data.length)}
+          haveData={
+            !!expLastMonthes.options?.series?.every(
+              (s) => (s as unknown as { data: [] }).data.length,
+            )
+          }
           isLoading={expLastMonthes.loading}
-          title='Расходы с начала года'
-          text='Тут будет график'
+          title="Расходы с начала года"
+          text="Тут будет график"
         />
       </WidgetContainer>
       <WidgetContainer {...grid[6]}>
         <ChartWidget
           options={incLastMonthes.options}
-          haveData={!!incLastMonthes.options?.series?.every(s => (s as unknown as { data: [] }).data.length)}
+          haveData={
+            !!incLastMonthes.options?.series?.every(
+              (s) => (s as unknown as { data: [] }).data.length,
+            )
+          }
           isLoading={incLastMonthes.loading}
-          title='Доходы с начала года'
-          text='Тут будет график'
+          title="Доходы с начала года"
+          text="Тут будет график"
         />
       </WidgetContainer>
     </ReviewContainer>
-  );
-};
+  )
+}
 
 export default ReviewPage

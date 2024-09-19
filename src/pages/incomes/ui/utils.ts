@@ -1,7 +1,7 @@
-import { ModalRecordInfo } from "@features/category";
+import { ModalRecordInfo } from '@features/category'
 
 export const initialModal: ModalRecordInfo = {
-    amount: null,
-    categoryId: null,
-    id: null
+  amount: null,
+  categoryId: null,
+  id: null,
 }

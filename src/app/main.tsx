@@ -14,10 +14,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: "#fb7a01",
-            fontFamily: "RobotoRegular, sans-serif"
-          }
-        }}  >
+            colorPrimary: '#fb7a01',
+            fontFamily: 'RobotoRegular, sans-serif',
+          },
+        }}
+      >
         <ThemeProvider theme={themeLight}>
           <GlobalStyle />
           <App />

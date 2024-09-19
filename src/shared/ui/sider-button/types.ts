@@ -1,10 +1,10 @@
-import React from "react"
+import React from 'react'
 
 export type SiderButtonProps = {
-    text?: string
-    active: boolean
-    icon?: React.ReactElement,
-    linkTo?: string
+  text?: string
+  active: boolean
+  icon?: React.ReactElement
+  linkTo?: string
 
-    onClick: () => void
+  onClick: () => void
 }

@@ -1,1 +1,1 @@
-export { useSmallWidgetData } from "./useSmallWidgetData";
+export { useSmallWidgetData } from './useSmallWidgetData'

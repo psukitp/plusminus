@@ -1,3 +1,5 @@
-import { lazy } from "react";
+import { lazy } from 'react'
 
-export const CategoriesPage = lazy(() => import('./CategoriesPageDataContainer'))
+export const CategoriesPage = lazy(
+  () => import('./CategoriesPageDataContainer'),
+)
