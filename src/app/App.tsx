@@ -108,7 +108,9 @@ const AppContainer = ({ className }: { className?: string }) => {
           </Routes>
 
           <AddCurrencyModal
-            open={!user?.settings || !user?.settings?.currency}
+            open={
+              (!user?.settings || !user?.settings?.currency) && user.id !== null
+            }
           />
         </>
       )}
