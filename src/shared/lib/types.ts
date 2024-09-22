@@ -9,3 +9,9 @@ export type ServiceResponse<T> = {
 export type ComponentProps = {
   theme: 'dark' | 'light'
 }
+
+export type Currency = 'rub' | 'dol' | 'eur'
+export enum ThemeType {
+  'light',
+  'dark',
+}

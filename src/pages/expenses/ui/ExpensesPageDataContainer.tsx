@@ -9,6 +9,8 @@ import { ExpensesPage } from './ExpensesPage'
 import { initialModal } from './utils'
 import { useExpenses } from '@features/expense'
 import { useExpensesCategories } from '@features/category'
+import { useUser } from '@entities/user'
+import { getCurrencySymbol } from '@shared/utils'
 
 const ExpensesPageDataContainer = () => {
   const [
@@ -22,6 +24,10 @@ const ExpensesPageDataContainer = () => {
       editExpense,
     },
   ] = useExpenses()
+
+  const currency = useUser((state) => state.data.settings?.currency)
+
+  const symbol = useMemo(() => getCurrencySymbol(currency), [currency])
 
   const [currentDate, setCurrentDate] = useState<string>(
     dayjs().format('YYYY-MM-DD'),
@@ -108,6 +114,7 @@ const ExpensesPageDataContainer = () => {
       viewModal={viewModal}
       recordsLoading={recordsLoading}
       summaryExpenses={summaryExpensesPerDay}
+      symbol={symbol}
       editExpense={editExpense}
       getExpenses={getExpenses}
       getExpensesByCategories={getExpensesByCategories}

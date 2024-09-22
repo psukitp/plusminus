@@ -6,10 +6,16 @@ import { generateGrid } from './utils'
 import { GridElement } from './types'
 import { useChartWidget, useSmallWidgetData } from '@entities/widget'
 import { ChartWidget, SmallWidget } from '@entities/widget'
+import { useUser } from '@entities/user'
+import { getCurrencySymbol } from '@shared/utils'
 
 const ReviewPage = () => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData()
   const [expByMonth, expLastMonthes, incLastMonthes] = useChartWidget()
+
+  const currency = useUser((state) => state.data.settings?.currency)
+
+  const symbol = useMemo<string>(() => getCurrencySymbol(currency), [currency])
 
   const grid = useMemo<GridElement[]>(
     () => generateGrid(isMobile),
@@ -21,7 +27,7 @@ const ReviewPage = () => {
       <WidgetContainer {...grid[0]}>
         <SmallWidget
           title="Расход за месяц"
-          text={`${getFormattedAmount(expenses.expensesTotal)} ₽`}
+          text={`${getFormattedAmount(expenses.expensesTotal)} ${symbol}`}
           isLoading={expenses.loading}
           diff={expenses.expensesDiff}
           positive={expenses.expensesDiff < 0}
@@ -30,7 +36,7 @@ const ReviewPage = () => {
       <WidgetContainer {...grid[1]}>
         <SmallWidget
           title="Доход за месяц"
-          text={`${getFormattedAmount(incomes.incomesTotal)} ₽`}
+          text={`${getFormattedAmount(incomes.incomesTotal)} ${symbol}`}
           isLoading={incomes.loading}
           diff={incomes.incomesDiff}
           positive={incomes.incomesDiff > 0}
@@ -39,7 +45,7 @@ const ReviewPage = () => {
       <WidgetContainer {...grid[2]}>
         <SmallWidget
           title="Остаток, месяц"
-          text={`${getFormattedAmount(remainingSum.remainingTotal)} ₽`}
+          text={`${getFormattedAmount(remainingSum.remainingTotal)} ${symbol}`}
           isLoading={expenses.loading && incomes.loading}
           diff={remainingSum.remainingDiff}
           positive={remainingSum.remainingDiff > 0}
@@ -49,7 +55,7 @@ const ReviewPage = () => {
         <SmallWidget
           title="Остаток, все время"
           isLoading={diffTotal.loading}
-          text={`${getFormattedAmount(diffTotal.diffTotal)} ₽`}
+          text={`${getFormattedAmount(diffTotal.diffTotal)} ${symbol}`}
         />
       </WidgetContainer>
       <WidgetContainer {...grid[4]}>

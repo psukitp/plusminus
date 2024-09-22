@@ -3,6 +3,7 @@ import { ExpensesByCategoryRecord } from '@entities/expense'
 
 export const generateExpByMonth = (
   data: ExpensesByCategoryRecord[],
+  symbol: string,
 ): Highcharts.Options => {
   const chartSeries: SeriesOptionsType[] = data.map((el) => ({
     type: 'pie',
@@ -22,7 +23,7 @@ export const generateExpByMonth = (
     },
     tooltip: {
       headerFormat: '',
-      pointFormat: '{point.name}: <b>{point.y} ₽</b>',
+      pointFormat: `{point.name}: <b>{point.y} ${symbol}</b>`,
     },
     legend: {
       enabled: true,

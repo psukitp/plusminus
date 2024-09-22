@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import { isBrowser, isMobile } from 'react-device-detect'
 import { StyledComponentProps } from '@shared/lib'
-import { useAuth, useUser } from 'entities/user'
+import { useAuth, useUser } from '@entities/user'
 import { ActiveCaption } from '@shared/ui'
 import { Loader, MobileMenu, Sider } from '@shared/ui'
 import { LazyComponent } from '@shared/ui'
@@ -16,6 +16,7 @@ import { IncomesPage } from '@pages/incomes'
 import { CategoriesPage } from '@pages/categories'
 import { ProfilePage } from '@pages/profile'
 import { SettingsPage } from '@pages/settings'
+import { AddCurrencyModal } from '@features/user-info'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -105,6 +106,10 @@ const AppContainer = ({ className }: { className?: string }) => {
               element={<LazyComponent component={<SettingsPage />} />}
             />
           </Routes>
+
+          <AddCurrencyModal
+            open={!user?.settings || !user?.settings?.currency}
+          />
         </>
       )}
     </div>

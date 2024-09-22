@@ -1,7 +1,7 @@
 import { Flex, Space, Switch, Tooltip } from 'antd'
 import { useState } from 'react'
 import { RegisterFormData } from '@entities/user'
-import { useAuth } from 'entities/user/model'
+import { useAuth } from '@entities/user'
 import { Button } from '@shared/ui'
 import { Link } from 'react-router-dom'
 import Logo from '@shared/lib/svgs/logo.svg'

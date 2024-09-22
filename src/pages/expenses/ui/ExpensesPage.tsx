@@ -24,6 +24,7 @@ export const ExpensesPage = ({
   summarizedRecordsLoading,
   viewModal,
   summaryExpenses,
+  symbol,
 
   setModalInfo,
   queriesOnCreate,
@@ -70,7 +71,11 @@ export const ExpensesPage = ({
             columns={columns}
             records={records}
             loading={recordsLoading}
-            summary={<Summary>Итого: {summaryExpenses} ₽</Summary>}
+            summary={
+              <Summary>
+                Итого: {summaryExpenses} {symbol}
+              </Summary>
+            }
           />
         </Col>
         <Col>

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { IUseAuth } from './types'
-import { AuthResponseData } from '../types'
+import { AuthResponseData, UserSettings } from '../types'
 
 export const useUser = create<IUseAuth>((set) => ({
   loading: false,
@@ -11,11 +11,19 @@ export const useUser = create<IUseAuth>((set) => ({
     login: '',
     phone: '',
     email: '',
+    settings: {},
   },
   setUserData: (userData: AuthResponseData) =>
     set({
       data: { ...userData },
     }),
+  setUserSettings: (settings: UserSettings) =>
+    set((state) => ({
+      data: {
+        ...state.data,
+        settings,
+      },
+    })),
   setLoading: (val: boolean) =>
     set({
       loading: val,

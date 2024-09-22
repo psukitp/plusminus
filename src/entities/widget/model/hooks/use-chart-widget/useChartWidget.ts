@@ -6,6 +6,8 @@ import { incomesQueries } from '@entities/income'
 import { IncomesLastMonthes } from '@entities/income'
 import { generateIncLastMonthes } from './generateIncLastMonthes'
 import { ExpensesByCategoryRecord } from '@entities/expense'
+import { useUser } from '@entities/user'
+import { getCurrencySymbol } from '@shared/utils'
 
 export const useChartWidget = () => {
   const [expByCategoryMonthLoading, setExpByCategoryMonthLoading] =
@@ -27,6 +29,10 @@ export const useChartWidget = () => {
     values: [],
   })
 
+  const currency = useUser((state) => state.data.settings?.currency)
+
+  const symbol = useMemo(() => getCurrencySymbol(currency), [currency])
+
   useEffect(() => {
     setExpByCategoryMonthLoading(true)
     setExpLastMonthesLoading(true)
@@ -46,7 +52,8 @@ export const useChartWidget = () => {
   }, [])
 
   const expByMonthOptions = useMemo(
-    () => (expByCategoryMonth ? generateExpByMonth(expByCategoryMonth) : {}),
+    () =>
+      expByCategoryMonth ? generateExpByMonth(expByCategoryMonth, symbol) : {},
     [expByCategoryMonth],
   )
 
