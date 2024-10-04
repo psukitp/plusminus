@@ -10,6 +10,8 @@ const validateFieldNoEmpty = (fields: any) => {
   )
 }
 
+const emailRegExp = /@/
+
 export const useAuth = () => {
   const setUserData = useUser((state) => state.setUserData)
   const setLoading = useUser((state) => state.setLoading)
@@ -30,8 +32,6 @@ export const useAuth = () => {
   }
 
   const onRegister = async (registerData: RegisterFormData) => {
-    const emailRegExp = /@/
-
     if (!validateFieldNoEmpty(registerData)) {
       openNotificationWarning('Не все данные заполнены')
     } else if (registerData.password.length < 8) {
@@ -59,9 +59,47 @@ export const useAuth = () => {
     setLoading(false)
   }
 
+  const getResetCode = async (email: string): Promise<boolean> => {
+    if (!email) {
+      openNotificationWarning('Не заполнено поле')
+      return false
+    } else if (!emailRegExp.test(email)) {
+      openNotificationWarning('Кажется, введена некорректная почта.')
+      return false
+    } else {
+      return await userQueries.getResetCode(email)
+    }
+  }
+
+  const applyCode = async (code: string): Promise<boolean> => {
+    if (!code) {
+      openNotificationWarning('Не заполнено поле')
+      return false
+    }  else {
+      return await userQueries.applyCode(code)
+    }
+  }
+
+  const setPassword = async (password: string) => {
+    if (password) {
+      setLoading(true)
+      const userData = await userQueries.setPassword(password)
+      if (userData) {
+        setUserData(userData)
+        navigate('/review')
+      }
+      setLoading(false)
+    } else {
+      openNotificationWarning('Не все данные заполнены')
+    }
+  }
+
   return {
     onAuth,
     onRegister,
     onCheck,
+    getResetCode,
+    applyCode,
+    setPassword
   }
 }

@@ -13,10 +13,14 @@ export const AuthContainer = styled.div`
   justify-content: center;
   overflow: auto;
 
-  .logo {
-    width: 300px;
-    height: 300px;
-    margin: auto;
+  .link {
+    font-size: 14px;
+  }
+
+  .title {
+    margin-bottom: 60px;
+    font-size: 60px;
+    font-weight: bold;
   }
 `
 
@@ -28,5 +32,18 @@ export const AuthInput = styled(Input)`
 
   &::placeholder {
     text-align: center;
+  }
+`
+
+export const PasswordInput = styled(Input.Password)`
+  max-width: 400px;
+  width: 100%;
+  margin-bottom: 10px;
+  .ant-input {
+    text-align: center;
+
+    &::placeholder {
+      text-align: center;
+    }
   }
 `

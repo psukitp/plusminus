@@ -24,8 +24,26 @@ const checkAuth = async () => {
   return result
 }
 
+const getResetCode = async (email: string): Promise<boolean> => {
+  const res = await userService.getResetCode(email)
+  return res
+}
+
+const applyCode= async (code: string): Promise<boolean> => {
+  const res = await userService.applyCode(code)
+  return res
+}
+
+const setPassword = async (password: string): Promise<AuthResponseData | null> => {
+  const res = await userService.setPassword(password)
+  return res
+}
+
 export const userQueries = {
   auth,
   register,
   checkAuth,
+  getResetCode,
+  applyCode,
+  setPassword
 }

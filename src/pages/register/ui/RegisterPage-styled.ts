@@ -12,11 +12,16 @@ export const RegisterContainer = styled.div`
   align-content: center;
   justify-content: center;
   overflow: auto;
+  flex-direction: column;
 
-  .logo {
-    width: 300px;
-    height: 300px;
-    margin: auto;
+  .link {
+    font-size: 14px;
+  }
+  
+  .title {
+    margin-bottom: 60px;
+    font-size: 60px;
+    font-weight: bold;
   }
 `
 
@@ -25,9 +30,21 @@ export const RegisterInput = styled(Input)`
   width: 100%;
   margin-bottom: 10px;
   text-align: center;
-  display: block;
 
   &::placeholder {
     text-align: center;
+  }
+`
+
+export const PasswordInput = styled(Input.Password)`
+  max-width: 400px;
+  width: 100%;
+  margin-bottom: 10px;
+  .ant-input {
+    text-align: center;
+
+    &::placeholder {
+      text-align: center;
+    }
   }
 `

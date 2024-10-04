@@ -14,7 +14,7 @@
     }
   ],
   "start_url": "/",
-  "background_color": "#3367D6",
+  "background_color": "#fb7a01",
   "display": "standalone",
   "theme_color": "#fb7a01",
   "description": "Учет доходов и расходов",

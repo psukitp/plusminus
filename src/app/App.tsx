@@ -17,6 +17,7 @@ import { CategoriesPage } from '@pages/categories'
 import { ProfilePage } from '@pages/profile'
 import { SettingsPage } from '@pages/settings'
 import { AddCurrencyModal } from '@features/user-info'
+import { ResetPasswordPage } from '@pages/reset-password'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
@@ -105,6 +106,7 @@ const AppContainer = ({ className }: { className?: string }) => {
               path="/settings"
               element={<LazyComponent component={<SettingsPage />} />}
             />
+            <Route path="/reset" element={<LazyComponent component={<ResetPasswordPage />} />} />
           </Routes>
 
           <AddCurrencyModal
