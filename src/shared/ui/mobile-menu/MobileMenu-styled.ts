@@ -9,6 +9,7 @@ export const MobileMenuContainer = styled.div<StyledComponentProps>`
   padding: 10px 0px;
   z-index: 1000;
   border-radius: 15px;
+  padding-bottom: 30px;
 `
 
 export const MobileMenuButtons = styled.div`
