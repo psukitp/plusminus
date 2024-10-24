@@ -1,5 +1,5 @@
 import { Key } from 'react'
-import { getAxiosInstance } from '@shared/lib'
+import { Dates, getAxiosInstance, StringDates } from '@shared/lib'
 import { IncomesService } from '../services'
 import {
   IncomesRecord,
@@ -40,10 +40,10 @@ const createNewIncomes = async ({
   return result
 }
 
-const fecthIncomesSum = async (): Promise<
-  Omit<IncomesThisMonth, 'loading'>
-> => {
-  const result = await incomesService.fetchIncomesSum()
+const fecthIncomesSum = async (
+  dates: StringDates,
+): Promise<Omit<IncomesThisMonth, 'loading'>> => {
+  const result = await incomesService.fetchIncomesSum(dates)
   return result
 }
 

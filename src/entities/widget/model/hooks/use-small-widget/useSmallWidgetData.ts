@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { incomesQueries, IncomesThisMonth } from '@entities/income'
 import { expensesQueries, ExpensesThisMonth } from '@entities/expense'
+import { Dates, StringDates } from '@shared/lib'
 
 type RemainingThisMonth = {
   remainingTotal: number
@@ -19,34 +20,42 @@ type UseSmallWidgetDataResult = [
   DiffTotal,
 ]
 
-export const useSmallWidgetData = (): UseSmallWidgetDataResult => {
-  const [expensesThisMonth, setExpensesThisMonth] = useState<ExpensesThisMonth>(
-    {
-      loading: false,
-      expensesDiff: 0,
-      expensesTotal: 0,
-    },
-  )
-  const [incomesThisMonth, setIncomesThisMonth] = useState<IncomesThisMonth>({
+const format = 'YYYY-MM-DD'
+
+export const useSmallWidgetData = (dates: Dates): UseSmallWidgetDataResult => {
+  const [expensesByPeriod, setExpensesByPeriod] = useState<ExpensesThisMonth>({
     loading: false,
-    incomesDiff: 0,
+    expensesDiff: 0,
+    expensesTotal: 0,
+  })
+
+  const [incomesByPeriod, setIncomesByPeriod] = useState<IncomesThisMonth>({
+    loading: false,
     incomesTotal: 0,
   })
+
   const [diffTotal, setDiffTotal] = useState<DiffTotal>({
     diffTotal: 0,
     loading: false,
   })
 
+  const stringDates = useMemo<StringDates>(() => {
+    return [dates[0].format(format), dates[1].format(format)]
+  }, [dates])
+
   useEffect(() => {
-    setExpensesThisMonth((prev) => ({ ...prev, loading: true }))
-    setIncomesThisMonth((prev) => ({ ...prev, loading: true }))
-    setDiffTotal((prev) => ({ ...prev, loading: true }))
+    setExpensesByPeriod((prev) => ({ ...prev, loading: true }))
+    setIncomesByPeriod((prev) => ({ ...prev, loading: true }))
     expensesQueries
-      .fetchExpensesSum()
-      .then((result) => setExpensesThisMonth({ loading: false, ...result }))
+      .fetchExpensesSum(stringDates)
+      .then((result) => setExpensesByPeriod({ loading: false, ...result }))
     incomesQueries
-      .fecthIncomesSum()
-      .then((result) => setIncomesThisMonth({ loading: false, ...result }))
+      .fecthIncomesSum(stringDates)
+      .then((result) => setIncomesByPeriod({ loading: false, ...result }))
+  }, [stringDates])
+
+  useEffect(() => {
+    setDiffTotal((prev) => ({ ...prev, loading: true }))
     incomesQueries
       .getTotalDiff()
       .then((result) => setDiffTotal({ loading: false, diffTotal: result }))
@@ -55,14 +64,12 @@ export const useSmallWidgetData = (): UseSmallWidgetDataResult => {
   const remainingSum = useMemo<RemainingThisMonth>(
     () => ({
       remainingTotal:
-        incomesThisMonth.incomesTotal - expensesThisMonth.expensesTotal,
+        incomesByPeriod.incomesTotal - expensesByPeriod.expensesTotal,
       remainingDiff:
-        incomesThisMonth.incomesTotal -
-        incomesThisMonth.incomesDiff -
-        (expensesThisMonth.expensesTotal - expensesThisMonth.expensesDiff),
+        incomesByPeriod.incomesTotal - expensesByPeriod.expensesTotal,
     }),
-    [expensesThisMonth, incomesThisMonth],
+    [expensesByPeriod, incomesByPeriod],
   )
 
-  return [expensesThisMonth, incomesThisMonth, remainingSum, diffTotal]
+  return [expensesByPeriod, incomesByPeriod, remainingSum, diffTotal]
 }

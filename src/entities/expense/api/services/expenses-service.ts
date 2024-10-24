@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios'
-import { BaseService } from '@shared/lib'
+import { BaseService, Dates, StringDates } from '@shared/lib'
 import { ServiceResponse } from '@shared/lib'
 import { Key } from 'react'
 import { openNotificationError } from '@shared/lib'
@@ -115,11 +115,13 @@ export class ExpensesService extends BaseService {
     }
   }
 
-  async fetchExpensesSum(): Promise<Omit<ExpensesThisMonth, 'loading'>> {
+  async fetchExpensesSum(
+    dates: StringDates,
+  ): Promise<Omit<ExpensesThisMonth, 'loading'>> {
     try {
       const response = await this.client.get<
         ServiceResponse<Omit<ExpensesThisMonth, 'loading'>>
-      >(`${this.url}/sum`)
+      >(`${this.url}/sum?from=${dates[0]}&to=${dates[1]}`)
       const {
         data: { data, message, success },
       } = response

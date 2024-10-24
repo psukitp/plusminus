@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ExpensesLastMonthes, expensesQueries } from '@entities/expense'
 import { generateExpByMonth } from './generateExpByMonth'
-import { generateExpLastMonthes } from './generateExpLasMonthes'
+import { generateLastMonthes } from './generateExpLasMonthes'
 import { incomesQueries } from '@entities/income'
 import { IncomesLastMonthes } from '@entities/income'
-import { generateIncLastMonthes } from './generateIncLastMonthes'
 import { ExpensesByCategoryRecord } from '@entities/expense'
 import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
@@ -57,19 +56,19 @@ export const useChartWidget = () => {
     [expByCategoryMonth],
   )
 
-  const expLastMonthesOptions = useMemo(
-    () => (expLastMonthes ? generateExpLastMonthes(expLastMonthes) : {}),
-    [expLastMonthes],
-  )
-
-  const incLastMonthesOptions = useMemo(
-    () => (incLastMonthes ? generateIncLastMonthes(incLastMonthes) : {}),
-    [incLastMonthes],
+  const lastMonthesOptions = useMemo(
+    () =>
+      incLastMonthes && expLastMonthes
+        ? generateLastMonthes(expLastMonthes, incLastMonthes)
+        : {},
+    [expLastMonthes, incLastMonthes],
   )
 
   return [
-    { options: expByMonthOptions, loading: expLastMonthesLoading },
-    { options: expLastMonthesOptions, loading: incLastMonthesLoading },
-    { options: incLastMonthesOptions, loading: expByCategoryMonthLoading },
+    { options: expByMonthOptions, loading: expByCategoryMonthLoading },
+    {
+      options: lastMonthesOptions,
+      loading: expLastMonthesLoading || incLastMonthesLoading,
+    },
   ]
 }

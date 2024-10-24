@@ -1,4 +1,9 @@
-export type { ComponentProps, ServiceResponse } from './types'
+export type {
+  ComponentProps,
+  ServiceResponse,
+  Dates,
+  StringDates,
+} from './types'
 export { getAxiosInstance, BaseService } from './api'
 export { Highchart } from './highcharts'
 export {
