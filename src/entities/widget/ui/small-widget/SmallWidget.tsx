@@ -65,7 +65,7 @@ export const SmallWidget = ({
   }, [diff, positive])
 
   return (
-    <Widget title={title}>
+    <Widget title={title} needPadding>
       {isLoading ? (
         <Loader />
       ) : (

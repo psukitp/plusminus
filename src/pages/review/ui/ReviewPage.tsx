@@ -27,6 +27,7 @@ const ReviewPage = () => {
 
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData(dates)
   const [expByMonth, lastMonthes] = useChartWidget()
+  console.log(expByMonth)
 
   const currency = useUser((state) => state.data.settings?.currency)
 
@@ -77,11 +78,12 @@ const ReviewPage = () => {
         <WidgetContainer {...grid[4]}>
           <ChartWidget
             options={expByMonth.options}
-            haveData={
-              !!expByMonth.options?.series?.every(
-                (s) => (s as unknown as { data: [] }).data.length,
-              )
-            }
+            haveData
+            // haveData={
+            //   !!expByMonth.options?.series?.every(
+            //     (s) => (s as unknown as { data: [] }).data.length,
+            //   )
+            // }
             isLoading={expByMonth.loading}
             title="Расходы по категориями"
             text="Тут будет график"
@@ -93,11 +95,12 @@ const ReviewPage = () => {
         <WidgetContainer {...grid[6]}>
           <ChartWidget
             options={lastMonthes.options}
-            haveData={
-              !!lastMonthes.options?.series?.every(
-                (s) => (s as unknown as { data: [] }).data.length,
-              )
-            }
+            haveData
+            // haveData={
+            //   !!lastMonthes.options?.series?.every(
+            //     (s) => (s as unknown as { data: [] }).data.length,
+            //   )
+            // }
             isLoading={lastMonthes.loading}
             title="Доходы с начала года"
             text="Тут будет график"

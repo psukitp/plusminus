@@ -12,8 +12,8 @@ export const WidgetContainer = styled.div<StyledComponentProps>`
   box-sizing: border-box;
 `
 
-export const WidgetTitle = styled.div`
+export const WidgetTitle = styled.div<{ needPadding: boolean }>`
   font-size: 20px;
   line-height: 20px;
-  padding-bottom: 25px;
+  padding-bottom: ${({ needPadding }) => (needPadding ? '25px' : 0)};
 `

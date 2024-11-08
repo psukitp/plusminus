@@ -3,10 +3,13 @@ import { IWidgetProps } from './types'
 import { WidgetContainer, WidgetTitle } from './Widget-styled'
 
 export const Widget = forwardRef(
-  ({ children, title }: IWidgetProps, ref: ForwardedRef<HTMLDivElement>) => {
+  (
+    { children, title, needPadding = false }: IWidgetProps,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
     return (
       <WidgetContainer ref={ref}>
-        <WidgetTitle>{title}</WidgetTitle>
+        <WidgetTitle needPadding={needPadding}>{title}</WidgetTitle>
         {children}
       </WidgetContainer>
     )

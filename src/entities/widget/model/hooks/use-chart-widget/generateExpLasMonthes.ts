@@ -1,92 +1,52 @@
-import { SeriesOptionsType } from 'highcharts'
 import { ExpensesLastMonthes } from '@entities/expense'
 import { IncomesLastMonthes } from '@entities/income'
+import { EChartsOption } from 'echarts'
 
 export const generateLastMonthes = (
   data: ExpensesLastMonthes,
   data1: IncomesLastMonthes,
-): Highcharts.Options => {
+): EChartsOption => {
   const xAxisCategories = data.monthes
 
-  const chartSeries: SeriesOptionsType[] = [
-    {
-      name: 'Траты',
-      type: 'area',
-      data: data.values.map((s) => (s == -1 ? null : s)),
-      color: {
-        linearGradient: {
-          x1: 0,
-          y1: 0,
-          x2: 1,
-          y2: 0,
-        },
-        stops: [
-          [0, '#F57D7D'],
-          [1, '#943838'],
-        ],
-      },
-    },
-    {
-      name: 'Доходы',
-      type: 'area',
-      data: data1.values.map((s) => (s == -1 ? null : s)),
-      color: {
-        linearGradient: {
-          x1: 0,
-          y1: 0,
-          x2: 1,
-          y2: 0,
-        },
-        stops: [
-          [0, '#92C9FC'],
-          [1, '#0F518D'],
-        ],
-      },
-    },
-  ]
-
-  const expLastMonthes: Highcharts.Options = {
-    title: {
-      text: '',
-    },
-    plotOptions: {
-      area: {
-        dataLabels: {
-          enabled: true,
-          shadow: false,
-        },
-        animation: true,
-        lineWidth: 6,
-        fillColor: 'transparent',
-        marker: {
-          enabled: false,
-        },
-      },
-    },
+  const options: EChartsOption = {
     tooltip: {
-      enabled: false,
-    },
-    legend: {
-      enabled: false,
+      trigger: 'axis',
     },
     xAxis: {
-      categories: xAxisCategories,
-      visible: true,
-      title: {
-        text: '',
-      },
-      crosshair: false,
+      type: 'category',
+      data: xAxisCategories,
+    },
+    legend: {
+      bottom: '0',
+      left: 'center',
+      orient: 'horizontal',
     },
     yAxis: {
-      title: {
-        text: '',
+      type: 'value',
+    },
+    series: [
+      {
+        name: 'Траты',
+        type: 'line',
+        smooth: true,
+        color: 'red',
+        data: data.values.map((s) => (s == -1 ? null : s)),
+        lineStyle: {
+          width: 5,
+        },
       },
-    },
-    credits: {
-      enabled: false,
-    },
-    series: chartSeries,
+      {
+        name: 'Доходы',
+        type: 'line',
+        smooth: true,
+        color: 'green',
+        data: data1.values.map((s) => (s == -1 ? null : s)),
+        lineStyle: {
+          width: 5,
+        },
+      },
+    ],
   }
 
-  return expLastMonthes
+  return options
 }
