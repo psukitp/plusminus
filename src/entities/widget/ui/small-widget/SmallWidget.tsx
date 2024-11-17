@@ -3,17 +3,18 @@ import PositiveDiff from '@shared/lib/svgs/positive_diff.svg'
 import NegativeDiff from '@shared/lib/svgs/equal_diff.svg'
 import EqualDiff from '@shared/lib/svgs/equal_diff.svg'
 import { useMemo } from 'react'
-import { WidgetText } from './SmallWidget-styled'
 import { ISmallWidgetProps } from './types'
 import { Loader } from '@shared/ui'
-import { Widget } from '../widget/Widget'
+import { Widget } from '../widget'
 
-export const SmallWidget = ({
+export const SmallWidgetComponent = ({
   text,
   title,
   diff,
   positive,
   isLoading,
+  className,
+  type,
 }: ISmallWidgetProps) => {
   const Marker = useMemo(() => {
     if (!diff) return <></>
@@ -65,15 +66,17 @@ export const SmallWidget = ({
   }, [diff, positive])
 
   return (
-    <Widget title={title} needPadding>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <Flex align="center">
-          <WidgetText>{text}</WidgetText>
-          {Marker}
-        </Flex>
-      )}
-    </Widget>
+    <div className={className}>
+      <Widget title={title} needPadding type={type}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Flex align="center">
+            <div className="text">{text}</div>
+            {Marker}
+          </Flex>
+        )}
+      </Widget>
+    </div>
   )
 }

@@ -29,19 +29,19 @@ export const generateGrid = (isMobile: boolean): GridElement[] => {
     {
       startRow: isMobile ? 5 : 2,
       startCol: isMobile ? 1 : 1,
-      endRow: isMobile ? 7 : 4,
+      endRow: isMobile ? 7 : 6,
       endCol: isMobile ? 2 : 3,
     },
     {
       startRow: isMobile ? 7 : 2,
       startCol: isMobile ? 1 : 3,
-      endRow: isMobile ? 9 : 4,
+      endRow: isMobile ? 9 : 3,
       endCol: isMobile ? 2 : 5,
     },
     {
-      startRow: isMobile ? 9 : 4,
-      startCol: isMobile ? 1 : 1,
-      endRow: isMobile ? 11 : 7,
+      startRow: isMobile ? 9 : 3,
+      startCol: isMobile ? 1 : 3,
+      endRow: isMobile ? 11 : 6,
       endCol: isMobile ? 2 : 5,
     },
   ]

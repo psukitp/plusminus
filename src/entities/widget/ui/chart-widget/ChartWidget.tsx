@@ -3,8 +3,8 @@ import './ChartWidget.css'
 import { IChartWidgetProps } from './types'
 import { Empty } from 'antd'
 import { Loader } from '@shared/ui'
-import { Widget } from '../widget/Widget'
 import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
+import { Widget } from '../widget'
 
 export const ChartWidget = ({
   options,
@@ -16,7 +16,7 @@ export const ChartWidget = ({
   const chartOptions = options
 
   return (
-    <Widget ref={parentRef} title={title}>
+    <Widget ref={parentRef} title={title} type="default">
       <>
         {isLoading && <Loader />}
         {!isLoading && haveData && <EchartsReact options={chartOptions} />}

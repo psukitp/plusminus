@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ExpensesLastMonthes, expensesQueries } from '@entities/expense'
-import { generateExpByMonth } from './generateExpByMonth'
-import { generateLastMonthes } from './generateExpLasMonthes'
+import { generateExpByCategories } from './generateExpByMonth'
+import { generateLastMonthes as generateThisYear } from './generateExpLasMonthes'
 import { incomesQueries } from '@entities/income'
 import { IncomesLastMonthes } from '@entities/income'
 import { ExpensesByCategoryRecord } from '@entities/expense'
@@ -9,21 +9,21 @@ import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
 
 export const useChartWidget = () => {
-  const [expByCategoryMonthLoading, setExpByCategoryMonthLoading] =
+  const [expByCategoryLoading, setExpByCategoryLoading] =
     useState<boolean>(false)
-  const [expLastMonthesLoading, setExpLastMonthesLoading] =
+  const [expThisYearLoading, setExpThisYearLoading] =
     useState<boolean>(false)
-  const [incLastMonthesLoading, setIncLastMonthesLoading] =
+  const [incThisYearLoading, setIncThisYearLoading] =
     useState<boolean>(false)
-
-  const [expByCategoryMonth, setExpByCategoryMonth] = useState<
+  const [expByCategory, setExpByCategory] = useState<
     ExpensesByCategoryRecord[]
   >([])
-  const [expLastMonthes, setExpLastMonthes] = useState<ExpensesLastMonthes>({
+
+  const [expThisYear, setExpThisYear] = useState<ExpensesLastMonthes>({
     monthes: [],
     values: [],
   })
-  const [incLastMonthes, setIncLastMonthes] = useState<IncomesLastMonthes>({
+  const [incThisYear, setIncThisYear] = useState<IncomesLastMonthes>({
     monthes: [],
     values: [],
   })
@@ -33,42 +33,42 @@ export const useChartWidget = () => {
   const symbol = useMemo(() => getCurrencySymbol(currency), [currency])
 
   useEffect(() => {
-    setExpByCategoryMonthLoading(true)
-    setExpLastMonthesLoading(true)
-    setIncLastMonthesLoading(true)
+    setExpByCategoryLoading(true)
+    setExpThisYearLoading(true)
+    setIncThisYearLoading(true)
     expensesQueries
-      .fetchExpensesByCategoryMonth()
-      .then((result) => setExpByCategoryMonth(result))
-      .finally(() => setExpByCategoryMonthLoading(false))
+      .fetchExpensesByCategory()
+      .then((result) => setExpByCategory(result))
+      .finally(() => setExpByCategoryLoading(false))
     expensesQueries
       .fetchExpensesByLastMonthes()
-      .then((result) => setExpLastMonthes(result))
-      .finally(() => setExpLastMonthesLoading(false))
+      .then((result) => setExpThisYear(result))
+      .finally(() => setExpThisYearLoading(false))
     incomesQueries
       .fetchIncomesLastMonthes()
-      .then((result) => setIncLastMonthes(result))
-      .finally(() => setIncLastMonthesLoading(false))
+      .then((result) => setIncThisYear(result))
+      .finally(() => setIncThisYearLoading(false))
   }, [])
 
-  const expByMonthOptions = useMemo(
+  const expByCategiriesOptions = useMemo(
     () =>
-      expByCategoryMonth ? generateExpByMonth(expByCategoryMonth, symbol) : {},
-    [expByCategoryMonth],
+      expByCategory ? generateExpByCategories(expByCategory, symbol) : {},
+    [expByCategory],
   )
 
-  const lastMonthesOptions = useMemo(
+  const thisYearOptions = useMemo(
     () =>
-      incLastMonthes && expLastMonthes
-        ? generateLastMonthes(expLastMonthes, incLastMonthes)
+      incThisYear && expThisYear
+        ? generateThisYear(expThisYear, incThisYear)
         : {},
-    [expLastMonthes, incLastMonthes],
+    [expThisYear, incThisYear],
   )
 
   return [
-    { options: expByMonthOptions, loading: expByCategoryMonthLoading },
+    { options: expByCategiriesOptions, loading: expByCategoryLoading },
     {
-      options: lastMonthesOptions,
-      loading: expLastMonthesLoading || incLastMonthesLoading,
+      options: thisYearOptions,
+      loading: expThisYearLoading || incThisYearLoading,
     },
   ]
 }

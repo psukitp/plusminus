@@ -9,6 +9,11 @@ export const IncomesContainer = styled.div`
   .tables {
     max-width: 100%;
   }
+
+  .btn,
+  .calendar {
+    margin-bottom: 24px;
+  }
 `
 
 export const Title = styled(Flex)`

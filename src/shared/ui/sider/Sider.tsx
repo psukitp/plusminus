@@ -1,30 +1,23 @@
 import { SiderButton } from '../sider-button/SiderButton'
 import { ISiderProps } from './types'
-import {
-  BarChartOutlined,
-  MinusSquareOutlined,
-  PlusSquareOutlined,
-  SettingOutlined,
-  UnorderedListOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import { SettingOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import {
-  SiderBottom,
-  SiderBottomButton,
-  SiderContainer,
-  SiderMain,
-} from './Sider-styled'
+import { SiderBottomButton } from './Sider-styled'
+import { CategoriesIcon, ExpensesIcon, IncomesIcon, ReviewIcon } from '../icons'
 
-export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
+export const SiderComponent = ({
+  activeCaption,
+  setActiveButton,
+  className,
+}: ISiderProps) => {
   return (
-    <SiderContainer>
-      <SiderMain>
+    <div className={className}>
+      <div className="main">
         <SiderButton
           active={activeCaption.review}
           text="Обзор"
           linkTo="review"
-          icon={<BarChartOutlined />}
+          icon={<ReviewIcon />}
           onClick={() =>
             setActiveButton({
               review: true,
@@ -35,7 +28,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
           active={activeCaption.expenses}
           text="Расходы"
           linkTo="expenses"
-          icon={<MinusSquareOutlined />}
+          icon={<ExpensesIcon />}
           onClick={() =>
             setActiveButton({
               expenses: true,
@@ -46,7 +39,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
           active={activeCaption.incomes}
           text="Доходы"
           linkTo="incomes"
-          icon={<PlusSquareOutlined />}
+          icon={<IncomesIcon />}
           onClick={() =>
             setActiveButton({
               incomes: true,
@@ -57,15 +50,15 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
           active={activeCaption.categories}
           text="Категории"
           linkTo="categories"
-          icon={<UnorderedListOutlined />}
+          icon={<CategoriesIcon />}
           onClick={() =>
             setActiveButton({
               categories: true,
             })
           }
         />
-      </SiderMain>
-      <SiderBottom>
+      </div>
+      <div className="bottom">
         <Link to="/profile">
           <SiderBottomButton
             active={activeCaption.profile}
@@ -90,7 +83,7 @@ export const Sider = ({ activeCaption, setActiveButton }: ISiderProps) => {
             <SettingOutlined />
           </SiderBottomButton>
         </Link>
-      </SiderBottom>
-    </SiderContainer>
+      </div>
+    </div>
   )
 }

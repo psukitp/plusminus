@@ -5,5 +5,4 @@ export interface IChartWidgetProps {
   options: EChartsOption
   isLoading: boolean
   haveData: boolean
-  text: string
 }

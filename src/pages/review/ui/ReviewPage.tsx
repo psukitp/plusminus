@@ -1,13 +1,8 @@
 import { getFormattedAmount } from '@shared/lib'
-import {
-  ReviewContainer,
-  ReviewGrid,
-  WidgetContainer,
-} from './ReviewPage-styled'
 import { isMobile } from 'react-device-detect'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { generateGrid } from './utils'
-import { GridElement } from './types'
+import { GridElement, IReviewPageProps } from './types'
 import {
   PercentWidget,
   useChartWidget,
@@ -16,18 +11,12 @@ import {
 import { ChartWidget, SmallWidget } from '@entities/widget'
 import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
-import { ReviewHeader } from './review-header'
-import dayjs, { Dayjs } from 'dayjs'
+import styled from 'styled-components'
+import { ReviewHello } from './review-hello'
 
-const ReviewPage = () => {
-  const [dates, setDates] = useState<[start: Dayjs, end: Dayjs]>([
-    dayjs().startOf('month'),
-    dayjs(),
-  ])
-
+export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData(dates)
-  const [expByMonth, lastMonthes] = useChartWidget()
-  console.log(expByMonth)
+  const [expByCategories, thisYear] = useChartWidget()
 
   const currency = useUser((state) => state.data.settings?.currency)
 
@@ -39,54 +28,57 @@ const ReviewPage = () => {
   )
 
   return (
-    <ReviewContainer>
-      <ReviewHeader dates={dates} onChange={setDates} />
-      <ReviewGrid>
+    <div className={className}>
+      <ReviewHello />
+      <div className="grid">
         <WidgetContainer {...grid[0]}>
           <SmallWidget
-            title="Расход за период"
+            title="Расходы"
             text={`${getFormattedAmount(expenses.expensesTotal)} ${symbol}`}
             isLoading={expenses.loading}
             diff={expenses.expensesDiff}
             positive={expenses.expensesDiff < 0}
+            type="primary"
           />
         </WidgetContainer>
         <WidgetContainer {...grid[1]}>
           <SmallWidget
-            title="Доход за период"
+            title="Доходы"
             text={`${getFormattedAmount(incomes.incomesTotal)} ${symbol}`}
             isLoading={incomes.loading}
             diff={incomes.incomesTotal}
+            type="secondary"
           />
         </WidgetContainer>
         <WidgetContainer {...grid[2]}>
           <SmallWidget
-            title="Остаток, период"
+            title="Остаток (указать)"
             text={`${getFormattedAmount(remainingSum.remainingTotal)} ${symbol}`}
             isLoading={expenses.loading && incomes.loading}
             diff={remainingSum.remainingDiff}
             positive={remainingSum.remainingDiff > 0}
+            type="outlined"
           />
         </WidgetContainer>
         <WidgetContainer {...grid[3]}>
           <SmallWidget
-            title="Остаток, все время"
+            title="Остаток за все время"
             isLoading={diffTotal.loading}
             text={`${getFormattedAmount(diffTotal.diffTotal)} ${symbol}`}
+            type="primary"
           />
         </WidgetContainer>
         <WidgetContainer {...grid[4]}>
           <ChartWidget
-            options={expByMonth.options}
-            haveData
-            // haveData={
-            //   !!expByMonth.options?.series?.every(
-            //     (s) => (s as unknown as { data: [] }).data.length,
-            //   )
-            // }
-            isLoading={expByMonth.loading}
+            options={expByCategories.options}
+            haveData={
+              Array.isArray(expByCategories.options?.series) &&
+              expByCategories.options?.series?.some(
+                (s: any) => s?.data.length > 0,
+              )
+            }
+            isLoading={expByCategories.loading}
             title="Расходы по категориями"
-            text="Тут будет график"
           />
         </WidgetContainer>
         <WidgetContainer {...grid[5]}>
@@ -94,21 +86,23 @@ const ReviewPage = () => {
         </WidgetContainer>
         <WidgetContainer {...grid[6]}>
           <ChartWidget
-            options={lastMonthes.options}
-            haveData
-            // haveData={
-            //   !!lastMonthes.options?.series?.every(
-            //     (s) => (s as unknown as { data: [] }).data.length,
-            //   )
-            // }
-            isLoading={lastMonthes.loading}
+            options={thisYear.options}
+            haveData={
+              Array.isArray(thisYear.options?.series) &&
+              thisYear.options?.series?.some((s: any) => s?.data.length > 0)
+            }
+            isLoading={thisYear.loading}
             title="Доходы с начала года"
-            text="Тут будет график"
           />
         </WidgetContainer>
-      </ReviewGrid>
-    </ReviewContainer>
+      </div>
+    </div>
   )
 }
 
-export default ReviewPage
+const WidgetContainer = styled.div<GridElement>`
+  grid-row-start: ${({ startRow }) => startRow};
+  grid-column-start: ${({ startCol }) => startCol};
+  grid-row-end: ${({ endRow }) => endRow};
+  grid-column-end: ${({ endCol }) => endCol};
+`

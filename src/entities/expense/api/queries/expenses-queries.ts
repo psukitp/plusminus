@@ -75,10 +75,9 @@ const editExpense = async (expense: {
 
 export const expensesQueries = {
   fetchExpenses,
-  fetchExpensesByCategory,
   createNewExpense,
   fetchExpensesSum,
-  fetchExpensesByCategoryMonth,
+  fetchExpensesByCategory: fetchExpensesByCategoryMonth,
   fetchExpensesByLastMonthes,
   deleteExpense,
   editExpense,

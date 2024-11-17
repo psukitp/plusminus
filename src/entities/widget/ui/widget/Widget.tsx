@@ -1,17 +1,30 @@
 import { ForwardedRef, forwardRef } from 'react'
 import { IWidgetProps } from './types'
-import { WidgetContainer, WidgetTitle } from './Widget-styled'
+import styled from 'styled-components'
 
-export const Widget = forwardRef(
+export const WidgetComponent = forwardRef(
   (
-    { children, title, needPadding = false }: IWidgetProps,
+    { children, title, className, needPadding = false, type }: IWidgetProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
-      <WidgetContainer ref={ref}>
-        <WidgetTitle needPadding={needPadding}>{title}</WidgetTitle>
+      <div ref={ref} className={className}>
+        <WidgetTitle needPadding={needPadding} type={type}>
+          {title}
+        </WidgetTitle>
         {children}
-      </WidgetContainer>
+      </div>
     )
   },
 )
+
+const WidgetTitle = styled.div<{
+  needPadding: boolean
+  type: 'primary' | 'secondary' | 'outlined' | 'default'
+}>`
+  font-size: 20px;
+  line-height: 20px;
+  color: ${({ type }) =>
+    type === 'primary' || type === 'secondary' ? '#FFF' : '#000'};
+  padding-bottom: ${({ needPadding }) => (needPadding ? '8px' : 0)};
+`

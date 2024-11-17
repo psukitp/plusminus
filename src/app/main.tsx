@@ -5,8 +5,8 @@ import App from './App.tsx'
 import './index.less'
 import { ConfigProvider } from 'antd'
 import { ThemeProvider } from 'styled-components'
-import { themeLight } from '@shared/lib/index.ts'
 import { GlobalStyle } from '@shared/lib'
+import { theme } from '@shared/lib/styles/theme.ts'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           },
         }}
       >
-        <ThemeProvider theme={themeLight}>
+        <ThemeProvider theme={theme}>
           <GlobalStyle />
           <App />
         </ThemeProvider>

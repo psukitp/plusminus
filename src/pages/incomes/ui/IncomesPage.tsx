@@ -1,14 +1,13 @@
 import { Table } from '@shared/ui'
 import { Col, Flex } from 'antd'
-import { Button } from '@shared/ui'
-import { PlusOutlined } from '@ant-design/icons'
 import { IIncomesPageProps } from './types'
 import { initialModal } from './utils'
-import { Calendar } from '@shared/ui'
-import { IncomesContainer, Text, Title } from './IncomesPage-styled'
+import { IncomesContainer } from './IncomesPage-styled'
 import { isMobile } from 'react-device-detect'
 import { NewRecord } from '@features/category'
 import { RecordModal } from '@features/category'
+import { Calendar } from '@shared/ui/components/calendar'
+import { Button } from '@shared/ui/components/button'
 
 export const IncomesPage = ({
   currentDate,
@@ -35,33 +34,35 @@ export const IncomesPage = ({
 }: IIncomesPageProps) => {
   return (
     <IncomesContainer>
-      <Title>
-        <Text>Доходы</Text>
-      </Title>
-      <Flex vertical={isMobile} justify="space-between">
+      <Flex vertical={isMobile} justify="space-between" gap={24}>
         <Col
+          span={8}
           style={{
             paddingBottom: isMobile ? '15px' : 0,
           }}
         >
-          <Calendar
-            value={currentDate}
-            onChange={(value) => {
-              const formattedDate = value.format('YYYY-MM-DD')
-              getIncomes(formattedDate)
-              getIncomesByCategories(formattedDate)
-              setCurrentDate(formattedDate)
-            }}
-          />
-          <Button
-            disabled={recordsLoading}
-            onClick={() => {
-              setMode('create')
-              setViewModal(true)
-            }}
-          >
-            <PlusOutlined />
-          </Button>
+          <div className="calendar">
+            <Calendar
+              value={currentDate}
+              onChange={(value) => {
+                const formattedDate = value.format('YYYY-MM-DD')
+                getIncomes(formattedDate)
+                getIncomesByCategories(formattedDate)
+                setCurrentDate(formattedDate)
+              }}
+            />
+          </div>
+          <div className="btn">
+            <Button
+              type="primary"
+              text="Добавить расход"
+              onClick={() => {
+                setMode('create')
+                setViewModal(true)
+              }}
+              textAlign="center"
+            />
+          </div>
           <Table
             className="expenses-table"
             rowKey="id"
@@ -70,7 +71,7 @@ export const IncomesPage = ({
             loading={recordsLoading}
           />
         </Col>
-        <Col>
+        <Col span={16}>
           <Table
             rowKey="categoryName"
             records={summarizedRecords}

@@ -1,31 +1,25 @@
 import { isMobile } from 'react-device-detect'
 import styled from 'styled-components'
-import { GridElement } from './types'
+import { ReviewPageComponent } from './ReviewPage'
 
-export const ReviewContainer = styled.div`
-  background: ${isMobile
-    ? ({ theme }) => theme.colors.backgroundComponent.default
-    : 'unset'};
+const ReviewPage = styled(ReviewPageComponent)`
+  background: ${({ theme }) => theme.pallete.dom.white};
 
-  padding: ${`15px 15px 
-    ${isMobile ? '80px' : '15px'}
-     15px`};
+  padding: ${`24px 24px 
+    ${isMobile ? '30px' : '15px'}
+      24px`};
 
   overflow: auto;
   width: 100%;
+  height: calc(100% - 98px);
+
+  .grid {
+    grid-template-rows: ${isMobile ? 'repeat(10, 1fr)' : 'repeat(5, 1fr)'};
+    grid-template-columns: ${isMobile ? '1fr' : 'repeat(4, 1fr)'};
+    display: grid;
+    gap: 24px;
+    height: ${isMobile ? '1500px' : 'calc(100% - 80px)'};
+  }
 `
 
-export const ReviewGrid = styled.div`
-  grid-template-rows: ${isMobile ? 'repeat(10, 1fr)' : 'repeat(6, 1fr)'};
-  grid-template-columns: ${isMobile ? '1fr' : 'repeat(4, 1fr)'};
-  display: grid;
-  gap: 10px;
-  height: ${isMobile ? '1500px' : 'calc(100% - 70px)'};
-`
-
-export const WidgetContainer = styled.div<GridElement>`
-  grid-row-start: ${({ startRow }) => startRow};
-  grid-column-start: ${({ startCol }) => startCol};
-  grid-row-end: ${({ endRow }) => endRow};
-  grid-column-end: ${({ endCol }) => endCol};
-`
+export default ReviewPage
