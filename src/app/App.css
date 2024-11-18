@@ -8,6 +8,11 @@
   src: url('../shared/lib/fonts/Roboto/Roboto-Bold.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'RobotoMedium';
+  src: url('../shared/lib/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
+}
+
 body {
   font-family: 'RobotoRegular', sans-serif;
 }

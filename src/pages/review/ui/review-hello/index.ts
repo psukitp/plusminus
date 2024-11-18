@@ -4,7 +4,7 @@ import { ReviewHelloComponent } from './ReviewHello'
 export const ReviewHello = styled(ReviewHelloComponent)`
   height: 80px;
   display: flex;
-  align-items: center;
+  align-items: start;
 
   .hello {
     font-size: 24px;

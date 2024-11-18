@@ -22,7 +22,7 @@ const WidgetTitle = styled.div<{
   needPadding: boolean
   type: 'primary' | 'secondary' | 'outlined' | 'default'
 }>`
-  font-size: 20px;
+  font-size: 16px;
   line-height: 20px;
   color: ${({ type }) =>
     type === 'primary' || type === 'secondary' ? '#FFF' : '#000'};

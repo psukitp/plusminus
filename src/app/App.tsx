@@ -143,7 +143,7 @@ const AppContainer = ({ className }: { className?: string }) => {
 
 //TODO разобраться со шрифтом
 const App = styled(AppContainer)<StyledComponentProps>`
-  background: ${({ theme }) => theme.colors.backgroundComponent.default};
+  background: ${({ theme }) => theme.pallete.dom.white};
   color: ${({ theme }) => theme.colors.textColor.default};
   padding-bottom: ${isMobile ? '70px' : '0'};
 

@@ -4,6 +4,7 @@ import { SettingOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { SiderBottomButton } from './Sider-styled'
 import { CategoriesIcon, ExpensesIcon, IncomesIcon, ReviewIcon } from '../icons'
+import { LogoWithText } from '@shared/lib/svgs/logo_w_text'
 
 export const SiderComponent = ({
   activeCaption,
@@ -12,6 +13,9 @@ export const SiderComponent = ({
 }: ISiderProps) => {
   return (
     <div className={className}>
+      <div className="header">
+        <LogoWithText />
+      </div>
       <div className="main">
         <SiderButton
           active={activeCaption.review}

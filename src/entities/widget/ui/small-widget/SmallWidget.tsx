@@ -1,80 +1,31 @@
-import { Flex, Tooltip } from 'antd'
-import PositiveDiff from '@shared/lib/svgs/positive_diff.svg'
-import NegativeDiff from '@shared/lib/svgs/equal_diff.svg'
-import EqualDiff from '@shared/lib/svgs/equal_diff.svg'
-import { useMemo } from 'react'
 import { ISmallWidgetProps } from './types'
 import { Loader } from '@shared/ui'
 import { Widget } from '../widget'
+import { PositiveChart, NegativeChart } from '@shared/ui/icons/index'
 
 export const SmallWidgetComponent = ({
   text,
   title,
   diff,
-  positive,
   isLoading,
   className,
   type,
 }: ISmallWidgetProps) => {
-  const Marker = useMemo(() => {
-    if (!diff) return <></>
-    if (positive && diff > 0)
-      return (
-        <Tooltip
-          title={`Больше на ${diff}, чем в прошлом месяце`}
-          color="#75B246"
-        >
-          <PositiveDiff />
-        </Tooltip>
-      )
-    if (positive && diff < 0)
-      return (
-        <Tooltip
-          title={`Меньше на  ${Math.abs(diff)}, чем в прошлом месяце`}
-          color="#75B246"
-        >
-          <PositiveDiff />
-        </Tooltip>
-      )
-    if (!positive && diff > 0)
-      return (
-        <Tooltip
-          title={`Больше на ${diff}, чем в прошлом месяце`}
-          color="#A80E0E"
-        >
-          <NegativeDiff />
-        </Tooltip>
-      )
-    if (!positive && diff < 0)
-      return (
-        <Tooltip
-          title={`Меньше на ${Math.abs(diff)}, чем в прошлом месяце`}
-          color="#A80E0E"
-        >
-          <NegativeDiff />
-        </Tooltip>
-      )
-    if (diff === 0)
-      return (
-        <Tooltip
-          title={`Сумма не отличается от суммы в прошлом месяце`}
-          color="#666666"
-        >
-          <EqualDiff />
-        </Tooltip>
-      )
-  }, [diff, positive])
-
   return (
     <div className={className}>
       <Widget title={title} needPadding type={type}>
         {isLoading ? (
           <Loader />
         ) : (
-          <Flex align="center">
+          <div className="container">
             <div className="text">{text}</div>
-            {Marker}
-          </Flex>
+            <div className="diff">
+              <span className="diff_value">
+                По сравнению с предыдущим месяцем
+              </span>
+              {diff && diff > 0 ? <PositiveChart /> : <NegativeChart />}
+            </div>
+          </div>
         )}
       </Widget>
     </div>
