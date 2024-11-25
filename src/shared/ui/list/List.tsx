@@ -1,26 +1,42 @@
-import { ReactNode } from 'react'
 import styled from 'styled-components'
-
-type RecordType = {
-  prefix?: ReactNode
-  title: string
-  suffix?: ReactNode
-  color?: string
-}
+import { RecordType } from './types'
+import { Loader } from '../loader'
+import { Fragment, useMemo } from 'react'
 
 export const ListComponent = ({
   records,
   className,
+  loading,
+  sort = null,
 }: {
   records: RecordType[]
+  loading?: boolean
   className?: string
+  sort?: 'asc' | 'desc' | null
 }) => {
-  return (
+  const sortedRecords = useMemo(() => {
+    if (!sort) return records
+    return records.sort((a, b) =>
+      sort === 'asc'
+        ? a.group.localeCompare(b.group)
+        : b.group.localeCompare(a.group),
+    )
+  }, [records, sort])
+
+  return loading ? (
+    <Loader />
+  ) : (
     <div className={className}>
-      {records.map((r) => (
-        <Record color={r?.color}>
-          <span className="title">{r.title}</span> <span>{r?.suffix}</span>
-        </Record>
+      {sortedRecords.map((r) => (
+        <Fragment key={r.group}>
+          <div className="group">{r.group}</div>
+          {r.data.map((el) => (
+            <Record color={el?.color} key={el.key}>
+              <span className="title">{el.title}</span>{' '}
+              <span>{el?.suffix}</span>
+            </Record>
+          ))}
+        </Fragment>
       ))}
     </div>
   )

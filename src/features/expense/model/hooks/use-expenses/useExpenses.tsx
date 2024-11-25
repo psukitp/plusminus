@@ -3,15 +3,16 @@ import { ExpensesRecord } from '@entities/expense'
 import { expensesQueries } from '@entities/expense'
 import dayjs from 'dayjs'
 import { useSummarizedExpensesData } from '@entities/expense'
-import { columns, summarizedColumns } from './staticUseExpenses'
 import { UseExpensesResult } from './types'
+import { ExpensesLastWeek } from '@entities/expense/model/types'
 
 export const useExpenses = (): UseExpensesResult => {
   const [loading, setLoading] = useState({
     records: false,
-    summarizedRecords: false,
   })
   const [records, setRecords] = useState<ExpensesRecord[]>([])
+  const [expensesLastWeek, setExpensesLastWeek] =
+    useState<ExpensesLastWeek | null>(null)
 
   const {
     data: sumRecords,
@@ -26,18 +27,9 @@ export const useExpenses = (): UseExpensesResult => {
   }, [])
 
   useEffect(() => {
-    setLoading({ records: true, summarizedRecords: true })
-    expensesQueries
-      .fetchExpenses(dayjs().format('YYYY-MM-DD'))
-      .then((result) =>
-        setRecords(
-          result.map((e) => ({
-            ...e,
-            date: dayjs(e.date).format('YYYY-MM-DD'),
-          })),
-        ),
-      )
-      .finally(() => setLoading((prev) => ({ ...prev, records: false })))
+    setLoading({ records: true })
+    getExpenses(dayjs().format('YYYY-MM-DD'))
+    getExpensesLastWeek(dayjs().format('YYYY-MM-DD'))
   }, [])
 
   const createNewExpense = async ({
@@ -52,14 +44,21 @@ export const useExpenses = (): UseExpensesResult => {
     await expensesQueries
       .createNewExpense({ amount, categoryId, date })
       .then((result) =>
-        setRecords(
-          result.map((e) => ({
+        setRecords((prev) => [
+          ...prev,
+          ...result.map((e) => ({
             ...e,
             date: dayjs(e.date).format('YYYY-MM-DD'),
           })),
-        ),
+        ]),
       )
       .then(() => fetchData(date))
+  }
+
+  const getExpensesLastWeek = async (date: string) => {
+    await expensesQueries
+      .fetchExpensesLastWeek(date)
+      .then((result) => setExpensesLastWeek(result))
   }
 
   const getExpenses = async (date: string) => {
@@ -105,15 +104,16 @@ export const useExpenses = (): UseExpensesResult => {
       })
   }
 
-  return [
-    [records, columns, loading.records],
-    [sumRecords, summarizedColumns, sumLoading],
-    {
+  return {
+    expenses: [records, loading.records],
+    expensesByCategory: [sumRecords, sumLoading],
+    expensesLastWeek: [expensesLastWeek],
+    actions: {
       createNewExpense,
       getExpenses,
       getExpensesByCategories: fetchData,
       deleteExpense,
       editExpense,
     },
-  ]
+  }
 }

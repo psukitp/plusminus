@@ -9,6 +9,7 @@ import {
   ExpensesRecord,
   ExpensesThisMonth,
 } from '@entities/expense/model'
+import { ExpensesLastWeek } from '@entities/expense/model/types'
 
 export class ExpensesService extends BaseService {
   url: string
@@ -163,6 +164,22 @@ export class ExpensesService extends BaseService {
         {
           ...expense,
         },
+      )
+      const {
+        data: { data, message, success },
+      } = response
+      if (!success) openNotificationError(message)
+      return data
+    } catch (e) {
+      console.log(e)
+      return null
+    }
+  }
+
+  async getExpensesLastWeek(date: string): Promise<ExpensesLastWeek | null> {
+    try {
+      const response = await this.client.get(
+        `${this.url}/lastweek?date=${date}`,
       )
       const {
         data: { data, message, success },

@@ -1,92 +1,125 @@
-import { Table } from '@shared/ui'
-import { Button } from '@shared/ui'
-import { PlusOutlined } from '@ant-design/icons'
-import { initialModal } from './utils'
-import { IExpensesPage } from './types'
+import { Button } from '@shared/ui/components/button'
+import { generateChartOptions, initialModal } from './utils'
 import { Calendar } from '@shared/ui/components/calendar'
-import { Col, Flex } from 'antd'
-import { ExpensesContainer, Summary, Text, Title } from './ExpensesPage-styled'
-import { isMobile } from 'react-device-detect'
-import { NewRecord } from '@features/category'
+import { NewRecord, useExpensesCategories } from '@features/category'
 import { RecordModal } from '@features/category'
+import { List, RecordType } from '@shared/ui/list'
+import { useExpenses } from '@features/expense'
+import { useMemo, useState } from 'react'
+import dayjs from 'dayjs'
+import { useUser } from '@entities/user'
+import { getCurrencySymbol } from '@shared/utils'
+import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
+import { EChartsOption } from 'echarts'
 
-export const ExpensesPage = ({
-  currentDate,
-  columns,
-  records,
-  categories,
-  mode,
-  categoriesLoading,
-  modalInfo,
-  recordsLoading,
-  summarizedRecords,
-  summarizedColumns,
-  summarizedRecordsLoading,
-  viewModal,
-  summaryExpenses,
-  symbol,
+export const ExpensesPageComponent = ({
+  className,
+}: {
+  className?: string
+}) => {
+  const [currentDate, setCurrentDate] = useState<string>(
+    dayjs().format('YYYY-MM-DD'),
+  )
+  const [modalInfo, setModalInfo] = useState({
+    ...initialModal,
+  })
+  const [mode, setMode] = useState<'create' | 'edit'>('create')
+  const [viewModal, setViewModal] = useState<boolean>(false)
+  const [categories, , categoriesLoading] = useExpensesCategories()
+  const currency = useUser((state) => state.data.settings?.currency)
 
-  setModalInfo,
-  queriesOnCreate,
-  editExpense,
-  getExpenses,
-  getExpensesByCategories,
-  setCurrentDate,
-  setMode,
-  setViewModal,
-}: IExpensesPage) => {
+  const symbol = useMemo(() => getCurrencySymbol(currency), [currency])
+
+  const {
+    expenses: [records, recordsLoading],
+    expensesLastWeek: [expensesLastWeek],
+    actions: { createNewExpense, getExpenses, deleteExpense, editExpense },
+  } = useExpenses()
+
+  const queriesOnCreate = async (data: NewRecord) =>
+    createNewExpense({
+      ...data,
+      date: dayjs(currentDate).format('YYYY-MM-DD'),
+    } as any)
+
+  const listRecords: RecordType[] = Object.values(
+    records.reduce<{ [key: string]: RecordType }>((acc, item) => {
+      const { date } = item
+      const index = dayjs(date).format('DD.MM')
+      if (!acc[index]) {
+        acc[index] = { group: index, data: [] }
+      }
+      const {
+        amount,
+        categoryColor: color,
+        categoryName: title,
+        id: key,
+      } = item
+      acc[index].data.push({ title, color, suffix: `${amount} ${symbol}`, key })
+      return acc
+    }, {}),
+  )
+
+  const options = useMemo<EChartsOption | null>(() => {
+    return expensesLastWeek ? generateChartOptions(expensesLastWeek) : null
+  }, [expensesLastWeek])
+
+  const sum = useMemo(() => {
+    return (
+      expensesLastWeek?.values?.reduce((partialSum, a) => partialSum + a, 0) ??
+      null
+    )
+  }, [expensesLastWeek])
+
   return (
-    <ExpensesContainer>
-      <Title>
-        <Text>Расходы</Text>
-      </Title>
-      <Flex vertical={isMobile} justify="space-between">
-        <Col
-          style={{
-            paddingBottom: isMobile ? '15px' : 0,
-          }}
-        >
-          <Calendar
-            //TODO брать локаль из настроек
-            onChange={(value) => {
-              const formattedDate = value.format('YYYY-MM-DD')
-              getExpenses(formattedDate)
-              getExpensesByCategories(formattedDate)
-              setCurrentDate(formattedDate)
-            }}
-            value={currentDate}
-          />
-          <Button
-            disabled={recordsLoading}
-            onClick={() => {
-              setMode('create')
-              setViewModal(true)
-            }}
-          >
-            <PlusOutlined />
-          </Button>
-          <Table
-            className="expenses-table"
-            rowKey="id"
-            columns={columns}
-            records={records}
-            loading={recordsLoading}
-            summary={
-              <Summary>
-                Итого: {summaryExpenses} {symbol}
-              </Summary>
-            }
-          />
-        </Col>
-        <Col>
-          <Table
-            rowKey="categoryName"
-            records={summarizedRecords}
-            columns={summarizedColumns}
-            loading={summarizedRecordsLoading}
-          />
-        </Col>
-      </Flex>
+    <div className={className}>
+      <div className="expenses-content">
+        <div className="left">
+          <div className="calendar">
+            <Calendar
+              onChange={(value) => {
+                const formattedDate = value.format('YYYY-MM-DD')
+                getExpenses(formattedDate)
+                setCurrentDate(formattedDate)
+              }}
+              value={currentDate}
+            />
+          </div>
+          <div className="btn">
+            <Button
+              type="primary"
+              text="Добавить расход"
+              onClick={() => {
+                setMode('create')
+                setViewModal(true)
+              }}
+              textAlign="center"
+            />
+          </div>
+          <div className="chartBlock">
+            <div className="info">
+              <div>
+                <div className="sum">{sum ?? '-'}</div>
+                <div className="avg">
+                  {sum ? Math.round(sum / 7) : '-'} в среднем за день
+                </div>
+              </div>
+              <div className="period">
+                с {dayjs(currentDate).format('DD.MM')} по{' '}
+                {dayjs(currentDate).add(-7, 'day').format('DD.MM')}
+              </div>
+            </div>
+            {options && (
+              <div style={{height:'calc(100% - 51px)'}}>
+                <EchartsReact options={options} />
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="right">
+          <List records={listRecords} loading={recordsLoading} sort="desc" />
+        </div>
+      </div>
       {viewModal && (
         <RecordModal
           recordInfo={modalInfo}
@@ -110,6 +143,6 @@ export const ExpensesPage = ({
           onCreate={(data: NewRecord) => queriesOnCreate(data)}
         />
       )}
-    </ExpensesContainer>
+    </div>
   )
 }

@@ -153,7 +153,7 @@ const App = styled(AppContainer)<StyledComponentProps>`
 
   .content {
     width: 100%;
-    height: calc(100%-148px);
+    height: 100%;
   }
 
   .fullscreen_loader {

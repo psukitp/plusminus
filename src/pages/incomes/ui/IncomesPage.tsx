@@ -55,7 +55,7 @@ export const IncomesPage = ({
           <div className="btn">
             <Button
               type="primary"
-              text="Добавить расход"
+              text="Добавить доход"
               onClick={() => {
                 setMode('create')
                 setViewModal(true)

@@ -1,5 +1,5 @@
 import { Key } from 'react'
-import { Dates, getAxiosInstance, StringDates } from '@shared/lib'
+import { getAxiosInstance, StringDates } from '@shared/lib'
 import { ExpensesService } from '../services'
 import {
   ExpensesRecord,
@@ -7,19 +7,13 @@ import {
   ExpensesLastMonthes,
   ExpensesThisMonth,
 } from '@entities/expense/model'
+import { ExpensesLastWeek } from '@entities/expense/model/types'
 
 const client = getAxiosInstance()
 const expensesService = new ExpensesService(client)
 
 const fetchExpenses = async (date: string): Promise<ExpensesRecord[]> => {
   const result = await expensesService.getExpenses(date)
-  return result
-}
-
-const fetchExpensesByCategory = async (
-  date: string,
-): Promise<ExpensesByCategoryRecord[]> => {
-  const result = await expensesService.getExpensesByCategories(date)
   return result
 }
 
@@ -73,6 +67,13 @@ const editExpense = async (expense: {
   return result
 }
 
+const fetchExpensesLastWeek = async (
+  date: string,
+): Promise<ExpensesLastWeek | null> => {
+  const result = await expensesService.getExpensesLastWeek(date)
+  return result
+}
+
 export const expensesQueries = {
   fetchExpenses,
   createNewExpense,
@@ -81,4 +82,5 @@ export const expensesQueries = {
   fetchExpensesByLastMonthes,
   deleteExpense,
   editExpense,
+  fetchExpensesLastWeek,
 }

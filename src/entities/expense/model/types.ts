@@ -26,3 +26,8 @@ export type ExpensesThisMonth = {
   expensesTotal: number
   expensesDiff: number
 }
+
+export type ExpensesLastWeek = {
+  days: string[]
+  values: number[]
+}

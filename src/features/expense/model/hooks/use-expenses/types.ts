@@ -1,11 +1,12 @@
 import { ExpensesByCategoryRecord, ExpensesRecord } from '@entities/expense'
-import { ColumnsType } from 'antd/es/table'
+import { ExpensesLastWeek } from '@entities/expense/model/types'
 import { Key } from 'react'
 
-export type UseExpensesResult = [
-  [ExpensesRecord[], ColumnsType<ExpensesRecord>, boolean],
-  [ExpensesByCategoryRecord[], ColumnsType<ExpensesByCategoryRecord>, boolean],
-  {
+export type UseExpensesResult = {
+  expenses: [ExpensesRecord[], boolean]
+  expensesByCategory: [ExpensesByCategoryRecord[], boolean]
+  expensesLastWeek: [ExpensesLastWeek | null]
+  actions: {
     createNewExpense: ({
       amount,
       categoryId,
@@ -25,5 +26,5 @@ export type UseExpensesResult = [
       categoryId: Key | null
       id: Key | null
     }) => void
-  },
-]
+  }
+}
