@@ -11,6 +11,7 @@ export const theme: DefaultTheme = {
   pallete: {
     primary: {
       orange: '#E05A29',
+      orangeLight: '#E36A3D',
       purple: '#9C90FC',
     },
     content: {

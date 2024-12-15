@@ -82,7 +82,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
           />
         </WidgetContainer>
         <WidgetContainer {...grid[5]}>
-          <PercentWidget title={'Самые большие категории расходов, период'} />
+          <PercentWidget title={''} />
         </WidgetContainer>
         <WidgetContainer {...grid[6]}>
           <ChartWidget

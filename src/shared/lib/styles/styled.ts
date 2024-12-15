@@ -11,6 +11,7 @@ declare module 'styled-components' {
     pallete: {
       primary: {
         orange: string
+        orangeLight: string
         purple: string
       }
       content: {

@@ -32,6 +32,15 @@ export const Button = styled(ButtonComponent)`
         pallete: { content },
       },
     }) => (type === 'primary' ? 'none' : `1px solid ${content.main}`)};
+
+    background-color: ${({
+      type,
+      theme: {
+        pallete: { primary },
+      },
+    }) => type === 'primary' && primary.orangeLight};
+
+    transition: 0.5s ease-in-out;
   }
 
   .icon {
