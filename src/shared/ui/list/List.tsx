@@ -1,27 +1,27 @@
-import styled from 'styled-components'
-import { RecordType } from './types'
+import { IListProps } from './types'
 import { Loader } from '../loader'
 import { Fragment, useMemo } from 'react'
+import { Item } from './Item'
 
 export const ListComponent = ({
   records,
   className,
   loading,
   sort = null,
-}: {
-  records: RecordType[]
-  loading?: boolean
-  className?: string
-  sort?: 'asc' | 'desc' | null
-}) => {
+
+  sortFunc,
+  onEdit,
+  onDelete,
+}: IListProps) => {
   const sortedRecords = useMemo(() => {
+    if (sortFunc) return records.sort(sortFunc)
     if (!sort) return records
     return records.sort((a, b) =>
       sort === 'asc'
         ? a.group.localeCompare(b.group)
         : b.group.localeCompare(a.group),
     )
-  }, [records, sort])
+  }, [records, sort, sortFunc])
 
   return loading ? (
     <Loader />
@@ -31,29 +31,18 @@ export const ListComponent = ({
         <Fragment key={r.group}>
           <div className="group">{r.group}</div>
           {r.data.map((el) => (
-            <Record color={el?.color} key={el.key}>
-              <span className="title">{el.title}</span>{' '}
-              <span>{el?.suffix}</span>
-            </Record>
+            <Item
+              key={el.key}
+              title={el.title}
+              color={el.color}
+              value={el.value}
+              suffix={el.suffix}
+              onEdit={() => onEdit?.(el)}
+              onDelete={() => onDelete?.(el.key)}
+            />
           ))}
         </Fragment>
       ))}
     </div>
   )
 }
-
-const Record = styled.div<Partial<RecordType>>`
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-
-  &:hover {
-    background: ${({ theme }) => theme.pallete.dom.white};
-    border-radius: 8px;
-  }
-
-  .title {
-    color: ${({ color }) => color ?? '#000'};
-  }
-`

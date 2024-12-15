@@ -9,7 +9,7 @@ export const List = styled(ListComponent)`
   border-radius: 8px;
 
   .group {
+    margin-top: 8px;
     font-size: 16px;
-    margin-bottom: 8px;
   }
 `

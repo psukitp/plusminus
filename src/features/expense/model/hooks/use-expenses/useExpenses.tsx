@@ -114,6 +114,7 @@ export const useExpenses = (): UseExpensesResult => {
       getExpensesByCategories: fetchData,
       deleteExpense,
       editExpense,
+      getExpensesLastWeek
     },
   }
 }

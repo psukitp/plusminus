@@ -53,11 +53,13 @@ export class ExpensesService extends BaseService {
     }
   }
 
-  async getExpensesByCategoriesMonth(): Promise<ExpensesByCategoryRecord[]> {
+  async getExpensesByCategoriesPeriod(
+    dates: StringDates,
+  ): Promise<ExpensesByCategoryRecord[]> {
     try {
       const response = await this.client.get<
         ServiceResponse<ExpensesByCategoryRecord[]>
-      >(`${this.url}/bycategory/month`)
+      >(`${this.url}/bycategory/period?from=${dates[0]}&to=${dates[1]}`)
       const {
         data: { data, message, success },
       } = response

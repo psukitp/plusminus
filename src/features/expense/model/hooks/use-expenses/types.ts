@@ -18,6 +18,7 @@ export type UseExpensesResult = {
     }) => void
     getExpenses: (date: string) => void
     getExpensesByCategories: (date: string) => void
+    getExpensesLastWeek: (date: string) => void
     deleteExpense: (
       expenseInfo: Pick<ExpensesRecord, 'id' | 'amount' | 'categoryId'>,
     ) => void

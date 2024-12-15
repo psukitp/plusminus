@@ -15,7 +15,7 @@ const ExpensesPage = styled(ExpensesPageComponent)`
 
     .chartBlock {
       height: 100%;
-      background-color: ${({ theme }) => theme.pallete.dom.background}; 
+      background-color: ${({ theme }) => theme.pallete.dom.background};
       padding: ${({ theme }) => `${theme.gaps.l}px`};
       border-radius: ${({ theme }) => `${theme.gaps.s}px`};
 

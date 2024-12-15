@@ -7,14 +7,15 @@ import { IncomesLastMonthes } from '@entities/income'
 import { ExpensesByCategoryRecord } from '@entities/expense'
 import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
+import { Dates, StringDates } from '@shared/lib'
 
-export const useChartWidget = () => {
+const format = 'YYYY-MM-DD'
+
+export const useChartWidget = (dates: Dates) => {
   const [expByCategoryLoading, setExpByCategoryLoading] =
     useState<boolean>(false)
-  const [expThisYearLoading, setExpThisYearLoading] =
-    useState<boolean>(false)
-  const [incThisYearLoading, setIncThisYearLoading] =
-    useState<boolean>(false)
+  const [expThisYearLoading, setExpThisYearLoading] = useState<boolean>(false)
+  const [incThisYearLoading, setIncThisYearLoading] = useState<boolean>(false)
   const [expByCategory, setExpByCategory] = useState<
     ExpensesByCategoryRecord[]
   >([])
@@ -32,14 +33,21 @@ export const useChartWidget = () => {
 
   const symbol = useMemo(() => getCurrencySymbol(currency), [currency])
 
+  const stringDates = useMemo<StringDates>(() => {
+    return [dates[0].format(format), dates[1].format(format)]
+  }, [dates])
+
   useEffect(() => {
     setExpByCategoryLoading(true)
-    setExpThisYearLoading(true)
-    setIncThisYearLoading(true)
     expensesQueries
-      .fetchExpensesByCategory()
+      .fetchExpensesByCategory(stringDates)
       .then((result) => setExpByCategory(result))
       .finally(() => setExpByCategoryLoading(false))
+  }, [stringDates])
+
+  useEffect(() => {
+    setExpThisYearLoading(true)
+    setIncThisYearLoading(true)
     expensesQueries
       .fetchExpensesByLastMonthes()
       .then((result) => setExpThisYear(result))
@@ -51,8 +59,7 @@ export const useChartWidget = () => {
   }, [])
 
   const expByCategiriesOptions = useMemo(
-    () =>
-      expByCategory ? generateExpByCategories(expByCategory, symbol) : {},
+    () => (expByCategory ? generateExpByCategories(expByCategory, symbol) : {}),
     [expByCategory],
   )
 

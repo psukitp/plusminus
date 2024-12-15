@@ -16,7 +16,7 @@ import { ReviewHello } from './review-hello'
 
 export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData(dates)
-  const [expByCategories, thisYear] = useChartWidget()
+  const [expByCategories, thisYear] = useChartWidget(dates)
 
   const currency = useUser((state) => state.data.settings?.currency)
 

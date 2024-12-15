@@ -1,16 +1,21 @@
 import { Button } from '@shared/ui/components/button'
 import { generateChartOptions, initialModal } from './utils'
 import { Calendar } from '@shared/ui/components/calendar'
-import { NewRecord, useExpensesCategories } from '@features/category'
-import { RecordModal } from '@features/category'
+import {
+  ModalRecordInfo,
+  NewRecord,
+  useExpensesCategories,
+} from '@features/category'
 import { List, RecordType } from '@shared/ui/list'
 import { useExpenses } from '@features/expense'
-import { useMemo, useState } from 'react'
+import { Key, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
 import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
 import { EChartsOption } from 'echarts'
+import { ConfirmModal, EditModal } from '@features/expense/ui'
+import { SelectOption } from '@shared/ui/components/select/types'
 
 export const ExpensesPageComponent = ({
   className,
@@ -25,7 +30,9 @@ export const ExpensesPageComponent = ({
   })
   const [mode, setMode] = useState<'create' | 'edit'>('create')
   const [viewModal, setViewModal] = useState<boolean>(false)
-  const [categories, , categoriesLoading] = useExpensesCategories()
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+  const [deletableId, setDeletableId] = useState<Key | null>(null)
+  const [categories] = useExpensesCategories()
   const currency = useUser((state) => state.data.settings?.currency)
 
   const symbol = useMemo(() => getCurrencySymbol(currency), [currency])
@@ -33,14 +40,40 @@ export const ExpensesPageComponent = ({
   const {
     expenses: [records, recordsLoading],
     expensesLastWeek: [expensesLastWeek],
-    actions: { createNewExpense, getExpenses, deleteExpense, editExpense },
+    actions: {
+      createNewExpense,
+      getExpenses,
+      deleteExpense,
+      editExpense,
+      getExpensesLastWeek,
+    },
   } = useExpenses()
 
-  const queriesOnCreate = async (data: NewRecord) =>
-    createNewExpense({
+  const queriesOnCreate = async (data: NewRecord) => {
+    await createNewExpense({
       ...data,
       date: dayjs(currentDate).format('YYYY-MM-DD'),
     } as any)
+
+    setViewModal(false)
+    setModalInfo({ ...initialModal })
+  }
+
+  const queriesOnEdit = async (data: ModalRecordInfo) => {
+    await editExpense(data)
+
+    setViewModal(false)
+    setModalInfo({ ...initialModal })
+  }
+
+  const sortByDates = (a: RecordType, b: RecordType) => {
+    const [aDay, aMonth] = a.group.split('.')
+    const [bDay, bMonth] = b.group.split('.')
+
+    const aDate = dayjs().set('date', +aDay).set('month', +aMonth)
+    const bDate = dayjs().set('date', +bDay).set('month', +bMonth)
+    return aDate.isAfter(bDate) ? -1 : 1
+  }
 
   const listRecords: RecordType[] = Object.values(
     records.reduce<{ [key: string]: RecordType }>((acc, item) => {
@@ -55,7 +88,7 @@ export const ExpensesPageComponent = ({
         categoryName: title,
         id: key,
       } = item
-      acc[index].data.push({ title, color, suffix: `${amount} ${symbol}`, key })
+      acc[index].data.push({ title, color, value: amount, suffix: symbol, key })
       return acc
     }, {}),
   )
@@ -71,6 +104,20 @@ export const ExpensesPageComponent = ({
     )
   }, [expensesLastWeek])
 
+  const selectOptions = useMemo<SelectOption[]>(() => {
+    return categories?.map((c) => ({
+      key: c.id,
+      label: c.name,
+      value: c.id.toString(),
+      color: c.color,
+    }))
+  }, [categories])
+
+  const onCloseDeleteModal = () => {
+    setDeletableId(null)
+    setShowDeleteModal(false)
+  }
+
   return (
     <div className={className}>
       <div className="expenses-content">
@@ -79,6 +126,7 @@ export const ExpensesPageComponent = ({
             <Calendar
               onChange={(value) => {
                 const formattedDate = value.format('YYYY-MM-DD')
+                getExpensesLastWeek(formattedDate)
                 getExpenses(formattedDate)
                 setCurrentDate(formattedDate)
               }}
@@ -105,44 +153,64 @@ export const ExpensesPageComponent = ({
                 </div>
               </div>
               <div className="period">
-                с {dayjs(currentDate).format('DD.MM')} по{' '}
-                {dayjs(currentDate).add(-7, 'day').format('DD.MM')}
+                с {dayjs(currentDate).add(-7, 'day').format('DD.MM')} по{' '}
+                {dayjs(currentDate).format('DD.MM')}
               </div>
             </div>
             {options && (
-              <div style={{height:'calc(100% - 51px)'}}>
+              <div style={{ height: 'calc(100% - 51px)' }}>
                 <EchartsReact options={options} />
               </div>
             )}
           </div>
         </div>
         <div className="right">
-          <List records={listRecords} loading={recordsLoading} sort="desc" />
+          <List
+            records={listRecords}
+            loading={recordsLoading}
+            sortFunc={sortByDates}
+            onDelete={(id) => {
+              setDeletableId(id)
+              setShowDeleteModal(true)
+            }}
+            onEdit={(exp) => {
+              const currentExp = records.find((r) => r.id === exp.key)
+              const { amount, categoryId, id } = currentExp!
+              setModalInfo({ amount, categoryId, id })
+              setMode('edit')
+              setViewModal(true)
+            }}
+          />
         </div>
       </div>
-      {viewModal && (
-        <RecordModal
-          recordInfo={modalInfo}
-          onChangeRecordInfo={(data) => setModalInfo(data)}
-          title={mode === 'create' ? 'Новая трата' : 'Редактирование'}
-          mode={mode}
-          categories={categories}
-          categoriesLoading={categoriesLoading}
-          open={viewModal}
-          onEdit={(record) =>
-            editExpense({
-              amount: record.amount,
-              categoryId: record.categoryId,
-              id: record.id,
-            })
-          }
-          onCancel={() => {
-            setViewModal(false)
-            setModalInfo({ ...initialModal })
-          }}
-          onCreate={(data: NewRecord) => queriesOnCreate(data)}
-        />
-      )}
+      <EditModal
+        open={viewModal}
+        modal={modalInfo}
+        categoryOptions={selectOptions}
+        mode={mode}
+        onChangeAmount={(amount) =>
+          setModalInfo((prev) => ({ ...prev, amount: +amount }))
+        }
+        onChangeCategory={(categoryId) =>
+          setModalInfo((prev) => ({ ...prev, categoryId }))
+        }
+        onClose={() => {
+          setViewModal(false)
+          setModalInfo({ ...initialModal })
+        }}
+        onCreate={() => queriesOnCreate(modalInfo)}
+        onEdit={() => queriesOnEdit(modalInfo)}
+      />
+      <ConfirmModal
+        open={showDeleteModal}
+        onCancel={onCloseDeleteModal}
+        onClose={onCloseDeleteModal}
+        onOk={async () => {
+          const currentExp = records.find((r) => r.id === deletableId)
+          await deleteExpense(currentExp!)
+          onCloseDeleteModal()
+        }}
+      />
     </div>
   )
 }
