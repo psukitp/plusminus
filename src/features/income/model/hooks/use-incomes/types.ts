@@ -1,12 +1,13 @@
 import { IncomesByCategoryRecord, IncomesRecord } from '@entities/income'
-import { ColumnsType } from 'antd/es/table'
+import { IncomesByPeriod } from '@entities/income/model/types'
 import { Key } from 'react'
 
-export type UseIncomesResult = [
-  [IncomesRecord[], ColumnsType<IncomesRecord>, boolean],
-  [IncomesByCategoryRecord[], ColumnsType<IncomesByCategoryRecord>, boolean],
-  {
-    createNewIncomes: ({
+export type UseIncomesResult = {
+  incomes: [IncomesRecord[], boolean]
+  incomesByCategory: [IncomesByCategoryRecord[], boolean]
+  incomesLastTwoMonth: [IncomesByPeriod | null]
+  actions: {
+    createNewIncome: ({
       amount,
       categoryId,
       date,
@@ -25,5 +26,6 @@ export type UseIncomesResult = [
       categoryId: Key | null
       id: Key | null
     }) => void
-  },
-]
+    getIncomesLastTwoMonth: (date: string) => void
+  }
+}

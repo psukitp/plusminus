@@ -15,12 +15,18 @@ export const ConfirmModalComponent = ({
       <div className={className}>
         <div className="text">Это действие нельзя отменить, вы уверены?</div>
         <div className="footer">
-          <Button onClick={onCancel} type="secondary" textAlign="center">
-            Отмена
-          </Button>
-          <Button onClick={onOk} type="primary" textAlign="center">
-            Удалить
-          </Button>
+          <Button
+            onClick={onCancel}
+            text="Отмена"
+            type="secondary"
+            textAlign="center"
+          />
+          <Button
+            onClick={onOk}
+            text="Удалить"
+            type="primary"
+            textAlign="center"
+          />
         </div>
       </div>
     </Modal>

@@ -7,6 +7,7 @@ import {
   IncomesThisMonth,
   IncomesLastMonthes,
 } from '@entities/income/model'
+import { IncomesByPeriod } from '@entities/income/model/types'
 
 const client = getAxiosInstance()
 const incomesService = new IncomesService(client)
@@ -71,6 +72,14 @@ const getTotalDiff = async (): Promise<number> => {
   return result
 }
 
+const getIncomesByPeriod = async (
+  startDate: string,
+  endDate: string,
+): Promise<IncomesByPeriod | null> => {
+  const result = await incomesService.getIncomesByPeriod(startDate, endDate)
+  return result
+}
+
 export const incomesQueries = {
   fetchIncomes,
   fetchIncomesByCategory,
@@ -80,4 +89,5 @@ export const incomesQueries = {
   deleteIncome,
   editIncome,
   getTotalDiff,
+  getIncomesByPeriod,
 }

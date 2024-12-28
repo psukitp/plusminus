@@ -136,13 +136,14 @@ export const ExpensesPageComponent = ({
           <div className="btn">
             <Button
               type="primary"
-              text="Добавить расход"
               onClick={() => {
                 setMode('create')
                 setViewModal(true)
               }}
               textAlign="center"
-            />
+            >
+              Добавить расход
+            </Button>
           </div>
           <div className="chartBlock">
             <div className="info">

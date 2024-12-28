@@ -5,6 +5,7 @@ export type SiderButtonProps = {
   active: boolean
   icon?: React.ReactElement
   linkTo?: string
+  className?: string
 
   onClick: () => void
 }

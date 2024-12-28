@@ -21,4 +21,10 @@ export const DeleteModal = styled(DeleteModalComponent)`
   .warning {
     padding-bottom: 15px;
   }
+
+  .footer {
+    display: flex;
+    justify-content: space-around;
+    gap: 24px;
+  }
 `

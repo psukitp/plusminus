@@ -1,7 +1,7 @@
 import { ButtonProps } from './types'
 
 export const ButtonComponent = ({
-  text,
+  children,
   icon,
   onClick,
   className,
@@ -9,7 +9,7 @@ export const ButtonComponent = ({
 }: ButtonProps) => {
   return (
     <button className={`${className} ${additionClass ?? ''}`} onClick={onClick}>
-      {icon && <div className="icon">{icon}</div>} <div>{text}</div>
+      {icon && <div className="icon">{icon}</div>} {children}
     </button>
   )
 }

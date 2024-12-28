@@ -1,5 +1,6 @@
-import { Modal } from 'antd'
+import { Modal } from '@shared/ui/components/modal'
 import { IDeleteModalComponentProps } from './types'
+import { Button } from '@shared/ui/components'
 
 export const DeleteModalComponent = ({
   className,
@@ -9,19 +10,7 @@ export const DeleteModalComponent = ({
   onClose,
 }: IDeleteModalComponentProps) => {
   return (
-    <Modal
-      className={className}
-      centered
-      destroyOnClose
-      open={open}
-      onCancel={onClose}
-      okText={'Удалить'}
-      cancelText={'Оставить'}
-      onOk={() => {
-        onOk()
-        onClose()
-      }}
-    >
+    <Modal className={className} open={open} onClose={onClose}>
       <div className="question">
         Ты уверен, что хочешь удалить категорию
         <strong> {category?.name} </strong>?
@@ -31,6 +20,21 @@ export const DeleteModalComponent = ({
       </div>
       <div className="warning">
         <strong>Это действие нельзя отменить!</strong>
+      </div>
+      <div className="footer">
+        <Button type="secondary" onClick={onClose} textAlign="center">
+          Оставить
+        </Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            onOk()
+            onClose()
+          }}
+          textAlign="center"
+        >
+          Удалить
+        </Button>
       </div>
     </Modal>
   )

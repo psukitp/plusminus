@@ -10,8 +10,6 @@ export const EchartsReact = ({
 }): JSX.Element => {
   const chartRef = useRef(null)
 
-  console.log(options)
-
   useEffect(() => {
     if (chartRef.current) {
       const chart = chartRef.current

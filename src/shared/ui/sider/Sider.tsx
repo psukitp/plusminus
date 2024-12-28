@@ -1,4 +1,4 @@
-import { SiderButton } from '../sider-button/SiderButton'
+import { SiderButton } from '../sider-button'
 import { ISiderProps } from './types'
 import { SettingOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'

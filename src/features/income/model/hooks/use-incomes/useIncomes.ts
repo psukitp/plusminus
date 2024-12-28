@@ -3,12 +3,14 @@ import { IncomesRecord } from '@entities/income'
 import { incomesQueries } from '@entities/income'
 import dayjs from 'dayjs'
 import { useSummarizedIncomesData } from '@entities/income'
-import { columns, summarizedColumns } from './staticUseIncomes'
 import { UseIncomesResult } from './types'
+import { IncomesByPeriod } from '@entities/income/model/types'
 
 export const useIncomes = (): UseIncomesResult => {
   const [recordsLoading, setRecordsLoading] = useState(false)
   const [records, setRecords] = useState<IncomesRecord[]>([])
+  const [incomesLastTwoMonth, setIncomesLastTwoMonth] =
+    useState<IncomesByPeriod | null>(null)
 
   const {
     data: sumRecords,
@@ -24,13 +26,20 @@ export const useIncomes = (): UseIncomesResult => {
 
   useEffect(() => {
     setRecordsLoading(true)
-    incomesQueries
-      .fetchIncomes(dayjs().format('YYYY-MM-DD'))
-      .then((result) => setRecords(result))
-      .finally(() => setRecordsLoading(false))
+    getIncomes(dayjs().format('YYYY-MM-DD'))
+    getIncomesLastTwoMonth(dayjs().format('YYYY-MM-DD'))
   }, [])
 
-  const createNewIncomes = async ({
+  const getIncomesLastTwoMonth = async (date: string) => {
+    await incomesQueries
+      .getIncomesByPeriod(
+        dayjs(date).add(-1, 'month').format('YYYY-MM-DD'),
+        date,
+      )
+      .then((result) => setIncomesLastTwoMonth(result))
+  }
+
+  const createNewIncome = async ({
     amount,
     categoryId,
     date,
@@ -95,15 +104,17 @@ export const useIncomes = (): UseIncomesResult => {
       })
   }
 
-  return [
-    [records, columns, recordsLoading],
-    [sumRecords, summarizedColumns, sumLoading],
-    {
-      createNewIncomes,
+  return {
+    incomes: [records, recordsLoading],
+    incomesByCategory: [sumRecords, sumLoading],
+    incomesLastTwoMonth: [incomesLastTwoMonth],
+    actions: {
+      createNewIncome,
       getIncomes,
       getIncomesByCategories: fetchData,
       deleteIncome,
       editIncome,
+      getIncomesLastTwoMonth,
     },
-  ]
+  }
 }

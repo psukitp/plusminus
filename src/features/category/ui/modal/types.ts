@@ -13,6 +13,8 @@ export interface IAddNewCategoryModalProps {
   open: boolean
   modalInfo: ModalInfo
   mode: 'create' | 'edit'
+  className?: string
+
   onCancel: () => void
   onCreate: (newRecord: NewCategory) => void
   onEdit: (record: Partial<Category>) => void

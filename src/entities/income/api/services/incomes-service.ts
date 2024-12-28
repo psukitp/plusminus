@@ -9,6 +9,7 @@ import {
   IncomesRecord,
   IncomesThisMonth,
 } from '@entities/income/model'
+import { IncomesByPeriod } from '@entities/income/model/types'
 
 export class IncomesService extends BaseService {
   url: string
@@ -172,6 +173,25 @@ export class IncomesService extends BaseService {
     } catch (e) {
       console.log(e)
       return 0
+    }
+  }
+
+  async getIncomesByPeriod(
+    startDate: string,
+    endDate: string,
+  ): Promise<IncomesByPeriod | null> {
+    try {
+      const response = await this.client.get(
+        `${this.url}/period?from=${startDate}&to=${endDate}`,
+      )
+      const {
+        data: { data, message, success },
+      } = response
+      if (!success) openNotificationError(message)
+      return data
+    } catch (e) {
+      console.log(e)
+      return null
     }
   }
 }

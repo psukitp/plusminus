@@ -4,7 +4,7 @@ import {
   PlusSquareOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons'
-import { SiderButton } from '../sider-button/SiderButton'
+import { SiderButton } from '../sider-button'
 import { MobileMenuButtons, MobileMenuContainer } from './MobileMenu-styled'
 import { IMenuProps } from './types'
 

@@ -4,7 +4,6 @@ import { ButtonComponent } from './Button'
 export const Button = styled(ButtonComponent)`
   padding: 12px;
   border-radius: 8px;
-  width: 100%;
   font-family: 'RobotoBold';
   display: flex;
   align-items: center;

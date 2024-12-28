@@ -25,3 +25,8 @@ export type IncomesThisMonth = {
   loading: boolean
   incomesTotal: number
 }
+
+export type IncomesByPeriod = {
+  days: string[]
+  values: number[]
+}

@@ -1,101 +1,146 @@
-import { Col, Flex, Row } from 'antd'
-import { Table } from '@shared/ui'
-import { CategoryModal } from '@features/category'
-import { PlusOutlined, ReloadOutlined } from '@ant-design/icons'
-import { Button } from '@shared/ui'
+import {
+  CategoryModal,
+  ModalInfo,
+  useExpensesCategories,
+  useIncomesCategories,
+} from '@features/category'
 import { ICategoriesPageProps } from './types'
 import { initialModal } from './utils'
-import { CategoriesContainer, SubTitle, Title } from './CategoriesPage-styled'
-import { isMobile } from 'react-device-detect'
+import { CategoryItem } from './CategoryItem'
+import { Key, useCallback, useState } from 'react'
+import { Category } from '@entities/category'
+import { DeleteModal } from '@features/category/ui/delete-modal'
+import { Button } from '@shared/ui/components'
+import { PlusIcon } from '@shared/ui/icons/index'
 
-export const CategoriesPage = ({
-  openModal,
-  modalInfo,
-
-  expLoading,
-  expColumns,
-  expRecords,
-
-  incLoading,
-  incColumns,
-  incRecords,
-
-  refreshExpenseCategories,
-  refreshIncomeCategories,
-  setOpenModal,
-  setModalInfo,
-  editExpenseCategory,
-  editIncomeCategory,
-  createExpenseCategory,
-  createIncomeCategory,
+export const CategoriesPageComponent = ({
+  className,
 }: ICategoriesPageProps) => {
+  const [
+    expRecords,
+    ,
+    ,
+    {
+      createNewCategory: createExpenseCategory,
+      editCategory: editExpenseCategory,
+      deleteCategory: deleteExpenseCategory,
+    },
+  ] = useExpensesCategories()
+  const [
+    incRecords,
+    ,
+    ,
+    {
+      createNewCategory: createIncomeCategory,
+      editCategory: editIncomeCategory,
+      deleteCategory: deleteIncomeCategory,
+    },
+  ] = useIncomesCategories()
+
+  const [openModal, setOpenModal] = useState({ expense: false, income: false })
+  const [modalInfo, setModalInfo] = useState<ModalInfo>({ ...initialModal })
+  const [deleteInfo, setDeleteInfo] = useState<Category | null>(null)
+  const [categoryType, setCategoryType] = useState<'expense' | 'income' | null>(
+    null,
+  )
+
+  const onEdit = useCallback(
+    (category: Category, mode: 'expense' | 'income') => {
+      setModalInfo({
+        id: category.id,
+        title: mode === 'expense' ? 'Расходы' : 'Доходы',
+        color: category.color,
+        name: category.name,
+      })
+
+      mode === 'expense'
+        ? setOpenModal((prev) => ({ ...prev, expense: true }))
+        : setOpenModal((prev) => ({ ...prev, income: true }))
+    },
+    [setModalInfo, setOpenModal],
+  )
+
+  const onOpenDeleteModal = (
+    category: Category,
+    mode: 'expense' | 'income',
+  ) => {
+    setDeleteInfo(category)
+    setCategoryType(mode)
+  }
+
+  const onDelete = useCallback(
+    (id: Key, mode: 'expense' | 'income') => {
+      if (mode === 'expense') deleteExpenseCategory(id)
+      if (mode === 'income') deleteIncomeCategory(id)
+    },
+    [deleteExpenseCategory, deleteIncomeCategory],
+  )
+
   return (
-    <CategoriesContainer>
-      <Title>Категории</Title>
-      <Row>
-        <Col
-          span={isMobile ? 24 : 12}
-          style={{
-            paddingBottom: isMobile ? '15px' : 0,
-          }}
-        >
-          <Flex align="center">
-            <SubTitle>Расходы</SubTitle>
+    <div className={className}>
+      <div className="tables">
+        <div className="table">
+          <div className="title-block">
+            <div className="category-subtitle">Расходы</div>
             <Button
-              style={{ marginRight: '10px' }}
-              type="text"
+              additionClass="addBtn"
+              type="primary"
               onClick={() => setOpenModal({ expense: true, income: false })}
             >
-              <PlusOutlined />
+              <PlusIcon />
             </Button>
-            <Button type="text" onClick={refreshExpenseCategories}>
-              <ReloadOutlined />
-            </Button>
-          </Flex>
-          <Table
-            rowKey="id"
-            loading={expLoading}
-            columns={expColumns}
-            records={expRecords}
-          />
-        </Col>
-        <Col span={isMobile ? 24 : 12}>
-          <Flex align="center">
-            <SubTitle>Доходы</SubTitle>
+          </div>
+          {expRecords.map((r) => (
+            <CategoryItem
+              label={r.name}
+              color={r.color}
+              key={r.id}
+              onDelete={() => onOpenDeleteModal(r, 'expense')}
+              onEdit={() => onEdit(r, 'expense')}
+            />
+          ))}
+        </div>
+        <div className="table">
+          <div className="title-block">
+            <div className="category-subtitle">Доходы</div>
             <Button
-              style={{ marginRight: '10px' }}
-              type="text"
+              additionClass="addBtn"
+              type="primary"
               onClick={() => setOpenModal({ expense: false, income: true })}
             >
-              <PlusOutlined />
+              <PlusIcon />
             </Button>
-            <Button type="text" onClick={refreshIncomeCategories}>
-              <ReloadOutlined />
-            </Button>
-          </Flex>
-          <Table
-            rowKey="id"
-            loading={incLoading}
-            columns={incColumns}
-            records={incRecords}
-          />
-        </Col>
-      </Row>
-      {(!!openModal.expense || !!openModal.income) && (
-        <CategoryModal
-          onCancel={() => {
-            setModalInfo({ ...initialModal })
-            setOpenModal({ expense: false, income: false })
-          }}
-          mode={modalInfo.name === '' ? 'create' : 'edit'}
-          onEdit={openModal.expense ? editExpenseCategory : editIncomeCategory}
-          onCreate={
-            openModal.expense ? createExpenseCategory : createIncomeCategory
-          }
-          open={openModal.expense || openModal.income}
-          modalInfo={modalInfo}
-        />
-      )}
-    </CategoriesContainer>
+          </div>
+          {incRecords.map((r) => (
+            <CategoryItem
+              label={r.name}
+              color={r.color}
+              key={r.id}
+              onDelete={() => onOpenDeleteModal(r, 'income')}
+              onEdit={() => onEdit(r, 'income')}
+            />
+          ))}
+        </div>
+      </div>
+      <CategoryModal
+        onCancel={() => {
+          setModalInfo({ ...initialModal })
+          setOpenModal({ expense: false, income: false })
+        }}
+        mode={modalInfo.name === '' ? 'create' : 'edit'}
+        onEdit={openModal.expense ? editExpenseCategory : editIncomeCategory}
+        onCreate={
+          openModal.expense ? createExpenseCategory : createIncomeCategory
+        }
+        open={openModal.expense || openModal.income}
+        modalInfo={modalInfo}
+      />
+      <DeleteModal
+        open={!!deleteInfo}
+        onOk={() => onDelete(deleteInfo!.id, categoryType!)}
+        category={deleteInfo!}
+        onClose={() => setDeleteInfo(null)}
+      />
+    </div>
   )
 }
