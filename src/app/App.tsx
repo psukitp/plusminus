@@ -148,7 +148,7 @@ const AppContainer = ({ className }: { className?: string }) => {
 
 const App = styled(AppContainer)<StyledComponentProps>`
   background: ${({ theme }) => theme.pallete.dom.white};
-  color: ${({ theme }) => theme.colors.textColor.default};
+  color: ${({ theme }) => theme.pallete.content.main};
   padding-bottom: ${isMobile ? '70px' : '0'};
 
   position: relative;
