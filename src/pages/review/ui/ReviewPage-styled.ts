@@ -17,7 +17,7 @@ const ReviewPage = styled(ReviewPageComponent)`
     grid-template-rows: ${isMobile ? 'repeat(10, 1fr)' : 'repeat(5, 1fr)'};
     grid-template-columns: ${isMobile ? '1fr' : 'repeat(4, 1fr)'};
     display: grid;
-    gap: 24px;
+    gap: ${({ theme: { gaps } }) => `${gaps.l}px`};
     height: ${isMobile ? '1500px' : 'calc(100% - 80px)'};
   }
 `

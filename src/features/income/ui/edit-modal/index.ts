@@ -4,7 +4,7 @@ import { EditModalComponent } from './EditModal'
 export const EditModal = styled(EditModalComponent)`
   .label {
     font-size: 12px;
-    margin-bottom: 8px;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.s}px`};
     font-weight: bold;
   }
 
@@ -20,6 +20,6 @@ export const EditModal = styled(EditModalComponent)`
   .category,
   .sum {
     width: 100%;
-    margin-bottom: 16px;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.m}px`};;
   }
 `

@@ -90,12 +90,12 @@ export const AddCurrencyModal = styled(AddCurrencyModalComponent)`
   .question,
   .radio,
   .comment {
-    padding: 8px 0;
+    padding: ${({ theme: { gaps } }) => `${gaps.s}px`} 0;
     text-align: center;
   }
 
   .question {
-    padding-bottom: 20px;
+    padding-bottom: ${({ theme: { gaps } }) => `${gaps.l}px`};
     font-weight: bold;
     font-size: 20px;
     text-align: center;

@@ -25,11 +25,13 @@ export const PieLegend = styled(PieLegendComponent)`
       justify-content: space-between;
     }
 
+    //TODO нет в теме
     .name {
       color: #747487;
       font-size: 12px;
     }
 
+    //TODO нет в теме
     .amount {
       color: #383861;
       font-size: 16px;

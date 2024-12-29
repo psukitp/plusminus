@@ -2,13 +2,13 @@ import styled from 'styled-components'
 import { ItemComponent } from './Item'
 
 export const Item = styled(ItemComponent)`
-  margin-top: 8px;
-  padding: 12px;
+  margin-top: ${({ theme: { gaps } }) => `${gaps.s}px`};
+  padding: ${({ theme: { gaps } }) => `${gaps.m}px`};
   cursor: pointer;
   border-radius: 8px;
 
   .comment {
-    margin-top: 24px;
+    margin-top: ${({ theme: { gaps } }) => `${gaps.l}px`};
     font-size: 12px;
     width: 100%;
     color: ${({ theme }) => theme.pallete.content.light};
@@ -26,7 +26,7 @@ export const Item = styled(ItemComponent)`
     .right-side {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: ${({ theme: { gaps } }) => `${gaps.m}px`};
     }
   }
 

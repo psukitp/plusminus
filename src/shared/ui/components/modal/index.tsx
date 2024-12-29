@@ -18,7 +18,7 @@ export const Modal = styled(ModalComponent)`
 
     .title {
       font-size: 16px;
-      padding-bottom: 24px;
+      padding-bottom: ${({ theme: { gaps } }) => `${gaps.l}px`};
       font-weight: bold;
     }
 

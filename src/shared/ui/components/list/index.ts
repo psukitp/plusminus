@@ -5,11 +5,11 @@ export { type RecordType } from './types'
 
 export const List = styled(ListComponent)`
   background: ${({ theme }) => theme.pallete.dom.background};
-  padding: 24px;
+  padding: ${({ theme: { gaps } }) => `${gaps.l}px`};
   border-radius: 8px;
 
   .group {
-    margin-top: 8px;
+    margin-top: ${({ theme: { gaps } }) => `${gaps.s}px`};;
     font-size: 16px;
   }
 `

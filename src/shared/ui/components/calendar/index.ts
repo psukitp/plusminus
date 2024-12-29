@@ -6,7 +6,7 @@ export const Calendar = styled(CalendarComponent)`
   border-radius: 8px;
   outline: 1px solid #000;
   min-width: 300px;
-  padding: 24px;
+  padding: ${({ theme: { gaps } }) => `${gaps.l}px`};
 
   .weekDays {
     color: ${({ theme }) => theme.pallete.content.light};

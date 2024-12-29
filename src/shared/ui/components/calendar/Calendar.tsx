@@ -54,7 +54,10 @@ export const CalendarComponent = ({
   return (
     <div className={className}>
       <div className="month">
-        <div onClick={() => setCurrentDate((prev) => prev.add(-1, 'month'))}>
+        <div
+          className="icon-left"
+          onClick={() => setCurrentDate((prev) => prev.add(-1, 'month'))}
+        >
           <LeftArrow />
         </div>
         <div>

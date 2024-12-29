@@ -13,23 +13,24 @@ const AuthPage = styled(AuthPageComponent)`
   justify-content: center;
   overflow: auto;
 
-  background-color: #f7f4ef;
+  background-color: ${({ theme: { pallete } }) => `${pallete.dom.background}`};
+
   .form {
     max-width: 380px;
     border-radius: 16px;
     width: 100%;
-    background: #fff;
+    background: ${({ theme: { pallete } }) => `${pallete.dom.white}`};
     display: flex;
     flex-direction: column;
-    padding: 36px;
-    gap: 8px;
+    padding: ${({ theme: { gaps } }) => `${gaps.xl}px`};
+    gap: ${({ theme: { gaps } }) => `${gaps.s}px`};
   }
 
   .welcome {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.xl}px`};
   }
 
   .label {
@@ -40,10 +41,10 @@ const AuthPage = styled(AuthPageComponent)`
     display: flex;
     justify-content: center;
     font-size: 12px;
-    margin-top: 16px;
+    margin-top: ${({ theme: { gaps } }) => `${gaps.m}px`};
 
     span {
-      color: #e05a29;
+      color: ${({ theme: { pallete } }) => `${pallete.primary.orange}`};
     }
   }
 
@@ -51,9 +52,9 @@ const AuthPage = styled(AuthPageComponent)`
     display: flex;
     justify-content: end;
     font-size: 12px;
-    margin-bottom: 32px;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.xl}px`};
     a {
-      color: #e05a29;
+      color: ${({ theme: { pallete } }) => `${pallete.primary.orange}`};
     }
   }
 `

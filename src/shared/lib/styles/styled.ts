@@ -20,6 +20,7 @@ declare module 'styled-components' {
       }
       dom: {
         white: string
+        black: string
         background: string
       }
     }

@@ -3,7 +3,7 @@ import { ConfirmModalComponent } from './ConfirmModal'
 
 export const ConfirmModal = styled(ConfirmModalComponent)`
   .text {
-    margin-bottom: 24px;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.l}px`};;
   }
 
   .footer {

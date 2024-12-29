@@ -39,11 +39,11 @@ export const Button = styled(ButtonComponent)`
       },
     }) => type === 'primary' && primary.orangeLight};
 
-    transition: 0.5s ease-in-out;
+    transition: 0.2s ease-in-out;
   }
 
   .icon {
-    margin-right: ${({ theme: { gaps } }) => `${gaps.s}px`};
+    margin-right: ${({ theme: { gaps } }) => `${gaps.m}px`};
     height: 20px;
     width: 20px;
     path {

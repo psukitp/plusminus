@@ -146,7 +146,6 @@ const AppContainer = ({ className }: { className?: string }) => {
   )
 }
 
-//TODO разобраться со шрифтом
 const App = styled(AppContainer)<StyledComponentProps>`
   background: ${({ theme }) => theme.pallete.dom.white};
   color: ${({ theme }) => theme.colors.textColor.default};

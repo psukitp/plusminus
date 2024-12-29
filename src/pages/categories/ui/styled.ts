@@ -3,7 +3,7 @@ import { CategoriesPageComponent } from './CategoriesPage'
 
 const CategoriesPage = styled(CategoriesPageComponent)`
   overflow: auto;
-  padding: 30px 25px;
+  padding: ${({ theme: { gaps } }) => `${gaps.xl}px ${gaps.l}px`};
   width: 100%;
 
   .category-title {
@@ -21,8 +21,8 @@ const CategoriesPage = styled(CategoriesPageComponent)`
   .title-block {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
-    gap: 8px;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.l}px`};
+    gap: ${({ theme: { gaps } }) => `${gaps.s}px`};
 
     .addBtn {
       padding: 2px;
@@ -32,7 +32,7 @@ const CategoriesPage = styled(CategoriesPageComponent)`
   .tables {
     display: flex;
     justify-content: space-between;
-    gap: 24px;
+    gap: ${({ theme: { gaps } }) => `${gaps.m}px`};
     .table {
       width: 100%;
     }

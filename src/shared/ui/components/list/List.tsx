@@ -1,5 +1,5 @@
 import { IListProps } from './types'
-import { Loader } from '../loader'
+import { Loader } from '../../loader'
 import { Fragment, useMemo } from 'react'
 import { Item } from './Item'
 

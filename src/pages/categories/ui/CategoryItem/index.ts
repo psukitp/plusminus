@@ -2,24 +2,24 @@ import styled from 'styled-components'
 import { CategoryItemComponent } from './CategoryItem'
 
 export const CategoryItem = styled(CategoryItemComponent)`
-  padding: 12px;
+  padding: ${({ theme: { gaps } }) => `${gaps.m}px`};
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-weight: 800;
-  background: #f7f4ef;
+  background: ${({ theme: { pallete } }) => `${pallete.dom.background}`};
   border-radius: 8px;
-  margin-bottom: 8px;
+  margin-bottom: ${({ theme: { gaps } }) => `${gaps.s}px`};
 
   .title,
   .actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: ${({ theme: { gaps } }) => `${gaps.m}px`};
   }
 
   .title {
-    gap: 8px;
+    gap: ${({ theme: { gaps } }) => `${gaps.s}px`};
   }
 
   .color {

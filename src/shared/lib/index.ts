@@ -18,8 +18,5 @@ export {
   type StyledComponentProps,
   type Theme,
   type Common,
-  common,
-  themeDark,
-  themeLight,
   theme,
 } from './styles'

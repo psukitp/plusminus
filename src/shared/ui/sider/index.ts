@@ -35,7 +35,7 @@ export const Sider = styled(SiderComponent)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 24px;
+    padding-top: ${({ theme: { gaps } }) => `${gaps.l}px`};
     row-gap: 10px;
   }
 
@@ -44,8 +44,8 @@ export const Sider = styled(SiderComponent)`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: ${({ theme: { gaps } }) => `${gaps.s}px`};
     margin: auto auto;
-    padding-bottom: 40px;
+    padding-bottom: ${({ theme: { gaps } }) => `${gaps.xl}px`};
   }
 `

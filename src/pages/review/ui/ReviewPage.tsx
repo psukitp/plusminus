@@ -38,6 +38,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             text={`${getFormattedAmount(expenses.expensesTotal)} ${symbol}`}
             isLoading={expenses.loading}
             diff={expenses.expensesDiff}
+            dates={dates}
             positive={expenses.expensesDiff < 0}
             type="primary"
           />
@@ -48,6 +49,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             text={`${getFormattedAmount(incomes.incomesTotal)} ${symbol}`}
             isLoading={incomes.loading}
             diff={incomes.incomesTotal}
+            dates={dates}
             type="secondary"
           />
         </WidgetContainer>
@@ -57,6 +59,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             text={`${getFormattedAmount(remainingSum.remainingTotal)} ${symbol}`}
             isLoading={expenses.loading && incomes.loading}
             positive={remainingSum.remainingDiff > 0}
+            additionalText={`${Math.floor((remainingSum.remainingDiff / incomes.incomesTotal) * 100)}% от дохода`}
             type="outlined"
           />
         </WidgetContainer>
@@ -65,6 +68,9 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             title="Остаток за все время"
             isLoading={diffTotal.loading}
             text={`${getFormattedAmount(diffTotal.diffTotal)} ${symbol}`}
+            additionalText={
+              diffTotal.diffTotal > 0 ? 'Так держать!' : 'Все получится!'
+            }
             type="primary"
           />
         </WidgetContainer>

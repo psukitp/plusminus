@@ -1,5 +1,2 @@
-export { common } from './common'
-export { themeDark } from './theme-dark'
-export { themeLight } from './theme-light'
 export type { Common, StyledComponentProps, Theme } from './types'
 export { theme } from './theme'

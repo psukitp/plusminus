@@ -5,7 +5,7 @@ export type { ModalInfo } from './types'
 
 export const CategoryModal = styled(CategoryModalComponent)`
   .label {
-    margin-bottom: 8px;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.s}px`};;
     font-size: 12px;
   }
 
@@ -17,7 +17,7 @@ export const CategoryModal = styled(CategoryModalComponent)`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 24px;
+    margin-top: ${({ theme: { gaps } }) => `${gaps.l}px`};;
 
     .saveBtn {
       max-width: 100px;

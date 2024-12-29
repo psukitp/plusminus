@@ -3,7 +3,7 @@ import { ExpensesPageComponent } from './ExpensesPage'
 
 const ExpensesPage = styled(ExpensesPageComponent)`
   overflow: auto;
-  padding: 30px 25px;
+  padding: ${({ theme: { gaps } }) => `${gaps.xl}px ${gaps.l}px`};
   width: 100%;
   height: calc(100% - 98px);
 

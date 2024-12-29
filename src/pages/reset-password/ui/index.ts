@@ -17,7 +17,7 @@ const ResetPassword = styled(ResetPasswordComponent)`
   .input {
     max-width: 400px;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.s}px`};
     text-align: center;
 
     &::placeholder {
