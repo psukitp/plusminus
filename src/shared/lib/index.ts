@@ -1,8 +1,10 @@
 export type {
-  ComponentProps,
   ServiceResponse,
   Dates,
   StringDates,
+  ThemeType,
+  Currency,
+  Locale,
 } from './types'
 export { getAxiosInstance, BaseService } from './api'
 export { Highchart } from './highcharts'
@@ -16,8 +18,8 @@ export {
   type StyledComponentProps,
   type Theme,
   type Common,
-  GlobalStyle,
   common,
   themeDark,
   themeLight,
+  theme,
 } from './styles'

@@ -1,5 +1,5 @@
 import { Category } from '@entities/category'
-import { IncomesByCategoryRecord, IncomesRecord } from '@entities/income'
+import { IncomesByCategoryRecord, IncomesRecord } from '@entities/income/model'
 import { NewRecord, ModalRecordInfo } from '@features/category'
 import { ColumnsType } from 'antd/es/table'
 

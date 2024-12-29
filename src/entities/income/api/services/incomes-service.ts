@@ -8,8 +8,8 @@ import {
   IncomesLastMonthes,
   IncomesRecord,
   IncomesThisMonth,
+  IncomesByPeriod,
 } from '@entities/income/model'
-import { IncomesByPeriod } from '@entities/income/model/types'
 
 export class IncomesService extends BaseService {
   url: string

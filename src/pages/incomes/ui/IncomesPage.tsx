@@ -9,11 +9,11 @@ import { Button } from '@shared/ui/components/button'
 import { EditModal, useIncomes } from '@features/income'
 import { Key, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
-import { List, RecordType } from '@shared/ui/list'
+import { List, RecordType } from '@shared/ui'
 import { getCurrencySymbol } from '@shared/utils'
 import { useUser } from '@entities/user'
 import { ConfirmModal } from '@features/expense/ui'
-import { SelectOption } from '@shared/ui/components/select/types'
+import { SelectOption } from '@shared/ui'
 import { EChartsOption } from 'echarts'
 import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
 
@@ -84,7 +84,13 @@ export const IncomesPageComponent = ({ className }: { className?: string }) => {
         categoryName: title,
         id: key,
       } = item
-      acc[index].data.push({ title, color, value: `+ ${amount}`, suffix: symbol, key })
+      acc[index].data.push({
+        title,
+        color,
+        value: `+ ${amount}`,
+        suffix: symbol,
+        key,
+      })
       return acc
     }, {}),
   )

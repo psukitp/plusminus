@@ -1,13 +1,13 @@
 import { Key } from 'react'
-import { Dates, getAxiosInstance, StringDates } from '@shared/lib'
+import { getAxiosInstance, StringDates } from '@shared/lib'
 import { IncomesService } from '../services'
 import {
   IncomesRecord,
   IncomesByCategoryRecord,
   IncomesThisMonth,
   IncomesLastMonthes,
+  IncomesByPeriod,
 } from '@entities/income/model'
-import { IncomesByPeriod } from '@entities/income/model/types'
 
 const client = getAxiosInstance()
 const incomesService = new IncomesService(client)

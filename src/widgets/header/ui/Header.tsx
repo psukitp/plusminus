@@ -2,7 +2,7 @@ import { useUser } from '@entities/user'
 import { IHeaderComponentProps } from './types'
 import { Segmented } from '@shared/ui/components/segmented'
 import { Key, useCallback, useState } from 'react'
-import { SegmentedOption } from '@shared/ui/components/segmented/types'
+import { SegmentedOption } from '@shared/ui'
 import dayjs, { Dayjs } from 'dayjs'
 
 const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [

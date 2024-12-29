@@ -1,7 +1,7 @@
 import { useUser } from '@entities/user'
 import { userSettingsQueries } from '@features/user-info/api'
 import { openNotificationSuccess } from '@shared/lib'
-import { Currency } from '@shared/lib/types'
+import { Currency } from '@shared/lib'
 import { getCurrencySymbol } from '@shared/utils'
 import { Button, Flex, Modal, Radio } from 'antd'
 import { useCallback, useMemo, useState } from 'react'

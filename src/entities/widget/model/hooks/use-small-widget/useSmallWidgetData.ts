@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
-import { incomesQueries, IncomesThisMonth } from '@entities/income'
+import { IncomesThisMonth } from '@entities/income/model'
+import { incomesQueries } from '@entities/income/api'
 import { expensesQueries, ExpensesThisMonth } from '@entities/expense'
 import { Dates, StringDates } from '@shared/lib'
 

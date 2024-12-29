@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { SelectComponent } from './Select'
 
+export { type SelectOption } from './types'
+
 export const Select = styled(SelectComponent)`
   select {
     cursor: pointer;

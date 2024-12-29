@@ -1,5 +1,5 @@
-import { IncomesByCategoryRecord, IncomesRecord } from '@entities/income'
-import { IncomesByPeriod } from '@entities/income/model/types'
+import { IncomesByCategoryRecord, IncomesRecord } from '@entities/income/model'
+import { IncomesByPeriod } from '@entities/income/model'
 import { Key } from 'react'
 
 export type UseIncomesResult = {

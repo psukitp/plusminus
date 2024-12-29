@@ -12,7 +12,8 @@
       "@entities/*": ["entities/*"],
       "@features/*": ["features/*"],
       "@shared/*": ["shared/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@widgets/*": ["widgets/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

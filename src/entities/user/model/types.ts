@@ -1,4 +1,4 @@
-import { Currency, Locale, ThemeType } from '@shared/lib/types'
+import { Currency, Locale, ThemeType } from '@shared/lib'
 import { Key } from 'react'
 
 export type AuthFormData = {

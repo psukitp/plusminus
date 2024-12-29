@@ -1,10 +1,10 @@
 import { Key, useEffect, useState } from 'react'
-import { IncomesRecord } from '@entities/income'
-import { incomesQueries } from '@entities/income'
+import { IncomesRecord } from '@entities/income/model'
+import { incomesQueries } from '@entities/income/api'
 import dayjs from 'dayjs'
-import { useSummarizedIncomesData } from '@entities/income'
+import { useSummarizedIncomesData } from '@entities/income/store'
 import { UseIncomesResult } from './types'
-import { IncomesByPeriod } from '@entities/income/model/types'
+import { IncomesByPeriod } from '@entities/income/model'
 
 export const useIncomes = (): UseIncomesResult => {
   const [recordsLoading, setRecordsLoading] = useState(false)

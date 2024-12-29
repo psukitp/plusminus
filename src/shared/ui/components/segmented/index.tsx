@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { SegmentedComponent, SegmentedButton } from './Segmented'
 
+export { type SegmentedOption } from './types'
+
 export const Segmented = styled(SegmentedComponent)`
   background-color: ${({ theme }) => theme.pallete.dom.background};
   padding: 4px;

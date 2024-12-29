@@ -6,7 +6,7 @@ import {
   NewRecord,
   useExpensesCategories,
 } from '@features/category'
-import { List, RecordType } from '@shared/ui/list'
+import { List, RecordType } from '@shared/ui'
 import { useExpenses } from '@features/expense'
 import { Key, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
@@ -15,7 +15,7 @@ import { getCurrencySymbol } from '@shared/utils'
 import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
 import { EChartsOption } from 'echarts'
 import { ConfirmModal, EditModal } from '@features/expense/ui'
-import { SelectOption } from '@shared/ui/components/select/types'
+import { SelectOption } from '@shared/ui'
 
 export const ExpensesPageComponent = ({
   className,
@@ -88,7 +88,13 @@ export const ExpensesPageComponent = ({
         categoryName: title,
         id: key,
       } = item
-      acc[index].data.push({ title, color, value: `- ${amount}`, suffix: symbol, key })
+      acc[index].data.push({
+        title,
+        color,
+        value: `- ${amount}`,
+        suffix: symbol,
+        key,
+      })
       return acc
     }, {}),
   )

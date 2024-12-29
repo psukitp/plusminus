@@ -1,5 +1,5 @@
 import { ModalRecordInfo } from '@features/category'
-import { SelectOption } from '@shared/ui/components/select/types'
+import { SelectOption } from '@shared/ui'
 import { Key } from 'react'
 
 export interface IEditModalProps {

@@ -1,4 +1,4 @@
-import { Currency } from '@shared/lib/types'
+import { Currency } from '@shared/lib'
 
 export const getCurrencySymbol = (currency: Currency | undefined): string => {
   switch (currency) {

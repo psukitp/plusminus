@@ -1,4 +1,4 @@
-import { IncomesByPeriod } from '@entities/income/model/types'
+import { IncomesByPeriod } from '@entities/income/model'
 import { ModalRecordInfo } from '@features/category'
 import dayjs from 'dayjs'
 import { EChartsOption } from 'echarts'

@@ -1,5 +1,5 @@
 import { ExpensesLastMonthes } from '@entities/expense'
-import { IncomesLastMonthes } from '@entities/income'
+import { IncomesLastMonthes } from '@entities/income/model'
 import { EChartsOption } from 'echarts'
 
 export const generateLastMonthes = (

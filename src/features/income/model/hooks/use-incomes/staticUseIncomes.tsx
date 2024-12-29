@@ -1,4 +1,4 @@
-import { IncomesByCategoryRecord, IncomesRecord } from '@entities/income'
+import { IncomesByCategoryRecord, IncomesRecord } from '@entities/income/model'
 import { ColumnsType } from 'antd/es/table'
 
 export const columns: ColumnsType<IncomesRecord> = [

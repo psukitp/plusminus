@@ -6,9 +6,13 @@ import styled from 'styled-components'
 import { isBrowser, isMobile } from 'react-device-detect'
 import { StyledComponentProps } from '@shared/lib'
 import { useAuth, useUser } from '@entities/user'
-import { ActiveCaption } from '@shared/ui'
-import { Loader, MobileMenu, Sider } from '@shared/ui'
-import { LazyComponent } from '@shared/ui'
+import {
+  ActiveCaption,
+  Loader,
+  MobileMenu,
+  Sider,
+  LazyComponent,
+} from '@shared/ui'
 import { AuthPage } from '@pages/auth'
 import { RegisterPage } from '@pages/register'
 import { ExpensesPage } from '@pages/expenses'
@@ -18,7 +22,7 @@ import { ProfilePage } from '@pages/profile'
 import { SettingsPage } from '@pages/settings'
 import { AddCurrencyModal } from '@features/user-info'
 import { ResetPasswordPage } from '@pages/reset-password'
-import { Header } from '../widgets/header/ui'
+import { Header } from '@widgets/header/ui'
 import dayjs, { Dayjs } from 'dayjs'
 
 const initialActiveCaption: ActiveCaption = {
