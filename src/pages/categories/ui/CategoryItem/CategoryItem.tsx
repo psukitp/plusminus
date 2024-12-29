@@ -1,6 +1,5 @@
 import { ICategoryItemProps } from './types'
-import { Edit } from '@shared/ui/icons/index'
-import { Delete } from '@shared/ui/icons/index'
+import { Edit, Delete } from '@shared/ui/icons'
 
 export const CategoryItemComponent = ({
   label,

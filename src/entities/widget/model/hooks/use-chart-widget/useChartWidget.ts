@@ -1,17 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ExpensesLastMonthes, expensesQueries } from '@entities/expense'
-import { generateExpByCategories } from './generateExpByMonth'
-import { generateLastMonthes as generateThisYear } from './generateExpLasMonthes'
+import { generateExpByCategories } from './generateExpByCategories'
+import { generateLastMonthes as generateThisYear } from './generateLastMonthes'
 import { incomesQueries } from '@entities/income'
 import { IncomesLastMonthes } from '@entities/income'
 import { ExpensesByCategoryRecord } from '@entities/expense'
 import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
 import { Dates, StringDates } from '@shared/lib'
+import { UseChartWidgetResult } from './types'
 
 const format = 'YYYY-MM-DD'
 
-export const useChartWidget = (dates: Dates) => {
+export const useChartWidget = (dates: Dates): UseChartWidgetResult => {
   const [expByCategoryLoading, setExpByCategoryLoading] =
     useState<boolean>(false)
   const [expThisYearLoading, setExpThisYearLoading] = useState<boolean>(false)
@@ -77,5 +78,6 @@ export const useChartWidget = (dates: Dates) => {
       options: thisYearOptions,
       loading: expThisYearLoading || incThisYearLoading,
     },
+    expByCategory,
   ]
 }

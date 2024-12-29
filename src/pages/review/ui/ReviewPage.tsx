@@ -13,10 +13,11 @@ import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
 import styled from 'styled-components'
 import { ReviewHello } from './review-hello'
+import { PieLegend } from '@features/category/ui/pie-legend'
 
 export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData(dates)
-  const [expByCategories, thisYear] = useChartWidget(dates)
+  const [expByCategories, thisYear, expRecords] = useChartWidget(dates)
 
   const currency = useUser((state) => state.data.settings?.currency)
 
@@ -52,10 +53,9 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
         </WidgetContainer>
         <WidgetContainer {...grid[2]}>
           <SmallWidget
-            title="Остаток (указать)"
+            title="Остаток за период"
             text={`${getFormattedAmount(remainingSum.remainingTotal)} ${symbol}`}
             isLoading={expenses.loading && incomes.loading}
-            diff={remainingSum.remainingDiff}
             positive={remainingSum.remainingDiff > 0}
             type="outlined"
           />
@@ -69,17 +69,20 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
           />
         </WidgetContainer>
         <WidgetContainer {...grid[4]}>
-          <ChartWidget
-            options={expByCategories.options}
-            haveData={
-              Array.isArray(expByCategories.options?.series) &&
-              expByCategories.options?.series?.some(
-                (s: any) => s?.data.length > 0,
-              )
-            }
-            isLoading={expByCategories.loading}
-            title="Расходы по категориями"
-          />
+          <>
+            <ChartWidget
+              options={expByCategories.options}
+              haveData={
+                Array.isArray(expByCategories.options?.series) &&
+                expByCategories.options?.series?.some(
+                  (s: any) => s?.data.length > 0,
+                )
+              }
+              isLoading={expByCategories.loading}
+              title="Расходы по категориями"
+              customFooter={<PieLegend records={expRecords} />}
+            />
+          </>
         </WidgetContainer>
         <WidgetContainer {...grid[5]}>
           <PercentWidget title={''} />

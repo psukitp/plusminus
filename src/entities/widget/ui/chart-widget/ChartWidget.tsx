@@ -11,15 +11,25 @@ export const ChartWidget = ({
   title,
   isLoading,
   haveData,
+  customFooter,
 }: IChartWidgetProps) => {
   const parentRef = useRef<HTMLDivElement | null>(null)
-  const chartOptions = options
 
   return (
-    <Widget ref={parentRef} title={title} type="default">
+    <Widget
+      ref={parentRef}
+      title={title}
+      type="default"
+      customFooter={customFooter}
+    >
       <>
         {isLoading && <Loader />}
-        {!isLoading && haveData && <EchartsReact options={chartOptions} />}
+        {!isLoading && haveData && (
+          <EchartsReact
+            options={options}
+            style={customFooter ? { height: 'calc(100% - 230px)' } : {}}
+          />
+        )}
         {!isLoading && !haveData && <Empty description="Нет данных" />}
       </>
     </Widget>

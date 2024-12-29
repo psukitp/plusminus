@@ -88,7 +88,7 @@ export const ExpensesPageComponent = ({
         categoryName: title,
         id: key,
       } = item
-      acc[index].data.push({ title, color, value: amount, suffix: symbol, key })
+      acc[index].data.push({ title, color, value: `- ${amount}`, suffix: symbol, key })
       return acc
     }, {}),
   )

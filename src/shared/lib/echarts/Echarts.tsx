@@ -8,7 +8,7 @@ import { IEchartsReactProps } from './types'
 
 export const Echarts = (props: IEchartsReactProps): JSX.Element => {
   const { className } = props
-  const { chartsRef, renderer = 'canvas' } = props
+  const { chartsRef, renderer = 'canvas', style } = props
 
   const localChartsRef = useRef<EChartsType>()
 
@@ -49,6 +49,7 @@ export const Echarts = (props: IEchartsReactProps): JSX.Element => {
         height: '100%',
         width: '100%',
         overflow: 'hidden',
+        ...style,
       }}
     />
   )

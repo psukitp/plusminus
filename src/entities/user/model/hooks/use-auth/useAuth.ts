@@ -15,6 +15,7 @@ const emailRegExp = /@/
 export const useAuth = () => {
   const setUserData = useUser((state) => state.setUserData)
   const setLoading = useUser((state) => state.setLoading)
+  const setInitial = useUser((state) => state.setInitial)
   const navigate = useNavigate()
 
   const onAuth = async (authData: AuthFormData) => {
@@ -55,7 +56,10 @@ export const useAuth = () => {
     if (userData) {
       setUserData(userData)
       navigate('/review')
-    } else navigate('/auth')
+    } else {
+      setInitial()
+      navigate('/auth')
+    }
     setLoading(false)
   }
 
@@ -75,7 +79,7 @@ export const useAuth = () => {
     if (!code) {
       openNotificationWarning('Не заполнено поле')
       return false
-    }  else {
+    } else {
       return await userQueries.applyCode(code)
     }
   }
@@ -94,12 +98,20 @@ export const useAuth = () => {
     }
   }
 
+  const logout = async () => {
+    setLoading(true)
+    await userQueries.logout()
+    await onCheck()
+    setLoading(false)
+  }
+
   return {
     onAuth,
     onRegister,
     onCheck,
     getResetCode,
     applyCode,
-    setPassword
+    setPassword,
+    logout,
   }
 }

@@ -2,17 +2,19 @@ import { create } from 'zustand'
 import { IUseAuth } from './types'
 import { AuthResponseData, UserSettings } from '../types'
 
+const initial: AuthResponseData = {
+  id: null,
+  name: '',
+  secondName: '',
+  login: '',
+  phone: '',
+  email: '',
+  settings: {},
+}
+
 export const useUser = create<IUseAuth>((set) => ({
   loading: false,
-  data: {
-    id: null,
-    name: '',
-    secondName: '',
-    login: '',
-    phone: '',
-    email: '',
-    settings: {},
-  },
+  data: { ...initial },
   setUserData: (userData: AuthResponseData) =>
     set({
       data: { ...userData },
@@ -27,5 +29,9 @@ export const useUser = create<IUseAuth>((set) => ({
   setLoading: (val: boolean) =>
     set({
       loading: val,
+    }),
+  setInitial: () =>
+    set({
+      data: { ...initial },
     }),
 }))

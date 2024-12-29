@@ -1,7 +1,7 @@
 import { ISmallWidgetProps } from './types'
 import { Loader } from '@shared/ui'
 import { Widget } from '../widget'
-import { PositiveChart, NegativeChart } from '@shared/ui/icons/index'
+import { PositiveChart, NegativeChart } from '@shared/ui/icons'
 
 export const SmallWidgetComponent = ({
   text,
@@ -19,12 +19,14 @@ export const SmallWidgetComponent = ({
         ) : (
           <div className="container">
             <div className="text">{text}</div>
-            <div className="diff">
-              <span className="diff_value">
-                По сравнению с предыдущим месяцем
-              </span>
-              {diff && diff > 0 ? <PositiveChart /> : <NegativeChart />}
-            </div>
+            {diff && (
+              <div className="diff">
+                <span className="diff_value">
+                  По сравнению с предыдущим месяцем
+                </span>
+                {diff > 0 ? <PositiveChart /> : <NegativeChart />}
+              </div>
+            )}
           </div>
         )}
       </Widget>

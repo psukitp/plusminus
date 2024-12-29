@@ -1,4 +1,4 @@
-import { Delete, DownArrow, Edit, UpArrow } from '@shared/ui/icons/index'
+import { Delete, DownArrow, Edit, UpArrow } from '@shared/ui/icons'
 import { useEffect, useRef, useState } from 'react'
 import { IItemProps } from './types'
 

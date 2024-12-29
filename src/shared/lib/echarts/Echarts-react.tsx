@@ -1,12 +1,14 @@
 import { EChartsOption } from 'echarts/types/dist/echarts'
-import { useEffect, useRef } from 'react'
+import { CSSProperties, useEffect, useRef } from 'react'
 
 import { Echarts } from './Echarts'
 
 export const EchartsReact = ({
   options,
+  style,
 }: {
   options: EChartsOption
+  style?: CSSProperties
 }): JSX.Element => {
   const chartRef = useRef(null)
 
@@ -20,5 +22,5 @@ export const EchartsReact = ({
     }
   }, [options])
 
-  return <Echarts chartsRef={chartRef} className="chart" />
+  return <Echarts chartsRef={chartRef} className="chart" style={style} />
 }

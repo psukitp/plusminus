@@ -1,6 +1,6 @@
 //TODO сделать настройки
 
-import { Button } from '@shared/ui'
+import { Button } from '@shared/ui/components'
 
 const SettingsPage = () => {
   return (
@@ -10,6 +10,7 @@ const SettingsPage = () => {
       </div>
       <div>
         <Button
+          type="secondary"
           onClick={() =>
             console.log('Ладно, что-то все-таки делают. В консоль пишут:)')
           }
@@ -19,6 +20,7 @@ const SettingsPage = () => {
       </div>
       <div>
         <Button
+          type="secondary"
           onClick={() =>
             console.log('Ладно, что-то все-таки делают. В консоль пишут:)')
           }
@@ -28,6 +30,7 @@ const SettingsPage = () => {
       </div>
       <div>
         <Button
+          type="secondary"
           onClick={() =>
             console.log('Ладно, что-то все-таки делают. В консоль пишут:)')
           }

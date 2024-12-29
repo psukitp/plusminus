@@ -114,10 +114,9 @@ export class UserService extends BaseService {
 
   async setPassword(password: string): Promise<AuthResponseData | null> {
     try {
-      const response = await this.client.post<ServiceResponse<AuthResponseData>>(
-        `${this.url}/setPass`,
-        { password },
-      )
+      const response = await this.client.post<
+        ServiceResponse<AuthResponseData>
+      >(`${this.url}/setPass`, { password })
       const {
         data: { data, message, success },
       } = response
@@ -126,6 +125,14 @@ export class UserService extends BaseService {
     } catch (e) {
       console.log(e)
       return null
+    }
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await this.client.post(`${this.url}/logout`)
+    } catch (e) {
+      console.log(e)
     }
   }
 }

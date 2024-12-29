@@ -5,7 +5,6 @@ import { AuthResponseData, RegisterFormData } from '../../model/types'
 const client = getAxiosInstance()
 const userService = new UserService(client)
 
-//TODO это же фичи по идее
 const auth = async (
   login: string,
   password: string,
@@ -29,14 +28,20 @@ const getResetCode = async (email: string): Promise<boolean> => {
   return res
 }
 
-const applyCode= async (code: string): Promise<boolean> => {
+const applyCode = async (code: string): Promise<boolean> => {
   const res = await userService.applyCode(code)
   return res
 }
 
-const setPassword = async (password: string): Promise<AuthResponseData | null> => {
+const setPassword = async (
+  password: string,
+): Promise<AuthResponseData | null> => {
   const res = await userService.setPassword(password)
   return res
+}
+
+const logout = async (): Promise<void> => {
+  await userService.logout()
 }
 
 export const userQueries = {
@@ -45,5 +50,6 @@ export const userQueries = {
   checkAuth,
   getResetCode,
   applyCode,
-  setPassword
+  setPassword,
+  logout,
 }

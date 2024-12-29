@@ -9,6 +9,8 @@ export type ActiveCaption = {
 
 export interface ISiderProps {
   activeCaption: ActiveCaption
-  setActiveButton: (value: Partial<ActiveCaption>) => void
   className?: string
+
+  onLogout: () => void
+  setActiveButton: (value: Partial<ActiveCaption>) => void
 }

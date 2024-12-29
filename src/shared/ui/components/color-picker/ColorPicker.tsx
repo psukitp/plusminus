@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { RgbColorPicker } from 'react-colorful'
 import { createPortal } from 'react-dom'
 import { IColorPickerProps } from './types'
-import { DownArrow, UpArrow } from '@shared/ui/icons/index'
+import { DownArrow, UpArrow } from '@shared/ui/icons'
 
 export const ColorPickerComponent = ({
   className,

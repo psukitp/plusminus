@@ -43,7 +43,7 @@ const AppContainer = ({ className }: { className?: string }) => {
 
   const user = useUser((state) => state.data)
   const loading = useUser((state) => state.loading)
-  const { onCheck } = useAuth()
+  const { onCheck, logout } = useAuth()
 
   useEffect(() => {
     onCheck()
@@ -70,6 +70,7 @@ const AppContainer = ({ className }: { className?: string }) => {
               setActiveButton={(value: Partial<ActiveCaption>) =>
                 onChangeActiveCaption(value)
               }
+              onLogout={logout}
             />
           )}
           {!!user.id && isMobile && (

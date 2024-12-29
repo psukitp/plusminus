@@ -6,4 +6,5 @@ export interface IUseAuth {
   setUserSettings: (settings: Partial<UserSettings>) => void
   setUserData: (userData: AuthResponseData) => void
   setLoading: (val: boolean) => void
+  setInitial: () => void
 }

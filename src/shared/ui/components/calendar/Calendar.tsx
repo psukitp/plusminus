@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { MonthName } from './utils'
 import { ICalendarProps } from './types'
-import { LeftArrow, RightArrow } from '@shared/ui/icons/index'
+import { LeftArrow, RightArrow } from '@shared/ui/icons'
 
 dayjs.extend(weekday)
 dayjs.extend(isoWeek)

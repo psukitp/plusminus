@@ -1,15 +1,22 @@
 import { SiderButton } from '../sider-button'
 import { ISiderProps } from './types'
-import { SettingOutlined, UserOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
-import { SiderBottomButton } from './Sider-styled'
-import { CategoriesIcon, ExpensesIcon, IncomesIcon, ReviewIcon } from '../icons'
+import {
+  CategoriesIcon,
+  ExitIcon,
+  ExpensesIcon,
+  IncomesIcon,
+  ReviewIcon,
+  SettingsIcon,
+} from '../icons'
 import { LogoWithText } from '@shared/lib/svgs/logo_w_text'
+import { Button } from '../components'
 
 export const SiderComponent = ({
   activeCaption,
-  setActiveButton,
   className,
+
+  onLogout,
+  setActiveButton,
 }: ISiderProps) => {
   return (
     <div className={className}>
@@ -63,30 +70,20 @@ export const SiderComponent = ({
         />
       </div>
       <div className="bottom">
-        <Link to="/profile">
-          <SiderBottomButton
-            active={activeCaption.profile}
-            onClick={() =>
-              setActiveButton({
-                profile: true,
-              })
-            }
-          >
-            <UserOutlined />
-          </SiderBottomButton>
-        </Link>
-        <Link to="/settings" className="settings-link">
-          <SiderBottomButton
-            active={activeCaption.settings}
-            onClick={() =>
-              setActiveButton({
-                settings: true,
-              })
-            }
-          >
-            <SettingOutlined />
-          </SiderBottomButton>
-        </Link>
+        <SiderButton
+          linkTo="settings"
+          active={activeCaption.settings}
+          text="Настройки"
+          icon={<SettingsIcon />}
+          onClick={() =>
+            setActiveButton({
+              settings: true,
+            })
+          }
+        />
+        <Button onClick={onLogout} type="secondary" icon={<ExitIcon />}>
+          Выйти
+        </Button>
       </div>
     </div>
   )

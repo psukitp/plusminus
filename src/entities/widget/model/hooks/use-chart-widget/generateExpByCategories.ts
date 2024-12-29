@@ -5,26 +5,29 @@ export const generateExpByCategories = (
   data: ExpensesByCategoryRecord[],
   symbol: string,
 ): EChartsOption => {
+  const sortedData = data.sort((a, b) => b.amount - a.amount)
   const opt: EChartsOption = {
     tooltip: {
       trigger: 'item',
-      formatter: `{c} ${symbol}`,
+      formatter: `<strong>{b}</strong> <br/> {c}${symbol} ({d}%)`,
     },
     series: [
       {
+        label: {
+          show: false,
+        },
         type: 'pie',
         radius: ['65%', '90%'],
-        itemStyle: {
-          borderRadius: 10,
-          borderWidth: 2,
-        },
         labelLine: {
           show: false,
         },
-        data: data.map((el) => ({
+        colorBy: 'data',
+        data: sortedData.map((el) => ({
           value: el.amount,
-          color: el.color,
           name: el.categoryName,
+          itemStyle: {
+            color: el.color,
+          },
         })),
       },
     ],

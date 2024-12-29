@@ -4,7 +4,14 @@ import styled from 'styled-components'
 
 export const WidgetComponent = forwardRef(
   (
-    { children, title, className, needPadding = false, type }: IWidgetProps,
+    {
+      children,
+      title,
+      className,
+      needPadding = false,
+      type,
+      customFooter,
+    }: IWidgetProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -13,6 +20,7 @@ export const WidgetComponent = forwardRef(
           {title}
         </WidgetTitle>
         {children}
+        {customFooter}
       </div>
     )
   },

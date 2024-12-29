@@ -43,9 +43,9 @@ export const Sider = styled(SiderComponent)`
     max-width: 250px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 8px;
     margin: auto auto;
-    padding-bottom: 30px;
+    padding-bottom: 40px;
   }
 `

@@ -11,7 +11,7 @@ import { Key, useCallback, useState } from 'react'
 import { Category } from '@entities/category'
 import { DeleteModal } from '@features/category/ui/delete-modal'
 import { Button } from '@shared/ui/components'
-import { PlusIcon } from '@shared/ui/icons/index'
+import { PlusIcon } from '@shared/ui/icons'
 
 export const CategoriesPageComponent = ({
   className,
