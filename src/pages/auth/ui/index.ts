@@ -1,3 +1,3 @@
 import { lazy } from 'react'
 
-export const AuthPage = lazy(() => import('./AuthPage'))
+export const AuthPage = lazy(() => import('./styled'))

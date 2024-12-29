@@ -1,3 +1,3 @@
 import { lazy } from 'react'
 
-export const RegisterPage = lazy(() => import('./RegisterPage'))
+export const RegisterPage = lazy(() => import('./styled'))
