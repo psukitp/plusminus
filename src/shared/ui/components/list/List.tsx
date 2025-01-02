@@ -23,9 +23,15 @@ export const ListComponent = ({
     )
   }, [records, sort, sortFunc])
 
-  return loading ? (
-    <Loader />
-  ) : (
+  if (loading) return <Loader />
+  if (!records || records.length < 1)
+    return (
+      <div className={className}>
+        <div className="empty">Данных не нашлось {':('}</div>
+      </div>
+    )
+
+  return (
     <div className={className}>
       {sortedRecords.map((r) => (
         <Fragment key={r.group}>

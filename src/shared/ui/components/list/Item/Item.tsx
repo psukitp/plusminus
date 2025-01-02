@@ -48,7 +48,7 @@ export const ItemComponent = ({
               <Edit />
             </button>
           )}
-          <span>{open ? <DownArrow /> : <UpArrow />}</span>
+          <span>{open ? <UpArrow /> : <DownArrow />}</span>
         </div>
       </summary>
 

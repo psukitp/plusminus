@@ -7,7 +7,7 @@ import dayjs, { Dayjs } from 'dayjs'
 
 const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
   { id: '1', label: 'Нед', value: [dayjs().add(-7, 'day'), dayjs()] },
-  { id: '2', label: 'Мес', value: [dayjs().add(-1, 'month'), dayjs()] },
+  { id: '2', label: 'Мес', value: [dayjs().startOf('month'), dayjs()] },
   { id: '3', label: 'Год', value: [dayjs().add(-1, 'year'), dayjs()] },
 ]
 

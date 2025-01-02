@@ -16,6 +16,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
           active={activeCaption.review}
           linkTo="review"
           icon={<BarChartOutlined />}
+          type="mobile"
           onClick={() =>
             setActiveButton({
               review: true,
@@ -26,6 +27,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
           active={activeCaption.expenses}
           linkTo="expenses"
           icon={<MinusSquareOutlined />}
+          type="mobile"
           onClick={() =>
             setActiveButton({
               expenses: true,
@@ -36,6 +38,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
           active={activeCaption.incomes}
           linkTo="incomes"
           icon={<PlusSquareOutlined />}
+          type="mobile"
           onClick={() =>
             setActiveButton({
               incomes: true,
@@ -46,6 +49,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
           active={activeCaption.categories}
           linkTo="categories"
           icon={<UnorderedListOutlined />}
+          type="mobile"
           onClick={() =>
             setActiveButton({
               categories: true,

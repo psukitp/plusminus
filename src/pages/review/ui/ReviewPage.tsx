@@ -23,10 +23,15 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
 
   const symbol = useMemo<string>(() => getCurrencySymbol(currency), [currency])
 
-  const grid = useMemo<GridElement[]>(
-    () => generateGrid(isMobile),
-    [isMobile, generateGrid],
-  )
+  const grid = useMemo<GridElement[]>(() => generateGrid(isMobile), [isMobile])
+
+  const percent = useMemo(() => {
+    const calculated = Math.floor(
+      (remainingSum.remainingDiff / incomes.incomesTotal) * 100,
+    )
+
+    return Number.isNaN(calculated) ? 0 : calculated
+  }, [remainingSum, incomes])
 
   return (
     <div className={className}>
@@ -59,7 +64,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             text={`${getFormattedAmount(remainingSum.remainingTotal)} ${symbol}`}
             isLoading={expenses.loading && incomes.loading}
             positive={remainingSum.remainingDiff > 0}
-            additionalText={`${Math.floor((remainingSum.remainingDiff / incomes.incomesTotal) * 100)}% от дохода`}
+            additionalText={`${percent}% от дохода`}
             type="outlined"
           />
         </WidgetContainer>
@@ -77,6 +82,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
         <WidgetContainer {...grid[4]}>
           <>
             <ChartWidget
+              title="Расходы по категориями"
               options={expByCategories.options}
               haveData={
                 Array.isArray(expByCategories.options?.series) &&
@@ -85,7 +91,6 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
                 )
               }
               isLoading={expByCategories.loading}
-              title="Расходы по категориями"
               customFooter={<PieLegend records={expRecords} />}
             />
           </>
@@ -101,7 +106,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
               thisYear.options?.series?.some((s: any) => s?.data.length > 0)
             }
             isLoading={thisYear.loading}
-            title="Доходы с начала года"
+            title="Доходы и расходы за последний год"
           />
         </WidgetContainer>
       </div>
@@ -114,4 +119,5 @@ const WidgetContainer = styled.div<GridElement>`
   grid-column-start: ${({ startCol }) => startCol};
   grid-row-end: ${({ endRow }) => endRow};
   grid-column-end: ${({ endCol }) => endCol};
+  display: inline-grid;
 `

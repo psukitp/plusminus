@@ -24,4 +24,8 @@ export const Calendar = styled(CalendarComponent)`
     table-layout: fixed;
     border-collapse: collapse;
   }
+
+  .btn{
+    cursor: pointer;
+  }
 `

@@ -19,43 +19,37 @@ export const CalendarComponent = ({
     value ? dayjs(value) : dayjs(),
   )
   const daysInMonth = currentDate.daysInMonth()
-  const firstWeekDay = +currentDate.date(1).format('d')
-  const daysArray = new Array<string>(daysInMonth).fill('day')
-  const firstWeek = new Array<string>(7).fill('day')
-  const firstDaySecondWeek = 7 + 1 - firstWeekDay + 1
+  const firstWeekDay = +currentDate.date(1).isoWeekday()
+  const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1)
 
   useEffect(() => {
     onChange && onChange(currentDate)
   }, [currentDate])
 
-  const weekArrays = useMemo(() => {
-    const result = []
-    const sliceFirstDaysArray = daysArray.slice(firstDaySecondWeek)
+  const weeks = useMemo(() => {
+    const result: number[][] = []
+    let week: number[] = Array(firstWeekDay - 1).fill(0)
 
-    let tempArray = []
-    let counter = 0
-    for (let i = 0; i < sliceFirstDaysArray.length; i++) {
-      counter++
-      if (counter % 7 != 0) {
-        tempArray.push(i)
-      } else {
-        result.push(tempArray.concat([i]))
-        tempArray = []
+    daysArray.forEach((day) => {
+      week.push(day)
+      if (week.length === 7) {
+        result.push(week)
+        week = []
       }
+    })
 
-      if (i === sliceFirstDaysArray.length - 1 && tempArray?.[0] !== null) {
-        result.push(tempArray.concat([i + 1]))
-      }
+    if (week.length) {
+      result.push([...week, ...Array(7 - week.length).fill(0)])
     }
 
     return result
-  }, [firstDaySecondWeek])
+  }, [daysArray, firstWeekDay])
 
   return (
     <div className={className}>
       <div className="month">
         <div
-          className="icon-left"
+          className="icon-left btn"
           onClick={() => setCurrentDate((prev) => prev.add(-1, 'month'))}
         >
           <LeftArrow />
@@ -63,7 +57,10 @@ export const CalendarComponent = ({
         <div>
           {MonthName[+currentDate.month() + 1]} {currentDate.year()}
         </div>
-        <div onClick={() => setCurrentDate((prev) => prev.add(1, 'month'))}>
+        <div
+          onClick={() => setCurrentDate((prev) => prev.add(1, 'month'))}
+          className="btn"
+        >
           <RightArrow />
         </div>
       </div>
@@ -80,40 +77,18 @@ export const CalendarComponent = ({
           </tr>
         </thead>
         <tbody>
-          <tr>
-            {firstWeek.map((_, index) => {
-              return (
+          {weeks.map((week, i) => (
+            <tr key={i}>
+              {week.map((day, j) => (
                 <Day
-                  key={index}
-                  active={index + 1 - firstWeekDay + 1 === currentDate.date()}
+                  key={j}
+                  active={day === currentDate.date()}
+                  nooutline={!day}
                   onClick={() =>
-                    setCurrentDate((prev) =>
-                      prev.set('date', index + 1 - firstWeekDay + 1),
-                    )
+                    day && setCurrentDate(currentDate.set('date', day))
                   }
                 >
-                  <span>
-                    {index + 1 > firstWeekDay - 1
-                      ? index + 1 - firstWeekDay + 1
-                      : null}
-                  </span>
-                </Day>
-              )
-            })}
-          </tr>
-          {weekArrays.map((week, index) => (
-            <tr key={index}>
-              {week.map((day, index) => (
-                <Day
-                  key={index}
-                  active={day + firstDaySecondWeek === currentDate.date()}
-                  onClick={() => {
-                    setCurrentDate((prev) =>
-                      prev.set('date', day + firstDaySecondWeek),
-                    )
-                  }}
-                >
-                  <span>{day + firstDaySecondWeek}</span>
+                  <span>{day || ''}</span>
                 </Day>
               ))}
             </tr>
@@ -124,13 +99,13 @@ export const CalendarComponent = ({
   )
 }
 
-const Day = styled.td<{ active: boolean }>`
+const Day = styled.td<{ active: boolean; nooutline: boolean }>`
   font-size: 16px;
   font-weight: normal;
   padding: 8px 0;
 
   &:hover {
-    cursor: pointer;
+    cursor: ${({ nooutline }) => !nooutline && 'pointer'};
   }
 
   span {
@@ -147,7 +122,8 @@ const Day = styled.td<{ active: boolean }>`
     margin: auto;
 
     &:hover {
-      outline: ${({ active }) => (active ? 'none' : '1px solid #000')};
+      outline: ${({ active, nooutline }) =>
+        active || nooutline ? 'none' : '1px solid #000'};
     }
   }
 `

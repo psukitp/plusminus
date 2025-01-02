@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 import { PieLegendComponent } from './PieLegeng'
+import { isMobile } from 'react-device-detect'
 
 export const PieLegend = styled(PieLegendComponent)`
   margin-top: 40px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: ${isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)'};
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 24px;
   grid-row-gap: 16px;

@@ -9,6 +9,7 @@ export const SiderButtonComponent = ({
   icon,
   linkTo,
   className,
+  type = 'sider',
 
   onClick,
 }: SiderButtonProps) => {
@@ -16,11 +17,11 @@ export const SiderButtonComponent = ({
     <Link to={`/${linkTo}`} className={className}>
       <Button
         additionClass="sider-button"
-        icon={icon}
+        icon={type === 'mobile' ? undefined : icon}
         onClick={onClick}
         type={active ? 'primary' : 'secondary'}
       >
-        {text}
+        {type === 'mobile' ? icon : text}
       </Button>
     </Link>
   )

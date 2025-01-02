@@ -1,3 +1,3 @@
 import { lazy } from 'react'
 
-export const ReviewPage = lazy(() => import('./ReviewPage-styled'))
+export const ReviewPage = lazy(() => import('./styled'))

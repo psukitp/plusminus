@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { CategoriesPageComponent } from './CategoriesPage'
+import { isMobile } from 'react-device-detect'
 
 const CategoriesPage = styled(CategoriesPageComponent)`
   overflow: auto;
@@ -32,7 +33,8 @@ const CategoriesPage = styled(CategoriesPageComponent)`
   .tables {
     display: flex;
     justify-content: space-between;
-    gap: ${({ theme: { gaps } }) => `${gaps.m}px`};
+    flex-direction: ${isMobile ? 'column' : 'row'};
+    gap: ${({ theme: { gaps } }) => `${isMobile ? gaps.xl : gaps.m}px`};
     .table {
       width: 100%;
     }

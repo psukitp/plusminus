@@ -6,6 +6,7 @@ export type SiderButtonProps = {
   icon?: React.ReactElement
   linkTo?: string
   className?: string
+  type?: 'mobile' | 'sider'
 
   onClick: () => void
 }

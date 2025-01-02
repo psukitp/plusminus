@@ -5,11 +5,10 @@ export const MobileMenuContainer = styled.div<StyledComponentProps>`
   position: fixed;
   bottom: 0px;
   width: 100%;
-  background: ${({ theme }) => theme.colors.mobile.containerBackground};
-  padding: 10px 0px;
   z-index: 1000;
-  border-radius: 15px;
-  padding-bottom: 30px;
+  padding-bottom: 46px;
+  padding-top: 12px;
+  background: #fff;
 `
 
 export const MobileMenuButtons = styled.div`

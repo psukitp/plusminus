@@ -1,7 +1,15 @@
-export const LeftArrow = () => (
+import { FC } from 'react'
+import { IconProps } from './types'
+
+export const LeftArrow: FC<IconProps> = ({
+  className,
+  height = 11,
+  width = 7,
+}) => (
   <svg
-    width="7"
-    height="11"
+    className={className}
+    width={width}
+    height={height}
     viewBox="0 0 7 11"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

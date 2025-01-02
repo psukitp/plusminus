@@ -2,11 +2,14 @@ import { useRef } from 'react'
 import { Widget } from '../widget'
 import { IPercentWidgetProps } from './types'
 
-export const PercentWidgetComponent = ({ title }: IPercentWidgetProps) => {
+export const PercentWidgetComponent = ({
+  title,
+  className,
+}: IPercentWidgetProps) => {
   const ref = useRef<HTMLDivElement | null>(null)
   return (
     <Widget title={title} ref={ref} type="default">
-      <>Скоро тут появится новый функционал</>
+      <div className={className}>Coming soon...</div>
     </Widget>
   )
 }

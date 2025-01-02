@@ -9,7 +9,11 @@ export const List = styled(ListComponent)`
   border-radius: 8px;
 
   .group {
-    margin-top: ${({ theme: { gaps } }) => `${gaps.s}px`};;
+    margin-top: ${({ theme: { gaps } }) => `${gaps.s}px`};
     font-size: 16px;
+  }
+
+  .empty {
+    text-align: center;
   }
 `

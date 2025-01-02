@@ -1,5 +1,6 @@
 import { ExpensesByCategoryRecord } from '@entities/expense'
 import { useMemo } from 'react'
+import { isMobile } from 'react-device-detect'
 
 export const PieLegendComponent = ({
   className,
@@ -8,13 +9,15 @@ export const PieLegendComponent = ({
   className?: string
   records: ExpensesByCategoryRecord[]
 }) => {
+  const viewCount = isMobile ? 6 : 12
+
   const sortedFirts = useMemo<Partial<ExpensesByCategoryRecord>[]>(() => {
     const sorted = records.sort((a, b) => b.amount - a.amount)
-    if (sorted.length < 12) return sorted
+    if (sorted.length < viewCount) return sorted
 
-    const first = sorted.slice(0, 11)
+    const first = sorted.slice(0, viewCount - 1)
     const remaining = sorted
-      .slice(11)
+      .slice(viewCount - 1)
       .reduce((sum, item) => sum + item.amount, 0)
 
     return [
@@ -26,6 +29,7 @@ export const PieLegendComponent = ({
       },
     ]
   }, [records])
+
   return (
     <div className={className}>
       {sortedFirts.map((r) => (
