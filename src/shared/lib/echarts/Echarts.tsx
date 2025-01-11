@@ -1,9 +1,27 @@
-import { init, dispose, type EChartsType } from 'echarts'
+import * as echarts from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { init, dispose, EChartsType } from 'echarts/core'
+import { LineChart, PieChart, BarChart } from 'echarts/charts'
+import {
+  GridComponent,
+  TooltipComponent,
+  LegendComponent,
+} from 'echarts/components'
 import { useCallback, useEffect, useRef } from 'react'
 
 import { useResizeCallback } from '@shared/hooks'
 
 import { IEchartsReactProps } from './types'
+
+echarts.use([
+  LineChart,
+  PieChart,
+  BarChart,
+  GridComponent,
+  TooltipComponent,
+  LegendComponent,
+  CanvasRenderer,
+])
 
 export const Echarts = (props: IEchartsReactProps): JSX.Element => {
   const { className } = props
