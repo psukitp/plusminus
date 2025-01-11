@@ -1,10 +1,10 @@
 import { Dayjs } from 'dayjs'
 
 export interface GridElement {
-  startRow: number
-  startCol: number
-  endRow: number
-  endCol: number
+  startrow: number
+  startcol: number
+  endrow: number
+  endcol: number
 }
 
 export interface IReviewPageProps {

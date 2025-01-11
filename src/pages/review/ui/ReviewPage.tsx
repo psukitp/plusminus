@@ -35,11 +35,9 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
     return Number.isNaN(calculated) ? 0 : calculated
   }, [remainingSum, incomes])
 
-  console.log(thisYear)
-
   return (
     <div className={className}>
-      <ReviewHello />
+      <ReviewHello dates={dates}/>
       <div className="grid">
         <WidgetContainer {...grid[0]}>
           <SmallWidget
@@ -121,8 +119,8 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
 }
 
 const WidgetContainer = styled.div<GridElement>`
-  grid-row-start: ${({ startRow }) => startRow};
-  grid-column-start: ${({ startCol }) => startCol};
-  grid-row-end: ${({ endRow }) => endRow};
-  grid-column-end: ${({ endCol }) => endCol};
+  grid-row-start: ${({ startrow }) => startrow};
+  grid-column-start: ${({ startcol }) => startcol};
+  grid-row-end: ${({ endrow }) => endrow};
+  grid-column-end: ${({ endcol }) => endcol};
 `

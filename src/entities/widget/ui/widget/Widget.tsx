@@ -8,7 +8,7 @@ export const WidgetComponent = forwardRef(
       children,
       title,
       className,
-      needPadding = false,
+      needpadding = false,
       type,
       customFooter,
     }: IWidgetProps,
@@ -16,7 +16,7 @@ export const WidgetComponent = forwardRef(
   ) => {
     return (
       <div ref={ref} className={className}>
-        <WidgetTitle needPadding={needPadding} type={type}>
+        <WidgetTitle needpadding={needpadding} type={type}>
           {title}
         </WidgetTitle>
         {children}
@@ -27,12 +27,12 @@ export const WidgetComponent = forwardRef(
 )
 
 const WidgetTitle = styled.div<{
-  needPadding: boolean
+  needpadding: boolean
   type: 'primary' | 'secondary' | 'outlined' | 'default'
 }>`
   font-size: 16px;
   line-height: 20px;
   color: ${({ type }) =>
     type === 'primary' || type === 'secondary' ? '#FFF' : '#000'};
-  padding-bottom: ${({ needPadding }) => (needPadding ? '8px' : 0)};
+  padding-bottom: ${({ needpadding }) => (needpadding ? '8px' : 0)};
 `

@@ -18,7 +18,7 @@ export const ChartWidget = ({
       ref={parentRef}
       title={title}
       type="default"
-      customFooter={customFooter}
+      customFooter={haveData ? customFooter : undefined}
     >
       <>
         {isLoading && <Loader />}

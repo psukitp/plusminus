@@ -3,9 +3,13 @@ import { CategoriesPageComponent } from './CategoriesPage'
 import { isMobile } from 'react-device-detect'
 
 const CategoriesPage = styled(CategoriesPageComponent)`
-  overflow: auto;
+  background: ${({ theme }) => theme.pallete.dom.white};
+
   padding: ${({ theme: { gaps } }) => `${gaps.xl}px ${gaps.l}px`};
+
+  overflow: auto;
   width: 100%;
+  height: calc(100% - 98px);
 
   .category-title {
     margin-bottom: 40px;

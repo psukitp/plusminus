@@ -33,7 +33,7 @@ export const PieLegendComponent = ({
   return (
     <div className={className}>
       {sortedFirts.map((r) => (
-        <div className="item">
+        <div className="item" key={r.id}>
           {r.color && (
             <div
               className="color-indicator"

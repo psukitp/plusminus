@@ -6,7 +6,7 @@ export const LogoWithText = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clip-path="url(#clip0_4_258)">
+    <g clipPath="url(#clip0_4_258)">
       <rect
         x="11.8383"
         width="11.3235"

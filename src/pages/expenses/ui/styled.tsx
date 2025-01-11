@@ -52,6 +52,7 @@ const ExpensesPage = styled(ExpensesPageComponent)`
   padding: ${({ theme: { gaps } }) => `${gaps.xl}px ${gaps.l}px`};
   width: 100%;
   height: calc(100% - 98px);
+  padding-bottom: ${({ theme }) => `${isMobile ? 50 : theme.gaps.l}px`};
 
   .expenses-content {
     height: 100%;

@@ -5,7 +5,7 @@ import { ReviewPageComponent } from './ReviewPage'
 const ReviewPage = styled(ReviewPageComponent)`
   background: ${({ theme }) => theme.pallete.dom.white};
 
-  padding: ${isMobile ? '10px 10px 30px 10px' : '24px 24px 15px 24px'};
+  padding: 24px 24px 15px 24px;
 
   overflow: auto;
   width: 100%;

@@ -28,7 +28,7 @@ export const SmallWidgetComponent = ({
 
   return (
     <div className={className}>
-      <Widget title={title} needPadding type={type}>
+      <Widget title={title} needpadding type={type}>
         {isLoading ? (
           <Loader />
         ) : (
