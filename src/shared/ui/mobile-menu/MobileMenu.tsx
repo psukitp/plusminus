@@ -1,12 +1,7 @@
-import {
-  BarChartOutlined,
-  MinusSquareOutlined,
-  PlusSquareOutlined,
-  UnorderedListOutlined,
-} from '@ant-design/icons'
 import { SiderButton } from '../sider-button'
 import { MobileMenuButtons, MobileMenuContainer } from './MobileMenu-styled'
 import { IMenuProps } from './types'
+import { CategoriesIcon, ExpensesIcon, IncomesIcon, ReviewIcon } from '../icons'
 
 export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
   return (
@@ -15,7 +10,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
         <SiderButton
           active={activeCaption.review}
           linkTo="review"
-          icon={<BarChartOutlined />}
+          icon={<ReviewIcon />}
           type="mobile"
           onClick={() =>
             setActiveButton({
@@ -26,7 +21,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
         <SiderButton
           active={activeCaption.expenses}
           linkTo="expenses"
-          icon={<MinusSquareOutlined />}
+          icon={<ExpensesIcon />}
           type="mobile"
           onClick={() =>
             setActiveButton({
@@ -37,7 +32,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
         <SiderButton
           active={activeCaption.incomes}
           linkTo="incomes"
-          icon={<PlusSquareOutlined />}
+          icon={<IncomesIcon />}
           type="mobile"
           onClick={() =>
             setActiveButton({
@@ -48,7 +43,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
         <SiderButton
           active={activeCaption.categories}
           linkTo="categories"
-          icon={<UnorderedListOutlined />}
+          icon={<CategoriesIcon />}
           type="mobile"
           onClick={() =>
             setActiveButton({

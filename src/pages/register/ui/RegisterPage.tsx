@@ -1,10 +1,8 @@
-import { Space, Switch, Tooltip } from 'antd'
 import { useState } from 'react'
 import { RegisterFormData } from '@entities/user'
 import { useAuth } from '@entities/user'
 import { Link } from 'react-router-dom'
-import { TooltipText } from './TooltipText'
-import { Input, Button } from '@shared/ui'
+import { Input, Button, Switch } from '@shared/ui'
 
 const initialForm: RegisterFormData = {
   login: '',
@@ -75,15 +73,17 @@ const RegisterPageComponent = ({ className }: { className?: string }) => {
           value={passwordRepeat}
           onChange={(e) => setPasswordRepeat(e.target.value)}
         />
-        <Space>
+
+        <div className="switch">
           <Switch
             checked={form.baseCategories}
             onChange={(baseCategories) =>
               setForm((prev) => ({ ...prev, baseCategories }))
             }
           />
-          <Tooltip title={<TooltipText />}>Базовые категории</Tooltip>
-        </Space>
+          <div>Базовые категории</div>
+        </div>
+
         {form.password !== passwordRepeat && (
           <p className="not-equal">Пароли не совпадают</p>
         )}

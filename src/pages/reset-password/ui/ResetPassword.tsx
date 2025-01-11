@@ -1,8 +1,6 @@
 import { useAuth } from '@entities/user'
-import { Input } from 'antd'
 import { useState } from 'react'
-import { PasswordInput } from './ResetPassword-styled'
-import { Button } from '@shared/ui'
+import { Button, Input } from '@shared/ui'
 
 export const ResetPasswordComponent = ({
   className,
@@ -36,10 +34,9 @@ export const ResetPasswordComponent = ({
 
   return (
     <div className={className}>
-      <div className='title'>
-        Восстановление пароля
-      </div>
+      <div className="title">Восстановление пароля</div>
       <Input
+        type="email"
         className="input"
         placeholder="Почта"
         disabled={enterCode || enterPassword}
@@ -50,7 +47,6 @@ export const ResetPasswordComponent = ({
         <Input
           placeholder="Код восстановления"
           type="number"
-          maxLength={4}
           className="input"
           value={code}
           onChange={(e) => setCode(e.target.value)}
@@ -58,19 +54,21 @@ export const ResetPasswordComponent = ({
       )}
       {!enterCode && enterPassword && (
         <>
-          <PasswordInput
+          <Input
+            type="password"
             value={password}
-            autoComplete={'none'}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <PasswordInput
+          <Input
+            type="password"
             value={passwordRepeat}
-            autoComplete={'none'}
             onChange={(e) => setPasswordRepeat(e.target.value)}
           />
         </>
       )}
-      <Button onClick={okHandler} type='primary'>Отправить</Button>
+      <Button onClick={okHandler} type="primary">
+        Отправить
+      </Button>
     </div>
   )
 }

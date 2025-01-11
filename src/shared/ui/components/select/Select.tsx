@@ -8,9 +8,10 @@ export const SelectComponent = ({
   placeholder = 'Выбор из списка',
   onChange,
 }: ISelectProps) => {
+  const typedValue = value as number | string
   return (
     <div className={`${className} ${additionalClass}`}>
-      <select autoFocus={false} value={value ?? ''} onChange={onChange}>
+      <select autoFocus={false} value={typedValue ?? ''} onChange={onChange}>
         <option value="" disabled selected={(value ?? '') === ''}>
           {placeholder}
         </option>

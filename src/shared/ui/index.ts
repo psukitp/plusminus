@@ -1,4 +1,3 @@
-export { Loader } from './loader'
 export { MobileMenu } from './mobile-menu'
 export { Sider, type ActiveCaption } from './sider'
 export { SiderButton } from './sider-button'
@@ -13,7 +12,10 @@ export {
   Segmented,
   Select,
   List,
+  Loader,
+  Empty,
+  Switch,
   type RecordType,
   type SelectOption,
-  type SegmentedOption
+  type SegmentedOption,
 } from './components'

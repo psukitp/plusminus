@@ -1,4 +1,3 @@
-import classNames from 'classnames'
 import { init, dispose, type EChartsType } from 'echarts'
 import { useCallback, useEffect, useRef } from 'react'
 
@@ -43,7 +42,7 @@ export const Echarts = (props: IEchartsReactProps): JSX.Element => {
   return (
     <div
       ref={wrappedRefCallback}
-      className={classNames('echarts-react', className)}
+      className={`echarts-react ${className}`}
       style={{
         display: 'flex',
         height: '100%',

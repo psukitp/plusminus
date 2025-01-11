@@ -9,14 +9,10 @@ const ProfilePage = () => {
       <Title>Профиль</Title>
       <div>Когда-то потом можно будет поменять!</div>
       <div>Но не сейчас.</div>
-      <ProfileInput addonBefore="Имя" value={userData.name} />
-      <ProfileInput addonBefore="Фамилия" value={userData.secondName} />
-      <ProfileInput addonBefore="Логин" value={userData.login} />
-      <ProfileInput addonBefore="Email" value={userData.email} />
-
-      {/* <Button>
-            Сохранить
-        </Button> */}
+      <ProfileInput value={userData.name} />
+      <ProfileInput value={userData.secondName} />
+      <ProfileInput value={userData.login} />
+      <ProfileInput value={userData.email} />
     </ProfileContainer>
   )
 }

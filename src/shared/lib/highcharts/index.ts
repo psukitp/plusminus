@@ -1,1 +1,0 @@
-export { Highchart } from './highchart'

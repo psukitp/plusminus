@@ -1,8 +1,6 @@
 import { useRef } from 'react'
-import './ChartWidget.css'
 import { IChartWidgetProps } from './types'
-import { Empty } from 'antd'
-import { Loader } from '@shared/ui'
+import { Loader, Empty } from '@shared/ui'
 import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
 import { Widget } from '../widget'
 

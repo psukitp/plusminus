@@ -5,12 +5,14 @@ export const InputComponent = ({
   placeholder,
   value,
   additionalClass,
-  type,
+  type = 'text',
+  disabled = false,
   onChange,
 }: IInputProps) => {
   return (
     <input
       type={type}
+      disabled={disabled}
       value={value ?? undefined}
       onChange={onChange}
       className={`${className} ${additionalClass}`}

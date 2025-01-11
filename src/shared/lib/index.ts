@@ -7,7 +7,6 @@ export type {
   Locale,
 } from './types'
 export { getAxiosInstance, BaseService } from './api'
-export { Highchart } from './highcharts'
 export {
   openNotificationError,
   openNotificationSuccess,

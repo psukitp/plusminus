@@ -1,5 +1,5 @@
 import { Key } from 'react'
-import { Dates, getAxiosInstance, StringDates } from '@shared/lib'
+import { getAxiosInstance, StringDates } from '@shared/lib'
 import { ExpensesService } from '../services'
 import {
   ExpensesRecord,

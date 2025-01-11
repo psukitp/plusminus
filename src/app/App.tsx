@@ -8,10 +8,10 @@ import { StyledComponentProps } from '@shared/lib'
 import { useAuth, useUser } from '@entities/user'
 import {
   ActiveCaption,
-  Loader,
   MobileMenu,
   Sider,
   LazyComponent,
+  Loader,
 } from '@shared/ui'
 import { AuthPage } from '@pages/auth'
 import { RegisterPage } from '@pages/register'
@@ -64,7 +64,7 @@ const AppContainer = ({ className }: { className?: string }) => {
     <div className={className}>
       {loading ? (
         <div className="fullscreen_loader">
-          <Loader fontSize={50} />
+          <Loader size={50} />
         </div>
       ) : (
         <>

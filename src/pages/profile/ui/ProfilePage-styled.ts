@@ -1,4 +1,4 @@
-import { Input } from 'antd'
+import { Input } from '@shared/ui'
 import styled from 'styled-components'
 
 export const ProfileContainer = styled.div`

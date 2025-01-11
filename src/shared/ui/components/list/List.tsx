@@ -1,7 +1,8 @@
 import { IListProps } from './types'
-import { Loader } from '../../loader'
 import { Fragment, useMemo } from 'react'
 import { Item } from './Item'
+import { Loader } from '../loader'
+import { Empty } from '../empty'
 
 export const ListComponent = ({
   records,
@@ -23,11 +24,11 @@ export const ListComponent = ({
     )
   }, [records, sort, sortFunc])
 
-  if (loading) return <Loader />
+  if (loading) return <Loader align="start" size={30} />
   if (!records || records.length < 1)
     return (
       <div className={className}>
-        <div className="empty">Данных не нашлось {':('}</div>
+        <Empty />
       </div>
     )
 

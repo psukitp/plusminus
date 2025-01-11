@@ -1,5 +1,5 @@
 import { AxiosInstance } from 'axios'
-import { BaseService, Dates, StringDates } from '@shared/lib'
+import { BaseService, StringDates } from '@shared/lib'
 import { ServiceResponse } from '@shared/lib'
 import { Key } from 'react'
 import { openNotificationError } from '@shared/lib'

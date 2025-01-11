@@ -6,6 +6,7 @@ import './index.less'
 import { ThemeProvider } from 'styled-components'
 import { theme } from '@shared/lib'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ToastContainer } from 'react-toastify'
 
 const queryClient = new QueryClient()
 
@@ -18,6 +19,7 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
+          <ToastContainer draggable stacked/>
           <App />
         </ThemeProvider>
       </BrowserRouter>

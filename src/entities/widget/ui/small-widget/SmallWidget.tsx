@@ -37,7 +37,13 @@ export const SmallWidgetComponent = ({
             {(diff || description) && (
               <div className="diff">
                 <span className="diff_value">{description}</span>
-                {!!diff && diff > 0 ? <PositiveChart /> : <NegativeChart />}
+                {!!diff ? (
+                  diff > 0 ? (
+                    <PositiveChart />
+                  ) : (
+                    <NegativeChart />
+                  )
+                ) : null}
               </div>
             )}
           </div>

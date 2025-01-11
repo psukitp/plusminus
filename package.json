@@ -11,20 +11,17 @@
     "cruise": "npx depcruise --include-only \"^src\" --output-type dot --config .dependency-cruiser.cjs ./ | dot -Gsplines=ortho -Grankdir=LR -Tsvg | depcruise-wrap-stream-in-html > dependencygraph.html"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.6",
     "@tanstack/react-query": "^5.63.0",
     "@types/styled-components": "^5.1.34",
-    "antd": "^5.14.2",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "echarts": "^5.5.1",
-    "highcharts": "^11.4.3",
-    "highcharts-react-official": "^3.2.1",
     "react": "^18.2.0",
     "react-colorful": "^5.6.1",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
+    "react-toastify": "^11.0.2",
     "styled-components": "^6.1.11",
     "zustand": "^4.5.2"
   },

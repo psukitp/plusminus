@@ -10,7 +10,7 @@ export type SelectOption = {
 export interface ISelectProps {
   className?: string
   additionalClass?: string
-  value?: string | number
+  value?: string | number | null | Key
   options?: SelectOption[]
   placeholder?: string
 

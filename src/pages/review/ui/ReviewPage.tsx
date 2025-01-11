@@ -35,6 +35,8 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
     return Number.isNaN(calculated) ? 0 : calculated
   }, [remainingSum, incomes])
 
+  console.log(thisYear)
+
   return (
     <div className={className}>
       <ReviewHello />
@@ -105,7 +107,9 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             options={thisYear.options}
             haveData={
               Array.isArray(thisYear.options?.series) &&
-              thisYear.options?.series?.some((s: any) => s?.data.length > 0)
+              thisYear.options?.series?.some((s: any) =>
+                (s?.data as any[]).some((val) => val !== null),
+              )
             }
             isLoading={thisYear.loading}
             title="Доходы и расходы за последний год"

@@ -54,6 +54,13 @@ const RegisterPage = styled(RegisterPageComponent)`
       color: ${({ theme: { pallete } }) => `${pallete.primary.orange}`};
     }
   }
+
+  .switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
 `
 
 export default RegisterPage
