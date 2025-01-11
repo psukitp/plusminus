@@ -14,9 +14,9 @@
     }
   ],
   "start_url": "/",
-  "background_color": "#fb7a01",
+  "background_color": "#fff",
   "display": "standalone",
-  "theme_color": "#fb7a01",
+  "theme_color": "#fff",
   "description": "Учет доходов и расходов",
   "screenshots": [
     {
@@ -30,6 +30,22 @@
       "type": "image/png",
       "sizes": "1919x1079",
       "form_factor": "narrow"
+    }
+  ],
+  "shortcats": [
+    {
+      "name": "plusminus",
+      "short_name": "plusminus",
+      "description": "Открыть приложение plusminus",
+      "url": "/?source=pwa",
+      "icons": [{ "src": "/logo/192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "плюсминус",
+      "short_name": "плюсминус",
+      "description": "Открыть приложение plusminus",
+      "url": "/?source=pwa",
+      "icons": [{ "src": "/logo/192.png", "sizes": "192x192" }]
     }
   ]
 }
