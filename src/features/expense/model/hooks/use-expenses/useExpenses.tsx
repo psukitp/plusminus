@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import { useSummarizedExpensesData } from '@entities/expense'
 import { UseExpensesResult } from './types'
 import { ExpensesLastWeek } from '@entities/expense/model/types'
+import { useQueryClient } from '@tanstack/react-query'
 
 export const useExpenses = (): UseExpensesResult => {
   const [loading, setLoading] = useState({
@@ -13,6 +14,8 @@ export const useExpenses = (): UseExpensesResult => {
   const [records, setRecords] = useState<ExpensesRecord[]>([])
   const [expensesLastWeek, setExpensesLastWeek] =
     useState<ExpensesLastWeek | null>(null)
+
+  const queryClient = useQueryClient()
 
   const {
     data: sumRecords,
@@ -23,7 +26,11 @@ export const useExpenses = (): UseExpensesResult => {
   } = useSummarizedExpensesData()
 
   useEffect(() => {
-    if (!isDataFetched) fetchData(dayjs().format('YYYY-MM-DD'))
+    if (!isDataFetched)
+      fetchData([
+        dayjs().format('YYYY-MM-DD'),
+        dayjs().add(1, 'week').format('YYYY-MM-DD'),
+      ])
   }, [])
 
   useEffect(() => {
@@ -52,7 +59,12 @@ export const useExpenses = (): UseExpensesResult => {
           })),
         ]),
       )
-      .then(() => fetchData(date))
+      .then(() =>
+        queryClient.invalidateQueries({
+          queryKey: ['expenses_by_category'],
+          exact: false,
+        }),
+      )
   }
 
   const getExpensesLastWeek = async (date: string) => {
@@ -100,7 +112,11 @@ export const useExpenses = (): UseExpensesResult => {
         return result
       })
       .then((result) => {
-        if (result?.date) fetchData(result?.date.toString())
+        if (result?.date)
+          queryClient.invalidateQueries({
+            queryKey: ['expenses_by_category'],
+            exact: false,
+          })
       })
   }
 
@@ -114,7 +130,7 @@ export const useExpenses = (): UseExpensesResult => {
       getExpensesByCategories: fetchData,
       deleteExpense,
       editExpense,
-      getExpensesLastWeek
+      getExpensesLastWeek,
     },
   }
 }

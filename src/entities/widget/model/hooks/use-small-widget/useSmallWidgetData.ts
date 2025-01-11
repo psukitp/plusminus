@@ -1,76 +1,47 @@
-import { useEffect, useMemo, useState } from 'react'
-import { IncomesThisMonth } from '@entities/income/model'
+import { useMemo } from 'react'
 import { incomesQueries } from '@entities/income/api'
-import { expensesQueries, ExpensesThisMonth } from '@entities/expense'
+import { expensesQueries } from '@entities/expense'
 import { Dates, StringDates } from '@shared/lib'
-
-type RemainingThisMonth = {
-  remainingTotal: number
-  remainingDiff: number
-}
-
-type DiffTotal = {
-  diffTotal: number
-  loading: boolean
-}
-
-type UseSmallWidgetDataResult = [
-  ExpensesThisMonth,
-  IncomesThisMonth,
-  RemainingThisMonth,
-  DiffTotal,
-]
+import { useQuery } from '@tanstack/react-query'
+import { RemainingThisMonth, UseSmallWidgetDataResult } from './types'
 
 const format = 'YYYY-MM-DD'
 
 export const useSmallWidgetData = (dates: Dates): UseSmallWidgetDataResult => {
-  const [expensesByPeriod, setExpensesByPeriod] = useState<ExpensesThisMonth>({
-    loading: false,
-    expensesDiff: 0,
-    expensesTotal: 0,
-  })
-
-  const [incomesByPeriod, setIncomesByPeriod] = useState<IncomesThisMonth>({
-    loading: false,
-    incomesTotal: 0,
-  })
-
-  const [diffTotal, setDiffTotal] = useState<DiffTotal>({
-    diffTotal: 0,
-    loading: false,
-  })
-
   const stringDates = useMemo<StringDates>(() => {
     return [dates[0].format(format), dates[1].format(format)]
   }, [dates])
 
-  useEffect(() => {
-    setExpensesByPeriod((prev) => ({ ...prev, loading: true }))
-    setIncomesByPeriod((prev) => ({ ...prev, loading: true }))
-    expensesQueries
-      .fetchExpensesSum(stringDates)
-      .then((result) => setExpensesByPeriod({ loading: false, ...result }))
-    incomesQueries
-      .fecthIncomesSum(stringDates)
-      .then((result) => setIncomesByPeriod({ loading: false, ...result }))
-  }, [stringDates])
+  const { data: expensesData, isLoading: expensesLoading } = useQuery({
+    queryKey: ['expenses', stringDates],
+    queryFn: () => expensesQueries.fetchExpensesSum(stringDates),
+    initialData: { expensesDiff: 0, expensesTotal: 0 },
+  })
 
-  useEffect(() => {
-    setDiffTotal((prev) => ({ ...prev, loading: true }))
-    incomesQueries
-      .getTotalDiff()
-      .then((result) => setDiffTotal({ loading: false, diffTotal: result }))
-  }, [])
+  const { data: incomesData, isLoading: incomesLoading } = useQuery({
+    queryKey: ['incomes', stringDates],
+    queryFn: () => incomesQueries.fecthIncomesSum(stringDates),
+    initialData: { incomesTotal: 0 },
+  })
+
+  const { data: totalDiffData, isLoading: totalDiffLoading } = useQuery({
+    queryKey: ['totalDiff'],
+    queryFn: () => incomesQueries.getTotalDiff(),
+    initialData: 0,
+  })
 
   const remainingSum = useMemo<RemainingThisMonth>(
     () => ({
-      remainingTotal:
-        incomesByPeriod.incomesTotal - expensesByPeriod.expensesTotal,
-      remainingDiff:
-        incomesByPeriod.incomesTotal - expensesByPeriod.expensesTotal,
+      remainingTotal: incomesData.incomesTotal - expensesData.expensesTotal,
+      remainingDiff: incomesData.incomesTotal - expensesData.expensesTotal,
     }),
-    [expensesByPeriod, incomesByPeriod],
+    [incomesData, expensesData],
   )
 
-  return [expensesByPeriod, incomesByPeriod, remainingSum, diffTotal]
+  return [
+    { ...expensesData, loading: expensesLoading },
+    { ...incomesData, loading: incomesLoading },
+    remainingSum,
+    { diffTotal: totalDiffData, loading: totalDiffLoading },
+  ]
 }

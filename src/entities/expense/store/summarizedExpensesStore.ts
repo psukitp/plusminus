@@ -7,9 +7,9 @@ export const useSummarizedExpensesData = create<ISummarizedExpensesData>(
     data: [],
     isDataFetched: false,
     loading: false,
-    fetchData: async (date) => {
+    fetchData: async (dates) => {
       set({ loading: true })
-      const result = await expensesQueries.fetchExpensesByCategory(date)
+      const result = await expensesQueries.fetchExpensesByCategory(dates)
       set({
         data: result.sort((a, b) => b.amount - a.amount),
         loading: false,

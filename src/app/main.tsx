@@ -1,17 +1,26 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import './index.less'
 import { ThemeProvider } from 'styled-components'
 import { theme } from '@shared/lib'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const queryClient = new QueryClient()
+
+const container = document.getElementById('root')!
+
+const root = createRoot(container)
+
+root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </BrowserRouter>
+    </QueryClientProvider>
   </React.StrictMode>,
 )

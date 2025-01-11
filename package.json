@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
+    "@tanstack/react-query": "^5.63.0",
     "@types/styled-components": "^5.1.34",
     "antd": "^5.14.2",
     "axios": "^1.6.7",
