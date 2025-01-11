@@ -34,7 +34,11 @@ export const HeaderComponent = ({
         <div className="period-date">
           <Segmented
             active={activePeriod}
-            onClick={onSegmentedClick}
+            onClick={(el) =>
+              onSegmentedClick(
+                el as SegmentedOption<[start: Dayjs, end: Dayjs]>,
+              )
+            }
             options={periodOptions}
           />
           {/* <DatePicker /> */}

@@ -25,7 +25,24 @@ export const Calendar = styled(CalendarComponent)`
     border-collapse: collapse;
   }
 
-  .btn{
+  .icon-right,
+  .icon-left {
+    color: ${({
+      theme: {
+        pallete: { content },
+      },
+    }) => content.light};
+
+    &:hover {
+      color: ${({
+        theme: {
+          pallete: { content },
+        },
+      }) => content.main};
+    }
+  }
+
+  .btn {
     cursor: pointer;
   }
 `

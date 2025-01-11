@@ -18,6 +18,25 @@ export const CategoryItem = styled(CategoryItemComponent)`
     gap: ${({ theme: { gaps } }) => `${gaps.m}px`};
   }
 
+  .actions {
+    .edit,
+    .delete {
+      color: ${({
+        theme: {
+          pallete: { content },
+        },
+      }) => content.main};
+
+      &:hover {
+        color: ${({
+          theme: {
+            pallete: { content },
+          },
+        }) => content.light};
+      }
+    }
+  }
+
   .title {
     gap: ${({ theme: { gaps } }) => `${gaps.s}px`};
   }

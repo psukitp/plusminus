@@ -15,6 +15,22 @@ export const Item = styled(ItemComponent)`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .delete {
+      color: ${({
+        theme: {
+          pallete: { content },
+        },
+      }) => content.light};
+
+      &:hover {
+        color: ${({
+          theme: {
+            pallete: { content },
+          },
+        }) => content.main};
+      }
+    }
   }
 
   summary {
@@ -40,5 +56,23 @@ export const Item = styled(ItemComponent)`
 
   .title {
     color: ${({ color }) => color ?? '#000'};
+  }
+
+  .right-side {
+    .edit {
+      color: ${({
+        theme: {
+          pallete: { content },
+        },
+      }) => content.main};
+
+      &:hover {
+        color: ${({
+          theme: {
+            pallete: { content },
+          },
+        }) => content.light};
+      }
+    }
   }
 `

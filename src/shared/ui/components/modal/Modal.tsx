@@ -6,6 +6,7 @@ export const ModalComponent = ({
   title,
   className,
   open,
+  closable = true,
   onClose,
 }: IModalProps) => {
   useEffect(() => {
@@ -17,7 +18,7 @@ export const ModalComponent = ({
 
     return () => {
       window.removeEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && !closable) {
           onClose()
         }
       })
@@ -30,14 +31,16 @@ export const ModalComponent = ({
         <div className="overlay" onClick={onClose}></div>
         <div className="modal">
           {title && <div className="title">{title}</div>}
-          <div
-            className="close"
-            onClick={() => {
-              onClose()
-            }}
-          >
-            ✖
-          </div>
+          {closable && (
+            <div
+              className="close"
+              onClick={() => {
+                onClose()
+              }}
+            >
+              ✖
+            </div>
+          )}
           {children}
         </div>
       </div>

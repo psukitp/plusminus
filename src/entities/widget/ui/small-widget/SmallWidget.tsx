@@ -19,7 +19,7 @@ export const SmallWidgetComponent = ({
     if (!dates) return null
 
     const dayDiff = dates[1].diff(dates[0], 'day')
-    if (dayDiff > 28 && dayDiff < 32) return 'По сравнению с предыдущим месяцем'
+    if (dayDiff > 27 && dayDiff < 32) return 'По сравнению с предыдущим месяцем'
     if (dayDiff > 5 && dayDiff < 8) return 'По сравнению с предыдущей неделей'
     if (dayDiff > 363 && dayDiff < 368) return 'По сравнению с предыдущим годом'
 

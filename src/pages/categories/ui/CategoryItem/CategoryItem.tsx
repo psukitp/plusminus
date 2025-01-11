@@ -15,10 +15,10 @@ export const CategoryItemComponent = ({
         <div className="label">{label}</div>
       </div>
       <div className="actions">
-        <button onClick={onEdit}>
+        <button onClick={onEdit} className="edit">
           <Edit />
         </button>
-        <button onClick={onDelete}>
+        <button onClick={onDelete} className="delete">
           <Delete />
         </button>
       </div>

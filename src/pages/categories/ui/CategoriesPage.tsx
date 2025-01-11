@@ -19,7 +19,6 @@ export const CategoriesPageComponent = ({
   const [
     expRecords,
     ,
-    ,
     {
       createNewCategory: createExpenseCategory,
       editCategory: editExpenseCategory,
@@ -28,7 +27,6 @@ export const CategoriesPageComponent = ({
   ] = useExpensesCategories()
   const [
     incRecords,
-    ,
     ,
     {
       createNewCategory: createIncomeCategory,

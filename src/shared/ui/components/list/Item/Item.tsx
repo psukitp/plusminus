@@ -44,6 +44,7 @@ export const ItemComponent = ({
                 e.preventDefault()
                 onEdit()
               }}
+              className="edit"
             >
               <Edit />
             </button>
@@ -60,6 +61,7 @@ export const ItemComponent = ({
               e.preventDefault()
               onDelete()
             }}
+            className="delete"
           >
             <Delete />
           </button>

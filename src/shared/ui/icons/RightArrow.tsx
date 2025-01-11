@@ -8,7 +8,7 @@ export const RightArrow = () => (
   >
     <path
       d="M5 12.325L8.825 8.5L5 4.675L6.18333 3.5L11.1833 8.5L6.18333 13.5L5 12.325Z"
-      fill="#C1C8D2"
+      fill="currentColor"
     />
   </svg>
 )

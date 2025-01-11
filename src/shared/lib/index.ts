@@ -13,7 +13,7 @@ export {
   openNotificationSuccess,
   openNotificationWarning,
 } from './notification'
-export { getFormattedAmount, genereateCalendarCfg } from './utils'
+export { getFormattedAmount } from './utils'
 export {
   type StyledComponentProps,
   type Theme,

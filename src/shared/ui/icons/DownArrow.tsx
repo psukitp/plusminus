@@ -8,7 +8,7 @@ export const DownArrow = () => (
   >
     <path
       d="M15.075 6.29999L8.88751 12.4875L2.70001 6.29999"
-      stroke="#132436"
+      stroke="currentColor"
       stroke-width="1.5"
       stroke-miterlimit="10"
       stroke-linecap="square"

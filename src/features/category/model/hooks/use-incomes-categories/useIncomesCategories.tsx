@@ -1,49 +1,17 @@
 import { NewCategory } from '@entities/category'
 import { Category } from '@entities/category'
-import { ColumnsType } from 'antd/es/table'
 import { Key, useEffect } from 'react'
 import { useIncomesCategoriesData } from '@entities/category'
 import { incomesCategoriesQueries } from '@entities/category'
 
 type UseIncomesCategoriesResult = [
   Category[],
-  ColumnsType<Category>,
   boolean,
   {
     createNewCategory: (newCategory: NewCategory) => void
     editCategory: (category: Partial<Category>) => void
     deleteCategory: (id: Key) => void
     refreshData: () => void
-  },
-]
-
-const columns: ColumnsType<Category> = [
-  {
-    title: 'Категория',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Цвет',
-    dataIndex: 'color',
-    key: 'color',
-    render: (value) => (
-      <div
-        style={{
-          width: '20px',
-          height: '20px',
-          backgroundColor: value,
-          margin: '0 auto',
-          border: '1px solid #a6a6a6',
-          borderRadius: '50%',
-        }}
-      />
-    ),
-  },
-  {
-    title: 'Действия',
-    dataIndex: 'actions',
-    key: 'actions',
   },
 ]
 
@@ -82,7 +50,6 @@ export const useIncomesCategories = (): UseIncomesCategoriesResult => {
 
   return [
     data,
-    columns,
     loading,
     { createNewCategory, editCategory, deleteCategory, refreshData: fetchData },
   ]

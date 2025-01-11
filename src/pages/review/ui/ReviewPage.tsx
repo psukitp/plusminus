@@ -26,6 +26,8 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   const grid = useMemo<GridElement[]>(() => generateGrid(isMobile), [isMobile])
 
   const percent = useMemo(() => {
+    if (incomes.incomesTotal === 0) return 0
+
     const calculated = Math.floor(
       (remainingSum.remainingDiff / incomes.incomesTotal) * 100,
     )
@@ -119,5 +121,4 @@ const WidgetContainer = styled.div<GridElement>`
   grid-column-start: ${({ startCol }) => startCol};
   grid-row-end: ${({ endRow }) => endRow};
   grid-column-end: ${({ endCol }) => endCol};
-  display: inline-grid;
 `

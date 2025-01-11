@@ -8,7 +8,7 @@ export const UpArrow = () => (
   >
     <path
       d="M2.70001 12.9875L8.88751 6.79999L15.075 12.9875"
-      stroke="#132436"
+      stroke="currentColor"
       stroke-width="1.5"
       stroke-miterlimit="10"
       stroke-linecap="square"
