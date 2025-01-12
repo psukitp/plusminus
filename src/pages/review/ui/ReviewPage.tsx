@@ -28,16 +28,14 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   const percent = useMemo(() => {
     if (incomes.incomesTotal === 0) return 0
 
-    const calculated = Math.floor(
-      (remainingSum.remainingDiff / incomes.incomesTotal) * 100,
-    )
+    const calculated = Math.floor((remainingSum / incomes.incomesTotal) * 100)
 
     return Number.isNaN(calculated) ? 0 : calculated
   }, [remainingSum, incomes])
 
   return (
     <div className={className}>
-      <ReviewHello dates={dates}/>
+      <ReviewHello dates={dates} />
       <div className="grid">
         <WidgetContainer {...grid[0]}>
           <SmallWidget
@@ -55,7 +53,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             title="Доходы"
             text={`${getFormattedAmount(incomes.incomesTotal)} ${symbol}`}
             isLoading={incomes.loading}
-            diff={incomes.incomesTotal}
+            diff={incomes.incomesDiff}
             dates={dates}
             type="secondary"
           />
@@ -63,9 +61,8 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
         <WidgetContainer {...grid[2]}>
           <SmallWidget
             title="Остаток за период"
-            text={`${getFormattedAmount(remainingSum.remainingTotal)} ${symbol}`}
+            text={`${getFormattedAmount(remainingSum)} ${symbol}`}
             isLoading={expenses.loading && incomes.loading}
-            positive={remainingSum.remainingDiff > 0}
             additionalText={`${percent}% от дохода`}
             type="outlined"
           />

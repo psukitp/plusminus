@@ -3,7 +3,7 @@ import { incomesQueries } from '@entities/income/api'
 import { expensesQueries } from '@entities/expense'
 import { Dates, StringDates } from '@shared/lib'
 import { useQuery } from '@tanstack/react-query'
-import { RemainingThisMonth, UseSmallWidgetDataResult } from './types'
+import { UseSmallWidgetDataResult } from './types'
 
 const format = 'YYYY-MM-DD'
 
@@ -21,7 +21,7 @@ export const useSmallWidgetData = (dates: Dates): UseSmallWidgetDataResult => {
   const { data: incomesData, isLoading: incomesLoading } = useQuery({
     queryKey: ['incomes', stringDates],
     queryFn: () => incomesQueries.fecthIncomesSum(stringDates),
-    initialData: { incomesTotal: 0 },
+    initialData: { incomesTotal: 0, incomesDiff: 0 },
   })
 
   const { data: totalDiffData, isLoading: totalDiffLoading } = useQuery({
@@ -30,11 +30,8 @@ export const useSmallWidgetData = (dates: Dates): UseSmallWidgetDataResult => {
     initialData: 0,
   })
 
-  const remainingSum = useMemo<RemainingThisMonth>(
-    () => ({
-      remainingTotal: incomesData.incomesTotal - expensesData.expensesTotal,
-      remainingDiff: incomesData.incomesTotal - expensesData.expensesTotal,
-    }),
+  const remainingSum = useMemo<number>(
+    () => incomesData.incomesTotal - expensesData.expensesTotal,
     [incomesData, expensesData],
   )
 

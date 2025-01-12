@@ -7,7 +7,11 @@ import dayjs, { Dayjs } from 'dayjs'
 
 const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
   { id: '1', label: 'Нед', value: [dayjs().add(-7, 'day'), dayjs()] },
-  { id: '2', label: 'Мес', value: [dayjs().startOf('month'), dayjs()] },
+  {
+    id: '2',
+    label: 'Мес',
+    value: [dayjs().startOf('month'), dayjs().endOf('month')],
+  },
   { id: '3', label: 'Год', value: [dayjs().add(-1, 'year'), dayjs()] },
 ]
 
@@ -34,10 +38,8 @@ export const HeaderComponent = ({
         <div className="period-date">
           <Segmented
             active={activePeriod}
-            onClick={(el) =>
-              onSegmentedClick(
-                el as SegmentedOption<[start: Dayjs, end: Dayjs]>,
-              )
+            onClick={(el: SegmentedOption<[start: Dayjs, end: Dayjs]>) =>
+              onSegmentedClick(el)
             }
             options={periodOptions}
           />

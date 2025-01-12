@@ -98,6 +98,7 @@ export class IncomesService extends BaseService {
       console.log(e)
       return {
         incomesTotal: 0,
+        incomesDiff: 0
       }
     }
   }
