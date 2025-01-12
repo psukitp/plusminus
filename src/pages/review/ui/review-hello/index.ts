@@ -7,11 +7,11 @@ export const ReviewHello = styled(ReviewHelloComponent)`
   align-items: start;
 
   .hello {
-    font-size: 24px;
-    font-weight: 600;
+    color: ${({ theme }) => theme.pallete.content.main};
+    ${({ theme }) => theme.fonts.heading_2};
   }
   .description {
-    font-size: 12px;
+    ${({ theme }) => theme.fonts.small};
     color: ${({ theme }) => theme.pallete.primary.purple};
   }
 `

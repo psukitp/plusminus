@@ -13,8 +13,13 @@
   src: url('../shared/lib/fonts/Roboto/Roboto-Medium.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'RobotoSemiBold';
+  src: url('../shared/lib/fonts/Roboto/Roboto-SemiBold.ttf') format('truetype');
+}
+
 body {
-  font-family: 'RobotoRegular', sans-serif;
+  font-family: 'RobotoRegular';
 }
 
 a {

@@ -30,8 +30,8 @@ const WidgetTitle = styled.div<{
   needpadding: boolean
   type: 'primary' | 'secondary' | 'outlined' | 'default'
 }>`
-  font-size: 16px;
-  line-height: 20px;
+  ${({ theme }) => theme.fonts.leading}
+
   color: ${({ type }) =>
     type === 'primary' || type === 'secondary' ? '#FFF' : '#000'};
   padding-bottom: ${({ needpadding }) => (needpadding ? '8px' : 0)};

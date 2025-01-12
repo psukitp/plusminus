@@ -1,4 +1,5 @@
 import 'styled-components'
+import { RuleSet } from 'styled-components'
 
 declare module 'styled-components' {
   export interface DefaultTheme {
@@ -23,6 +24,13 @@ declare module 'styled-components' {
         black: string
         background: string
       }
+    }
+    fonts: {
+      heading_1: RuleSet<object>
+      heading_2: RuleSet<object>
+      leading: RuleSet<object>
+      small: RuleSet<object>
+      extraSmall: RuleSet<object>
     }
   }
 }

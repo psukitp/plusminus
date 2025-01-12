@@ -44,9 +44,11 @@ export const HeaderComponent = ({
           {/* <DatePicker /> */}
         </div>
       )}
-      <div>
+      <div className="info">
         <div className="name">
-          {user.name} {user.secondName}
+          {user.name}
+          <br />
+          {user.secondName}
         </div>
         <div className="email">{user.email}</div>
       </div>
