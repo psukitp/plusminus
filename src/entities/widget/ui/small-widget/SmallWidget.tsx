@@ -13,6 +13,7 @@ export const SmallWidgetComponent = ({
   isLoading,
   className,
   type,
+  icon,
 }: ISmallWidgetProps) => {
   const description = useMemo(() => {
     if (additionalText) return additionalText
@@ -26,6 +27,16 @@ export const SmallWidgetComponent = ({
     return 'По сравнению с предыдущим периодом'
   }, [dates, additionalText])
 
+  const image = useMemo(() => {
+    if (icon) return icon
+
+    if (!!diff) {
+      return diff > 0 ? <PositiveChart /> : <NegativeChart />
+    }
+
+    return null
+  }, [diff, icon])
+
   return (
     <div className={className}>
       <Widget title={title} needpadding type={type}>
@@ -36,14 +47,8 @@ export const SmallWidgetComponent = ({
             <div className="text">{text}</div>
             {(diff || description) && (
               <div className="diff">
-                <span className="diff_value">{description}</span>
-                {!!diff ? (
-                  diff > 0 ? (
-                    <PositiveChart />
-                  ) : (
-                    <NegativeChart />
-                  )
-                ) : null}
+                <span className="description">{description}</span>
+                {image}
               </div>
             )}
           </div>

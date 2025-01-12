@@ -14,6 +14,7 @@ import { getCurrencySymbol } from '@shared/utils'
 import styled from 'styled-components'
 import { ReviewHello } from './review-hello'
 import { PieLegend } from '@features/category/ui/pie-legend'
+import { AstericIcon, RemainingIcon } from '@shared/ui/icons'
 
 export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData(dates)
@@ -44,7 +45,6 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             isLoading={expenses.loading}
             diff={expenses.expensesDiff}
             dates={dates}
-            positive={expenses.expensesDiff < 0}
             type="primary"
           />
         </WidgetContainer>
@@ -65,6 +65,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
             isLoading={expenses.loading && incomes.loading}
             additionalText={`${percent}% от дохода`}
             type="outlined"
+            icon={<RemainingIcon />}
           />
         </WidgetContainer>
         <WidgetContainer {...grid[3]}>
@@ -76,6 +77,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
               diffTotal.diffTotal > 0 ? 'Так держать!' : 'Все получится!'
             }
             type="primary"
+            icon={<AstericIcon />}
           />
         </WidgetContainer>
         <WidgetContainer {...grid[4]}>

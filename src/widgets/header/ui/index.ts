@@ -10,6 +10,10 @@ export const Header = styled(HeaderComponent)`
   padding: 0 24px;
   background-color: ${({ theme }) => theme.pallete.dom.white};
 
+  .info {
+    width: min-content;
+  }
+
   .name {
     font-size: 16px;
     color: ${({ theme }) => theme.pallete.content.main};
@@ -25,5 +29,6 @@ export const Header = styled(HeaderComponent)`
   .period-date {
     display: flex;
     gap: 24px;
+    min-width: 175px;
   }
 `

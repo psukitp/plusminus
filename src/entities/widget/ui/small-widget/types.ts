@@ -1,4 +1,5 @@
 import { Dayjs } from 'dayjs'
+import { ReactNode } from 'react'
 
 export interface ISmallWidgetProps {
   title: string
@@ -8,6 +9,6 @@ export interface ISmallWidgetProps {
   additionalText?: string
   diff?: number
   dates?: [start: Dayjs, end: Dayjs]
-  positive?: boolean
   className?: string
+  icon?: ReactNode
 }

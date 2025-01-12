@@ -12,15 +12,21 @@ export const SmallWidget = styled(SmallWidgetComponent)`
   }
 
   .text {
-    font-size: 30px;
-    line-height: 40px;
-    font-family: 'RobotoMedium';
-    margin-right: 20px;
+    ${({ theme }) => theme.fonts.heading_1}
+  }
+
+  .description {
+    ${({ theme }) => theme.fonts.small}
+    color: ${({ type, theme }) =>
+      type === 'primary' || type === 'secondary'
+        ? theme.pallete.dom.white
+        : theme.pallete.dom.black};
   }
 
   .diff {
     display: flex;
     justify-content: space-between;
+    align-items: end;
     &_value {
       display: block;
       max-width: 60%;
