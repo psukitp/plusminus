@@ -1,0 +1,66 @@
+﻿<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #fb7a01;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            color: white;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .content h2 {
+            color: #333;
+        }
+        .content p {
+            font-size: 16px;
+            color: #666;
+        }
+        .code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fb7a01;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class='container'>
+    <div class='header'>
+        <h1>Восстановление пароля</h1>
+    </div>
+    <div class='content'>
+        <h2>Привет!</h2>
+        <p>Был запрошен код для восстановления пароля аккаунта.</p>
+        <p>Вот он:</p>
+        <div class='code'>{{CODE}}</div>
+        <p>Если это не ты запрашивал(а) код, просто проигнорируй.</p>
+    </div>
+    <div class='footer'>
+        <p>С уважением,<br>Команда поддержки</p>
+    </div>
+</div>
+</body>
+</html>
