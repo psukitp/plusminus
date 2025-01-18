@@ -60,7 +60,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
         </WidgetContainer>
         <WidgetContainer {...grid[2]}>
           <SmallWidget
-            title="Остаток за период"
+            title="Остаток"
             text={`${getFormattedAmount(remainingSum)} ${symbol}`}
             isLoading={expenses.loading && incomes.loading}
             additionalText={`${percent}% от дохода`}
@@ -109,7 +109,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
               )
             }
             isLoading={thisYear.loading}
-            title="Доходы и расходы за последний год"
+            title="Последний год"
           />
         </WidgetContainer>
       </div>

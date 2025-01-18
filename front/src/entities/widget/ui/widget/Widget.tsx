@@ -1,6 +1,7 @@
 import { ForwardedRef, forwardRef } from 'react'
 import { IWidgetProps } from './types'
 import styled from 'styled-components'
+import { isMobile } from 'react-device-detect'
 
 export const WidgetComponent = forwardRef(
   (
@@ -30,7 +31,7 @@ const WidgetTitle = styled.div<{
   needpadding: boolean
   type: 'primary' | 'secondary' | 'outlined' | 'default'
 }>`
-  ${({ theme }) => theme.fonts.leading}
+  ${({ theme }) => (isMobile ? theme.fonts.smallLeading : theme.fonts.leading)}
 
   color: ${({ type }) =>
     type === 'primary' || type === 'secondary' ? '#FFF' : '#000'};

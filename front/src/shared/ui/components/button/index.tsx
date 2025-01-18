@@ -1,5 +1,7 @@
-import styled from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
 import { ButtonComponent } from './Button'
+import { ButtonProps } from './types'
+import { isMobile } from 'react-device-detect'
 
 export const Button = styled(ButtonComponent)`
   padding: 12px;
@@ -8,37 +10,9 @@ export const Button = styled(ButtonComponent)`
   display: flex;
   align-items: center;
 
-  background-color: ${({
-    type,
-    theme: {
-      pallete: { primary },
-    },
-  }) => (type === 'primary' ? primary.orange : 'transparent')};
-
-  color: ${({
-    type,
-    theme: {
-      pallete: { content, dom },
-    },
-  }) => (type === 'primary' ? dom.white : content.main)};
-
   justify-content: ${({ textAlign }) => textAlign ?? 'start'};
 
   &:hover {
-    outline: ${({
-      type,
-      theme: {
-        pallete: { content },
-      },
-    }) => (type === 'primary' ? 'none' : `1px solid ${content.main}`)};
-
-    background-color: ${({
-      type,
-      theme: {
-        pallete: { primary },
-      },
-    }) => type === 'primary' && primary.orangeLight};
-
     transition: 0.2s ease-in-out;
   }
 
@@ -46,13 +20,43 @@ export const Button = styled(ButtonComponent)`
     margin-right: ${({ theme: { gaps } }) => `${gaps.m}px`};
     height: 20px;
     width: 20px;
-    path {
-      stroke: ${({
-        type,
-        theme: {
-          pallete: { content, dom },
-        },
-      }) => (type === 'primary' ? dom.white : content.main)};
-    }
   }
+
+  ${({ type, active, theme }) => getTypedStyles(type, !!active, theme)}
 `
+const getTypedStyles = (
+  type: ButtonProps['type'],
+  active: boolean,
+  theme: DefaultTheme,
+) => {
+  switch (type) {
+    case 'primary':
+      return css`
+        background-color: ${theme.pallete.primary.orange};
+        color: ${theme.pallete.dom.white};
+
+        &:hover {
+          outline: ${isMobile
+            ? 'none'
+            : `1px solid ${theme.pallete.content.main}`};
+
+          background-color: ${isMobile
+            ? 'none'
+            : theme.pallete.primary.orangeLight};
+        }
+      `
+    case 'ghost':
+      return css`
+        background-color: 'transparent';
+        color: ${active
+          ? theme.pallete.primary.orange
+          : theme.pallete.content.main};
+
+        &:hover {
+          color: ${isMobile
+            ? 'none'
+            : `1px solid ${theme.pallete.content.light}`};
+        }
+      `
+  }
+}

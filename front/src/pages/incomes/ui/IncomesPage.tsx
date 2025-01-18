@@ -7,7 +7,7 @@ import {
 import { Calendar } from '@shared/ui/components/calendar'
 import { Button } from '@shared/ui/components/button'
 import { EditModal, useIncomes } from '@features/income'
-import { Key, useMemo, useState } from 'react'
+import { Key, useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { List, RecordType } from '@shared/ui'
 import { getCurrencySymbol } from '@shared/utils'
@@ -16,6 +16,7 @@ import { ConfirmModal } from '@features/expense/ui'
 import { SelectOption } from '@shared/ui'
 import { EChartsOption } from 'echarts'
 import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
+import { useLocation } from 'react-router-dom'
 
 export const IncomesPageComponent = ({ className }: { className?: string }) => {
   const {
@@ -35,6 +36,11 @@ export const IncomesPageComponent = ({ className }: { className?: string }) => {
   )
   const [viewModal, setViewModal] = useState<boolean>(false)
   const [mode, setMode] = useState<'create' | 'edit'>('create')
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state && state.create) setViewModal(true)
+  }, [state])
 
   const [modalInfo, setModalInfo] = useState<ModalRecordInfo>({
     ...initialModal,

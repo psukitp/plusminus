@@ -29,6 +29,7 @@ declare module 'styled-components' {
       heading_1: RuleSet<object>
       heading_2: RuleSet<object>
       leading: RuleSet<object>
+      smallLeading: RuleSet<object>
       small: RuleSet<object>
       extraSmall: RuleSet<object>
     }

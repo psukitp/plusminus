@@ -8,7 +8,7 @@ import {
 } from '@features/category'
 import { List, RecordType } from '@shared/ui'
 import { useExpenses } from '@features/expense'
-import { Key, useMemo, useState } from 'react'
+import { Key, useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
@@ -16,6 +16,7 @@ import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
 import { EChartsOption } from 'echarts'
 import { ConfirmModal, EditModal } from '@features/expense/ui'
 import { SelectOption } from '@shared/ui'
+import { useLocation } from 'react-router-dom'
 
 export const ExpensesPageComponent = ({
   className,
@@ -34,6 +35,12 @@ export const ExpensesPageComponent = ({
   const [deletableId, setDeletableId] = useState<Key | null>(null)
   const [categories] = useExpensesCategories()
   const currency = useUser((state) => state.data.settings?.currency)
+
+  const { state } = useLocation()
+
+  useEffect(() => {
+    if (state && state.create) setViewModal(true)
+  }, [state])
 
   const symbol = useMemo(() => getCurrencySymbol(currency), [currency])
 

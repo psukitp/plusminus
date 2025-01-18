@@ -8,6 +8,7 @@ export type ButtonProps = {
   additionClass?: string
   textAlign?: 'center' | 'start' | 'end'
   children: ReactNode
+  active?: boolean
 
   onClick: () => void
 }
