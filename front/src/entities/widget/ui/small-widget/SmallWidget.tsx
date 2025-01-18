@@ -48,7 +48,8 @@ export const SmallWidgetComponent = ({
             {(diff || description) && (
               <div className="diff">
                 <span className="description">{description}</span>
-                {image}
+                {/* {image} */}
+                <div className="image">{image}</div>
               </div>
             )}
           </div>

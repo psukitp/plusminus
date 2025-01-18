@@ -9,11 +9,11 @@ const ReviewPage = styled(ReviewPageComponent)`
 
   overflow: auto;
   width: 100%;
-  height: calc(100% - 98px);
+  height: calc(100% - 83px);
 
   .grid {
     grid-template-rows: ${isMobile ? 'repeat(14, 1fr)' : 'repeat(5, 1fr)'};
-    grid-template-columns: ${isMobile ? '100%' : 'repeat(4, 1fr)'};
+    grid-template-columns: ${isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)'};
     display: grid;
     gap: ${({ theme: { gaps } }) => `${gaps.l}px`};
     height: ${isMobile ? '1500px' : 'calc(100% - 80px)'};

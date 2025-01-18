@@ -20,7 +20,7 @@ export const EditModalComponent = ({
   return (
     <Modal
       open={open}
-      title={mode === 'create' ? 'Новая трата' : 'Редактировать'}
+      title={mode === 'create' ? 'Новый доход' : 'Редактировать'}
       onClose={onClose}
     >
       <div className={className}>

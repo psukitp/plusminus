@@ -1,5 +1,11 @@
 export const RemainingIcon = () => (
-  <svg width="35" height="33" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    width="35"
+    height="33"
+    viewBox="0 0 33 33"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M14.5123 15.8381c-1.2662-.7009-2.1234-2.0494-2.1234-3.5992 0-2.2714 1.8397-4.1111 4.1111-4.1111.7092 0 1.3772.1788 1.959.4953"
       stroke="#212121"

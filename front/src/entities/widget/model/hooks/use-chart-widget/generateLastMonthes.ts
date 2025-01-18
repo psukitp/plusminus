@@ -23,11 +23,6 @@ export const generateLastMonthes = (
         },
       },
     },
-    legend: {
-      bottom: '0',
-      left: 'center',
-      orient: 'horizontal',
-    },
     yAxis: {
       type: 'value',
     },
@@ -42,6 +37,7 @@ export const generateLastMonthes = (
           width: 1.5,
         },
         zlevel: 3,
+        smooth: true,
       },
       {
         name: 'Доходы',
@@ -53,6 +49,7 @@ export const generateLastMonthes = (
           width: 1.5,
         },
         zlevel: 2,
+        smooth: true,
       },
     ],
   }

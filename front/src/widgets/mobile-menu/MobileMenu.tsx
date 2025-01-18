@@ -1,12 +1,21 @@
-import { SiderButton } from '../sider-button'
-import { MobileMenuButtons, MobileMenuContainer } from './MobileMenu-styled'
+import { SiderButton } from '@shared/ui/sider-button'
 import { IMenuProps } from './types'
-import { CategoriesIcon, ExpensesIcon, IncomesIcon, ReviewIcon } from '../icons'
+import {
+  CategoriesIcon,
+  ExpensesIcon,
+  IncomesIcon,
+  ReviewIcon,
+} from '@shared/ui/icons'
+import { AddRecordButton } from './AddRecordButton'
 
-export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
+export const MobileMenuComponent = ({
+  activeCaption,
+  className,
+  setActiveButton,
+}: IMenuProps) => {
   return (
-    <MobileMenuContainer>
-      <MobileMenuButtons>
+    <div className={className}>
+      <div className="buttons">
         <SiderButton
           active={activeCaption.review}
           linkTo="review"
@@ -29,6 +38,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
             })
           }
         />
+        <AddRecordButton onAdd={setActiveButton} />
         <SiderButton
           active={activeCaption.incomes}
           linkTo="incomes"
@@ -51,7 +61,7 @@ export const MobileMenu = ({ activeCaption, setActiveButton }: IMenuProps) => {
             })
           }
         />
-      </MobileMenuButtons>
-    </MobileMenuContainer>
+      </div>
+    </div>
   )
 }

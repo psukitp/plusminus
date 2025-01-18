@@ -36,6 +36,10 @@ export const theme: DefaultTheme = {
       font-size: 16px;
       font-family: 'RobotoMedium';
     `,
+    smallLeading: css`
+      font-size: 12px;
+      font-family: 'RobotoMedium';
+    `,
     small: css`
       font-size: 12px;
       font-family: 'RobotoRegular';

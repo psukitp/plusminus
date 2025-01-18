@@ -19,7 +19,8 @@ export const SiderButtonComponent = ({
         additionClass="sider-button"
         icon={type === 'mobile' ? undefined : icon}
         onClick={onClick}
-        type={active ? 'primary' : 'secondary'}
+        type="ghost"
+        active={active}
       >
         {type === 'mobile' ? icon : text}
       </Button>

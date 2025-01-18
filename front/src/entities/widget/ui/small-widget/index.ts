@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { SmallWidgetComponent } from './SmallWidget'
+import { isMobile } from 'react-device-detect'
 
 export const SmallWidget = styled(SmallWidgetComponent)`
   height: 100%;
@@ -12,7 +13,7 @@ export const SmallWidget = styled(SmallWidgetComponent)`
   }
 
   .text {
-    ${({ theme }) => theme.fonts.heading_1}
+    ${({ theme }) => (isMobile ? theme.fonts.heading_2 : theme.fonts.heading_1)}
   }
 
   .description {
@@ -27,9 +28,12 @@ export const SmallWidget = styled(SmallWidgetComponent)`
     display: flex;
     justify-content: space-between;
     align-items: end;
-    &_value {
-      display: block;
-      max-width: 60%;
+
+    .image {
+      display: flex;
+      align-items: end;
+      max-width: 40px;
+      min-width: 24px;
     }
   }
 `
