@@ -74,11 +74,10 @@ export const ExpensesPageComponent = ({
   }
 
   const sortByDates = (a: RecordType, b: RecordType) => {
-    const [aDay, aMonth] = a.group.split('.')
-    const [bDay, bMonth] = b.group.split('.')
+    const curentYear = dayjs().year()
 
-    const aDate = dayjs().set('date', +aDay).set('month', +aMonth)
-    const bDate = dayjs().set('date', +bDay).set('month', +bMonth)
+    const aDate = dayjs(`${curentYear}-${a.group}`, 'YYYY-DD.MM')
+    const bDate = dayjs(`${curentYear}-${b.group}`, 'YYYY-DD.MM')
     return aDate.isAfter(bDate) ? -1 : 1
   }
 
