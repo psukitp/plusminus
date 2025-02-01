@@ -15,6 +15,7 @@ import styled from 'styled-components'
 import { ReviewHello } from './review-hello'
 import { PieLegend } from '@features/category/ui/pie-legend'
 import { AstericIcon, RemainingIcon } from '@shared/ui/icons'
+import { DatePicker } from '@shared/ui'
 
 export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   const [expenses, incomes, remainingSum, diffTotal] = useSmallWidgetData(dates)
@@ -37,6 +38,7 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   return (
     <div className={className}>
       <ReviewHello dates={dates} />
+      <DatePicker />
       <div className="grid">
         <WidgetContainer {...grid[0]}>
           <SmallWidget
