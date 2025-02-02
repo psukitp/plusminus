@@ -35,24 +35,6 @@ export class ExpensesService extends BaseService {
     }
   }
 
-  async getExpensesByCategories(
-    date: string,
-  ): Promise<ExpensesByCategoryRecord[]> {
-    try {
-      const response = await this.client.get<
-        ServiceResponse<ExpensesByCategoryRecord[]>
-      >(`${this.url}/bycategory?date=${date}`)
-      const {
-        data: { data, message, success },
-      } = response
-      if (!success) openNotificationError(message)
-      return data
-    } catch (e) {
-      console.log(e)
-      return []
-    }
-  }
-
   async getExpensesByCategoriesPeriod(
     dates: StringDates,
   ): Promise<ExpensesByCategoryRecord[]> {

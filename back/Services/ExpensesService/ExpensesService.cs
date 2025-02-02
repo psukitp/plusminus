@@ -4,30 +4,42 @@ using Microsoft.EntityFrameworkCore;
 using plusminus.Data;
 using plusminus.Dtos.Expenses;
 using plusminus.Models;
+using plusminus.Repository;
 
 namespace plusminus.Services.ExpensesService
 {
-    public class ExpensesService : IExpensesService
+    public class ExpensesService
     {
         private readonly IMapper _mapper;
-        private readonly DataContext _context;
+        private readonly IRepository<Expenses> _repository;
 
-        public ExpensesService(IMapper mapper, DataContext context)
+        public ExpensesService(IMapper mapper, IRepository<Expenses> repository)
         {
             _mapper = mapper;
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<ServiceResponse<List<GetExpensesDto>>> GetExpensesByUserId(int id, DateOnly date)
+        /// <summary>
+        /// Получить расходы за неделю.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="endDate">Конец периода.</param>
+        /// <returns>Информация о расходах за неделю.</returns>
+        public async Task<ServiceResponse<GetExpensesDto[]>> GetLastWeek(int userId, DateOnly endDate)
         {
-            var serviceResponse = new ServiceResponse<List<GetExpensesDto>>();
+            var serviceResponse = new ServiceResponse<GetExpensesDto[]>();
 
             try
             {
-                var firstDate = date.AddDays(-7);
-                var expenses = await _context.Expenses.Include(e => e.Category).ToListAsync();
-                var dbExpenses = expenses.Where(e => e.UserId == id && e.Date >= firstDate && e.Date <= date);
-                serviceResponse.Data = dbExpenses.Select(e => _mapper.Map<GetExpensesDto>(e)).ToList();
+                var firstDate = endDate.AddDays(-7);
+
+                var expenses = _repository.GetAll()
+                    .Where(e => e.UserId == userId)
+                    .Where(e => e.Date >= firstDate && e.Date <= endDate)
+                    .Include(e => e.Category)
+                    .ToArray();
+
+                serviceResponse.Data = expenses.Select(e => _mapper.Map<GetExpensesDto>(e)).ToArray();
             }
             catch (Exception ex)
             {
@@ -38,47 +50,56 @@ namespace plusminus.Services.ExpensesService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetExpensesDto>>> AddExpenses(AddExpensesDto newExpenses, int userId)
+        /// <summary>
+        /// Добавить расход.
+        /// </summary>
+        /// <param name="expense">Запрос на добавление расхода.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="cancellationToken">CancellationToken.</param>
+        /// <returns>Информация о добавленном расходе.</returns>
+        public async Task<ServiceResponse<GetExpensesDto>> Add(AddExpensesDto expense, int userId,
+            CancellationToken cancellationToken)
         {
-            var serviceResponse = new ServiceResponse<List<GetExpensesDto>>();
+            var serviceResponse = new ServiceResponse<GetExpensesDto>();
 
-            Expenses mappedExpenses = _mapper.Map<Expenses>(newExpenses);
+            var entity = _mapper.Map<Expenses>(expense);
+            entity.UserId = userId;
 
-            Expenses expensesToAdd = new Expenses
-            {
-                Amount = mappedExpenses.Amount,
-                Category = mappedExpenses.Category,
-                UserId = userId,
-                Date = mappedExpenses.Date,
-                CategoryId = mappedExpenses.CategoryId,
-                Id = mappedExpenses.Id,
-                User = mappedExpenses.User,
-            };
-            var addedExpenses = await _context.Expenses.AddAsync(expensesToAdd);
-            await _context.SaveChangesAsync();
+            var newExpense = await _repository.Add(entity, cancellationToken);
 
-            var expenses = await _context.Expenses.Include(e => e.Category).ToListAsync();
-            var dbExpenses = expenses.Where(e => e.Id == addedExpenses.Entity.Id);
-            serviceResponse.Data = dbExpenses.Select(e => _mapper.Map<GetExpensesDto>(e)).ToList();
-            
+            var expenseWithCategory = _repository
+                .GetAll()
+                .Where(e => e.Id == newExpense.Id)
+                .Include(e => e.Category)
+                .FirstOrDefault();
+
+            serviceResponse.Data = _mapper.Map<GetExpensesDto>(expenseWithCategory);
+
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<int>> DeleteExpensesById(int id, int userId)
+        /// <summary>
+        /// Удалить расход.
+        /// </summary>
+        /// <param name="id">Идентификатор расхода.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="cancellationToken">CancellationToken.</param>
+        /// <returns>Идентификатор удаленного расхода.</returns>
+        /// <exception cref="KeyNotFoundException">Расход не был найден.</exception>
+        public async Task<ServiceResponse<int>> Delete(int id, int userId,
+            CancellationToken cancellationToken)
         {
             var serviceResponse = new ServiceResponse<int>();
             try
             {
-                var expenses = await _context.Expenses.FindAsync(id);
-                if (expenses is null || expenses.UserId != userId) throw new Exception("Данные расходы не были найдены");
+                var entity = _repository.Get(e => e.Id == id && e.UserId == userId).FirstOrDefault();
+                if (entity == null) throw new KeyNotFoundException("Расход не был найден");
 
-                var currentId = expenses.Id;
-                
-                _context.Expenses.Remove(expenses);
-                await _context.SaveChangesAsync();
+                await _repository.Delete(id, cancellationToken);
 
-                serviceResponse.Data = currentId;
-            } catch (Exception ex)
+                serviceResponse.Data = id;
+            }
+            catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
@@ -86,43 +107,48 @@ namespace plusminus.Services.ExpensesService
 
             return serviceResponse;
         }
-        
-        public async Task<ServiceResponse<List<ExpensesByCategory>>> GetExpensesByCategoryMonth(int userId, DateOnly from, DateOnly to)
+
+        /// <summary>
+        /// Полчить расходы, сгруппированные по категориям, за переиод.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="from">Дата начала периода.</param>
+        /// <param name="to">Дата конца периода.</param>
+        /// <returns>Информация о расходах за период, сгруппированная по категорям.</returns>
+        public async Task<ServiceResponse<ExpensesByCategory[]>> GetExpensesByCategoryPeriod(int userId,
+            DateOnly from, DateOnly to)
         {
-            var serviceResponse = new ServiceResponse<List<ExpensesByCategory>>();
+            var serviceResponse = new ServiceResponse<ExpensesByCategory[]>();
             try
             {
-                var expenses = await _context.Expenses.Include(e => e.Category).ToListAsync();
-
-                var dbExpenses = expenses
-                    .Where(e => e.UserId == userId)
+                var expenses = _repository.GetAll().Where(e => e.UserId == userId)
                     .Where(e => e.Date >= from && e.Date <= to)
+                    .Include(e => e.Category)
                     .GroupBy(e => e.CategoryId)
+                    //TODO унести в маппинг
                     .Select(g => new
                     {
-                        categoryId = g.Key,
-                        amount = g.Sum(e => e.Amount)
-                    })
-                    .ToList();
+                        CategoryId = g.Key,
+                        Amount = g.Sum(e => e.Amount),
+                        g.FirstOrDefault(e => e.CategoryId == g.Key, null).Category
+                    }).ToArray();
 
                 var result = new List<ExpensesByCategory>();
-                foreach (var expense in dbExpenses)
+                foreach (var expense in expenses)
                 {
-                    var category = await _context.CategoryExpenses.FirstOrDefaultAsync(c => c.Id == expense.categoryId);
-                    if (category != null)
+                    if (expense.Category != null)
                     {
                         result.Add(new ExpensesByCategory
                         {
-                            Id = category.Id,
-                            CategoryName = category.Name,
-                            Color = category.Color,
-                            Amount = expense.amount
+                            Id = expense.CategoryId,
+                            CategoryName = expense.Category.Name,
+                            Color = expense.Category.Color,
+                            Amount = expense.Amount
                         });
                     }
                 }
 
-                serviceResponse.Data = result;
-
+                serviceResponse.Data = result.ToArray();
             }
             catch (Exception ex)
             {
@@ -133,69 +159,35 @@ namespace plusminus.Services.ExpensesService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<ExpensesByCategory>>> GetExpensesByCategory(int userId, DateOnly date)
-        {
-            var serviceResponse = new ServiceResponse<List<ExpensesByCategory>>();
-            try
-            {
-                var expenses = await _context.Expenses.Include(e => e.Category).ToListAsync();
-
-                var dbExpenses = expenses
-                    .Where(e => e.UserId == userId && e.Date.Month == date.Month && e.Date.Year == date.Year)
-                    .GroupBy(e => e.CategoryId)
-                    .Select(g => new
-                    {
-                        categoryId = g.Key,
-                        amount = g.Sum(e => e.Amount)
-                    })
-                    .ToList();
-
-                var result = new List<ExpensesByCategory>();
-                foreach (var expense in dbExpenses)
-                {
-                    var category = await _context.CategoryExpenses.FirstOrDefaultAsync(c => c.Id == expense.categoryId);
-                    if (category != null)
-                    {
-                        result.Add(new ExpensesByCategory
-                        {
-                            Id = category.Id,
-                            CategoryName = category.Name,
-                            Color = category.Color,
-                            Amount = expense.amount
-                        });
-                    }
-                }
-
-                serviceResponse.Data = result;
-
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
-            }
-
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetExpensesDto>> UpdateExpenses(UpdateExpensesDto newExpenses, int userId)
+        /// <summary>
+        /// Обновить расход.
+        /// </summary>
+        /// <param name="expense">Запрос на обновление расхода.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="cancellationToken">CancellationToken.</param>
+        /// <returns>Информацию об обновленном расходе.</returns>
+        /// <exception cref="KeyNotFoundException">Расходы не были найдены.</exception>
+        public async Task<ServiceResponse<GetExpensesDto>> Update(UpdateExpensesDto expense, int userId,
+            CancellationToken cancellationToken)
         {
             var serviceResponse = new ServiceResponse<GetExpensesDto>();
             try
             {
-                var expenses = await _context.Expenses.FindAsync(newExpenses.Id);
-                if (expenses is null || expenses.UserId != userId) throw new Exception("Данные расходы не были найдены");
-                
-                if (newExpenses.Amount != null) expenses.Amount = newExpenses.Amount;
-                
-                if (newExpenses.CategoryId != null) expenses.CategoryId = newExpenses.CategoryId;
+                var entity = _repository.Get(e => e.Id == expense.Id).FirstOrDefault();
+                if (entity is null || entity.UserId != userId)
+                    throw new KeyNotFoundException("Расходы не были найдены");
 
-                await _context.SaveChangesAsync();
+                if (expense.Amount != null) entity.Amount = (decimal)expense.Amount;
 
-                var category = await _context.CategoryExpenses.FindAsync(expenses.CategoryId);
-                expenses.Category = category;
-                serviceResponse.Data = _mapper.Map<GetExpensesDto>(expenses);
-            } catch (Exception ex)
+                if (expense.CategoryId != null) entity.CategoryId = (int)expense.CategoryId;
+
+                if (expense.Date != null) entity.Date = (DateOnly)expense.Date;
+
+                await _repository.Update(entity, cancellationToken);
+
+                serviceResponse.Data = _mapper.Map<GetExpensesDto>(entity);
+            }
+            catch (Exception ex)
             {
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
@@ -204,25 +196,35 @@ namespace plusminus.Services.ExpensesService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<ExpensesThisMonthStat>> GetExpensesSum(int id, DateOnly from, DateOnly to)
+        /// <summary>
+        /// Получить сумму трат за текущий и предыдущий период.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="from">Дата начала текущего периода.</param>
+        /// <param name="to">Дата конца текущего периода.</param>
+        /// <returns></returns>
+        //TODO Переименовать дтошку
+        public async Task<ServiceResponse<ExpensesThisMonthStat>> GetExpensesSum(int userId, DateOnly from, DateOnly to)
         {
             var serviceResponse = new ServiceResponse<ExpensesThisMonthStat>();
             try
             {
-                var expensesThisPeriod = await _context.Expenses
-                    .Where(i => i.UserId == id)
+                var expensesThisPeriod = await _repository
+                    .GetAll()
+                    .Where(i => i.UserId == userId)
                     .Where(i => i.Date <= to && i.Date >= from)
-                    .SumAsync(i => i.Amount);;
+                    .SumAsync(i => i.Amount);
 
                 var dayDiff = to.DayNumber - from.DayNumber;
                 var prevFrom = from.AddDays(-dayDiff);
-                
-                var expensesPrevPeriod = await _context.Expenses
-                    .Where(i => i.UserId == id)
-                    .Where(i => i.Date < from && i.Date >= prevFrom)
-                    .SumAsync(i => i.Amount);;
 
-                ExpensesThisMonthStat result = new ExpensesThisMonthStat
+                var expensesPrevPeriod = await _repository
+                    .GetAll()
+                    .Where(i => i.UserId == userId)
+                    .Where(i => i.Date < from && i.Date >= prevFrom)
+                    .SumAsync(i => i.Amount);
+
+                var result = new ExpensesThisMonthStat
                 {
                     ExpensesDiff = expensesThisPeriod - expensesPrevPeriod,
                     ExpensesTotal = expensesThisPeriod
@@ -238,7 +240,12 @@ namespace plusminus.Services.ExpensesService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetThisYearExpenses>> GetExpensesThisYear(int id)
+        /// <summary>
+        /// Получить расходы по месяцам за последние 12 месяцев.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользоваетя.</param>
+        /// <returns>Информация о расходах по месяцам.</returns>
+        public async Task<ServiceResponse<GetThisYearExpenses>> GetExpensesLastYear(int userId)
         {
             var serviceResponse = new ServiceResponse<GetThisYearExpenses>();
             try
@@ -247,12 +254,14 @@ namespace plusminus.Services.ExpensesService
                 GetThisYearExpenses result = new GetThisYearExpenses();
                 result.Monthes = new List<string>();
                 result.Values = new List<decimal>();
-                
+
                 for (var i = 0; i < 12; i++)
                 {
                     var month = currentDate.AddMonths(-i);
-                    var monthExpenses = await _context.Expenses
-                        .Where(e => e.Date.Month == month.Month && e.Date.Year == month.Year && e.UserId == id)
+                    var monthExpenses = await _repository
+                        .GetAll()
+                        .Where(e => e.UserId == userId)
+                        .Where(e => e.Date.Month == month.Month && e.Date.Year == month.Year)
                         .SumAsync(e => e.Amount);
 
                     var currentMonthName = DateTimeFormatInfo.CurrentInfo.MonthNames[month.Month - 1];
@@ -262,7 +271,7 @@ namespace plusminus.Services.ExpensesService
 
                 result.Monthes.Reverse();
                 result.Values.Reverse();
-                
+
                 serviceResponse.Data = result;
             }
             catch (Exception ex)
@@ -274,21 +283,30 @@ namespace plusminus.Services.ExpensesService
             return serviceResponse;
         }
 
+        /// <summary>
+        /// Получить расходы за неделю по дням.
+        /// </summary>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="date">Дата конца периода.</param>
+        /// <returns>Расходы за неделю по дням.</returns>
+        //TODO объединить с моделькой по месяцам и перевести на период.
         public async Task<ServiceResponse<GetLastWeekExpenses>> GetLastWeekExpenses(int userId, DateOnly date)
         {
             var serviceResponse = new ServiceResponse<GetLastWeekExpenses>();
             try
             {
                 var firstDate = date.AddDays(-7);
-                
+
                 var result = new GetLastWeekExpenses
                 {
                     Days = new List<DateOnly>(),
                     Values = new List<decimal>()
                 };
-                
-                var expenses = await _context.Expenses
-                    .Where(e => e.UserId == userId && e.Date >= firstDate && e.Date <= date)
+
+                var expenses = await _repository
+                    .GetAll()
+                    .Where(e => e.UserId == userId)
+                    .Where(e => e.Date >= firstDate && e.Date <= date)
                     .GroupBy(e => e.Date)
                     .Select(g => new
                     {
@@ -296,7 +314,7 @@ namespace plusminus.Services.ExpensesService
                         Total = g.Sum(e => e.Amount)
                     })
                     .ToListAsync();
-                
+
                 for (int i = 1; i < 8; i++)
                 {
                     var currentDate = firstDate.AddDays(i);
