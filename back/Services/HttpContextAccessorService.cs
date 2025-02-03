@@ -2,6 +2,9 @@
 
 namespace plusminus.Services;
 
+/// <summary>
+/// Сервис для работы с http context.
+/// </summary>
 public class HttpContextAccessorService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -11,6 +14,11 @@ public class HttpContextAccessorService
         _httpContextAccessor = httpContextAccessor;
     }
 
+    /// <summary>
+    /// Получить идентификатор пользователя.
+    /// </summary>
+    /// <returns>Идентификатор пользователя.</returns>
+    /// <exception cref="Exception">Необходима автризация</exception>
     public int GetUserId()
     {
         var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue("id");

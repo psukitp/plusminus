@@ -1,13 +1,15 @@
 ﻿using System.Globalization;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using plusminus.Data;
 using plusminus.Dtos.Expenses;
 using plusminus.Models;
 using plusminus.Repository;
 
-namespace plusminus.Services.ExpensesService
+namespace plusminus.Services
 {
+    /// <summary>
+    /// Сервис для работы с расходами.
+    /// </summary>
     public class ExpensesService
     {
         private readonly IMapper _mapper;
@@ -24,7 +26,6 @@ namespace plusminus.Services.ExpensesService
         /// <summary>
         /// Получить расходы за неделю.
         /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="endDate">Конец периода.</param>
         /// <returns>Информация о расходах за неделю.</returns>
         public async Task<ServiceResponse<GetExpensesDto[]>> GetLastWeek(DateOnly endDate)
@@ -39,8 +40,7 @@ namespace plusminus.Services.ExpensesService
                 var expenses = _repository.GetAll()
                     .Where(e => e.UserId == userId)
                     .Where(e => e.Date >= firstDate && e.Date <= endDate)
-                    .Include(e => e.Category)
-                    .ToArray();
+                    .Include(e => e.Category);
 
                 serviceResponse.Data = expenses.Select(e => _mapper.Map<GetExpensesDto>(e)).ToArray();
             }
@@ -57,7 +57,6 @@ namespace plusminus.Services.ExpensesService
         /// Добавить расход.
         /// </summary>
         /// <param name="expense">Запрос на добавление расхода.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>Информация о добавленном расходе.</returns>
         public async Task<ServiceResponse<GetExpensesDto>> Add(AddExpensesDto expense,
@@ -96,7 +95,6 @@ namespace plusminus.Services.ExpensesService
         /// Удалить расход.
         /// </summary>
         /// <param name="id">Идентификатор расхода.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>Идентификатор удаленного расхода.</returns>
         /// <exception cref="KeyNotFoundException">Расход не был найден.</exception>
@@ -127,7 +125,6 @@ namespace plusminus.Services.ExpensesService
         /// <summary>
         /// Полчить расходы, сгруппированные по категориям, за переиод.
         /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="from">Дата начала периода.</param>
         /// <param name="to">Дата конца периода.</param>
         /// <returns>Информация о расходах за период, сгруппированная по категорям.</returns>
@@ -183,7 +180,6 @@ namespace plusminus.Services.ExpensesService
         /// Обновить расход.
         /// </summary>
         /// <param name="expense">Запрос на обновление расхода.</param>
-        /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>Информацию об обновленном расходе.</returns>
         /// <exception cref="KeyNotFoundException">Расходы не были найдены.</exception>
@@ -220,12 +216,11 @@ namespace plusminus.Services.ExpensesService
         /// <summary>
         /// Получить сумму трат за текущий и предыдущий период.
         /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="from">Дата начала текущего периода.</param>
         /// <param name="to">Дата конца текущего периода.</param>
-        /// <returns></returns>
+        /// <returns>Сумма за период.</returns>
         //TODO Переименовать дтошку
-        public async Task<ServiceResponse<ExpensesThisMonthStat>> GetExpensesSum(DateOnly from, DateOnly to)
+        public async Task<ServiceResponse<ExpensesThisMonthStat>> GetSum(DateOnly from, DateOnly to, CancellationToken cancellationToken)
         {
             var serviceResponse = new ServiceResponse<ExpensesThisMonthStat>();
             try
@@ -236,7 +231,7 @@ namespace plusminus.Services.ExpensesService
                     .GetAll()
                     .Where(i => i.UserId == userId)
                     .Where(i => i.Date <= to && i.Date >= from)
-                    .SumAsync(i => i.Amount);
+                    .SumAsync(i => i.Amount, cancellationToken);
 
                 var dayDiff = to.DayNumber - from.DayNumber;
                 var prevFrom = from.AddDays(-dayDiff);
@@ -245,7 +240,7 @@ namespace plusminus.Services.ExpensesService
                     .GetAll()
                     .Where(i => i.UserId == userId)
                     .Where(i => i.Date < from && i.Date >= prevFrom)
-                    .SumAsync(i => i.Amount);
+                    .SumAsync(i => i.Amount, cancellationToken);
 
                 var result = new ExpensesThisMonthStat
                 {
@@ -266,9 +261,9 @@ namespace plusminus.Services.ExpensesService
         /// <summary>
         /// Получить расходы по месяцам за последние 12 месяцев.
         /// </summary>
-        /// <param name="userId">Идентификатор пользоваетя.</param>
+        /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>Информация о расходах по месяцам.</returns>
-        public async Task<ServiceResponse<GetThisYearExpenses>> GetExpensesLastYear()
+        public async Task<ServiceResponse<GetThisYearExpenses>> GetLastYear(CancellationToken cancellationToken)
         {
             var serviceResponse = new ServiceResponse<GetThisYearExpenses>();
             try
@@ -276,7 +271,7 @@ namespace plusminus.Services.ExpensesService
                 var userId = _httpContextAccessor.GetUserId();
                 
                 var currentDate = DateTime.Now;
-                GetThisYearExpenses result = new GetThisYearExpenses();
+                var result = new GetThisYearExpenses();
                 result.Monthes = new List<string>();
                 result.Values = new List<decimal>();
 
@@ -287,7 +282,7 @@ namespace plusminus.Services.ExpensesService
                         .GetAll()
                         .Where(e => e.UserId == userId)
                         .Where(e => e.Date.Month == month.Month && e.Date.Year == month.Year)
-                        .SumAsync(e => e.Amount);
+                        .SumAsync(e => e.Amount, cancellationToken);
 
                     var currentMonthName = DateTimeFormatInfo.CurrentInfo.MonthNames[month.Month - 1];
                     result.Monthes.Add(char.ToUpper(currentMonthName[0]) + currentMonthName.Substring(1).ToLower());
@@ -311,7 +306,6 @@ namespace plusminus.Services.ExpensesService
         /// <summary>
         /// Получить расходы за неделю по дням.
         /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="date">Дата конца периода.</param>
         /// <returns>Расходы за неделю по дням.</returns>
         //TODO объединить с моделькой по месяцам и перевести на период.

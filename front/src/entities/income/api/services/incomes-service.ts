@@ -22,7 +22,10 @@ export class IncomesService extends BaseService {
   async getIncomes(date: string): Promise<IncomesRecord[]> {
     try {
       const response = await this.client.get<ServiceResponse<IncomesRecord[]>>(
-        `${this.url}?date=${date}`,
+        `${this.url}`,
+        {
+          params: { date },
+        },
       )
       const {
         data: { data, message, success },
@@ -41,7 +44,9 @@ export class IncomesService extends BaseService {
     try {
       const response = await this.client.get<
         ServiceResponse<IncomesByCategoryRecord[]>
-      >(`${this.url}/bycategory?date=${date}`)
+      >(`${this.url}/ByCategory`, {
+        params: { date },
+      })
       const {
         data: { data, message, success },
       } = response
@@ -64,7 +69,7 @@ export class IncomesService extends BaseService {
   }): Promise<IncomesRecord[]> {
     try {
       const response = await this.client.post<ServiceResponse<IncomesRecord[]>>(
-        `${this.url}/add`,
+        `${this.url}`,
         {
           date,
           categoryId,
@@ -88,7 +93,13 @@ export class IncomesService extends BaseService {
     try {
       const response = await this.client.get<
         ServiceResponse<Omit<IncomesThisMonth, 'loading'>>
-      >(`${this.url}/sum?from=${dates[0]}&to=${dates[1]}`)
+      >(`${this.url}/Sum`, {
+        params: {
+          from: dates[0],
+          to: dates[1],
+        },
+      })
+
       const {
         data: { data, message, success },
       } = response
@@ -98,7 +109,7 @@ export class IncomesService extends BaseService {
       console.log(e)
       return {
         incomesTotal: 0,
-        incomesDiff: 0
+        incomesDiff: 0,
       }
     }
   }
@@ -107,7 +118,7 @@ export class IncomesService extends BaseService {
     try {
       const response = await this.client.get<
         ServiceResponse<IncomesLastMonthes>
-      >(`${this.url}/dynamicmonth`)
+      >(`${this.url}/Year`)
       const {
         data: { data, message, success },
       } = response
@@ -125,7 +136,8 @@ export class IncomesService extends BaseService {
   async deleteIncome(id: Key): Promise<Key | null> {
     try {
       const response = await this.client.delete<ServiceResponse<Key>>(
-        `${this.url}/${id}`,
+        `${this.url}`,
+        { params: { id } },
       )
       const {
         data: { data, message, success },
@@ -145,7 +157,7 @@ export class IncomesService extends BaseService {
   }): Promise<IncomesRecord | null> {
     try {
       const response = await this.client.patch<ServiceResponse<IncomesRecord>>(
-        `${this.url}/update`,
+        `${this.url}`,
         {
           ...income,
         },
@@ -164,7 +176,7 @@ export class IncomesService extends BaseService {
   async getTotalDiff(): Promise<number> {
     try {
       const response = await this.client.get<ServiceResponse<number>>(
-        `${this.url}/totalDiff`,
+        `${this.url}/TotalDiff`,
       )
       const {
         data: { data, message, success },
@@ -182,9 +194,12 @@ export class IncomesService extends BaseService {
     endDate: string,
   ): Promise<IncomesByPeriod | null> {
     try {
-      const response = await this.client.get(
-        `${this.url}/period?from=${startDate}&to=${endDate}`,
-      )
+      const response = await this.client.get(`${this.url}/Period`, {
+        params: {
+          from: startDate,
+          to: endDate,
+        },
+      })
       const {
         data: { data, message, success },
       } = response
