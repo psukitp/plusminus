@@ -13,20 +13,43 @@ dayjs.extend(isoWeek)
 export const CalendarComponent = ({
   className,
   value,
-  range = false,
   onChange,
 }: ICalendarProps) => {
   const [currentDate, setCurrentDate] = useState<Dayjs>(
-    value ? dayjs(value) : dayjs(),
+    value ? dayjs(value[0]) : dayjs(),
   )
+  const [range, setRange] = useState<[Dayjs | null, Dayjs | null]>([null, null])
+
+  useEffect(() => {
+    if (value) setRange(value)
+  }, [value])
 
   const daysInMonth = currentDate.daysInMonth()
   const firstWeekDay = +currentDate.date(1).isoWeekday()
   const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1)
 
-  useEffect(() => {
-    onChange && onChange(currentDate)
-  }, [currentDate])
+  const handleDayClick = (day: number) => {
+    const selectedDate = currentDate.set('date', day)
+
+    if (!range[0] || (range[0] && range[1])) {
+      setRange([selectedDate, null])
+    } else {
+      if (selectedDate.isBefore(range[0])) setRange([selectedDate, range[0]])
+      else setRange([range[0], selectedDate])
+
+      onChange && onChange([range[0], range[1]!])
+    }
+  }
+
+  const isInRange = (day: number) => {
+    if (!range[0] || !range[1]) return false
+    const date = currentDate.set('date', day)
+    return (
+      (date.isAfter(range[0]) && date.isBefore(range[1])) ||
+      date.isSame(range[0]) ||
+      date.isSame(range[1])
+    )
+  }
 
   const weeks = useMemo(() => {
     const result: number[][] = []
@@ -66,42 +89,46 @@ export const CalendarComponent = ({
           <RightArrow />
         </div>
       </div>
-      <table>
-        <thead>
-          <tr className="weekDays">
-            <th>Пн</th>
-            <th>Вт</th>
-            <th>Ср</th>
-            <th>Чт</th>
-            <th>Пт</th>
-            <th>Сб</th>
-            <th>Вс</th>
-          </tr>
-        </thead>
-        <tbody>
+      <div className="table">
+        <div className="weekDays">
+          <div>Пн</div>
+          <div>Вт</div>
+          <div>Ср</div>
+          <div>Чт</div>
+          <div>Пт</div>
+          <div>Сб</div>
+          <div>Вс</div>
+        </div>
+        <div className="body">
           {weeks.map((week, i) => (
-            <tr key={i}>
+            <>
               {week.map((day, j) => (
                 <Day
                   key={j}
                   active={day === currentDate.date()}
                   nooutline={!day}
-                  onClick={() =>
+                  inrange={isInRange(day)}
+                  onClick={() => {
                     day && setCurrentDate(currentDate.set('date', day))
-                  }
+                    day && handleDayClick(day)
+                  }}
                 >
                   <span>{day || ''}</span>
                 </Day>
               ))}
-            </tr>
+            </>
           ))}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   )
 }
 
-const Day = styled.td<{ active: boolean; nooutline: boolean }>`
+const Day = styled.div<{
+  active: boolean
+  nooutline: boolean
+  inrange: boolean
+}>`
   font-size: 16px;
   font-weight: normal;
   padding: 8px 0;
@@ -111,9 +138,9 @@ const Day = styled.td<{ active: boolean; nooutline: boolean }>`
   }
 
   span {
-    color: ${({ active }) => (active ? '#fff' : '#000')};
-    background: ${({ theme, active }) =>
-      active ? theme.pallete.primary.orange : 'unset'};
+    color: ${({ active, inrange }) => (active || inrange ? '#fff' : '#000')};
+    background: ${({ theme, active, inrange }) =>
+      active || inrange ? theme.pallete.primary.orange : 'unset'};
     border-radius: 50%;
     padding: 6px;
     display: flex;

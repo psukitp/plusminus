@@ -2,7 +2,10 @@ import styled from 'styled-components'
 import { DatePickerComponent } from './DatePicker'
 
 export const DatePicker = styled(DatePickerComponent)`
-  .react-datepicker-wrapper {
-    background-color: black;
+  position: relative;
+  .popup {
+    position: absolute;
+    width: 200px;
+    top: 30px;
   }
 `

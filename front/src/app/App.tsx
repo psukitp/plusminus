@@ -88,8 +88,9 @@ const AppContainer = ({ className }: { className?: string }) => {
           <div className="content">
             {!!user.id && (
               <Header
-                onChangeDates={setDates}
+                dates={dates}
                 showDates={activeCaption.review}
+                onChangeDates={setDates}
               />
             )}
             <Routes>

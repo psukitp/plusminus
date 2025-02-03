@@ -2,7 +2,7 @@ import { useUser } from '@entities/user'
 import { IHeaderComponentProps } from './types'
 import { Segmented } from '@shared/ui/components/segmented'
 import { Key, useCallback, useState } from 'react'
-import { SegmentedOption } from '@shared/ui'
+import { DatePicker, SegmentedOption } from '@shared/ui'
 import dayjs, { Dayjs } from 'dayjs'
 
 const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
@@ -18,6 +18,7 @@ const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
 export const HeaderComponent = ({
   showDates,
   className,
+  dates,
 
   onChangeDates,
 }: IHeaderComponentProps) => {
@@ -45,7 +46,7 @@ export const HeaderComponent = ({
             }
             options={periodOptions}
           />
-          {/* <DatePicker /> */}
+          <DatePicker value={dates} />
         </div>
       )}
       <div className="info">

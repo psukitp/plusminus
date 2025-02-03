@@ -38,7 +38,6 @@ export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {
   return (
     <div className={className}>
       <ReviewHello dates={dates} />
-      <DatePicker />
       <div className="grid">
         <WidgetContainer {...grid[0]}>
           <SmallWidget
