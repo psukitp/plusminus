@@ -137,10 +137,14 @@ namespace plusminus.Services.ExpensesService
             try
             {
                 var userId = _httpContextAccessor.GetUserId();
-                var expenses = _repository.GetAll().Where(e => e.UserId == userId)
+                
+                var expenses = _repository
+                    .GetAll()
+                    .Where(e => e.UserId == userId)
                     .Where(e => e.Date >= from && e.Date <= to)
                     .Include(e => e.Category)
                     .GroupBy(e => e.CategoryId)
+                    .ToList()
                     //TODO унести в маппинг
                     .Select(g => new
                     {
