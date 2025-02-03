@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using plusminus.Data;
 using plusminus.Middlewares;
 using plusminus.Repository;
+using plusminus.Services;
 using plusminus.Services.CategoryExpansesService;
 using plusminus.Services.CategoryIncomesService;
 using plusminus.Services.ExpensesService;
@@ -44,6 +45,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<SMTP>(builder.Configuration.GetSection("SMTP"));
 
 builder.Services.AddScoped<AuthorizeFilter>();
+builder.Services.AddScoped<HttpContextAccessorService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ExpensesService>();
 builder.Services.AddScoped<IIncomesService, IncomesService>();
@@ -51,7 +54,6 @@ builder.Services.AddScoped<ICategoryIncomesService, CategoryIncomesService>();
 builder.Services.AddScoped<ICategoryExpensesService, CategoryExpensesService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddMemoryCache();
 
 

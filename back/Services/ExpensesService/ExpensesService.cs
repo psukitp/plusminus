@@ -12,11 +12,13 @@ namespace plusminus.Services.ExpensesService
     {
         private readonly IMapper _mapper;
         private readonly IRepository<Expenses> _repository;
+        private readonly HttpContextAccessorService _httpContextAccessor;
 
-        public ExpensesService(IMapper mapper, IRepository<Expenses> repository)
+        public ExpensesService(IMapper mapper, IRepository<Expenses> repository, HttpContextAccessorService httpContextAccessor)
         {
             _mapper = mapper;
             _repository = repository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -25,12 +27,13 @@ namespace plusminus.Services.ExpensesService
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="endDate">Конец периода.</param>
         /// <returns>Информация о расходах за неделю.</returns>
-        public async Task<ServiceResponse<GetExpensesDto[]>> GetLastWeek(int userId, DateOnly endDate)
+        public async Task<ServiceResponse<GetExpensesDto[]>> GetLastWeek(DateOnly endDate)
         {
             var serviceResponse = new ServiceResponse<GetExpensesDto[]>();
 
             try
             {
+                var userId = _httpContextAccessor.GetUserId();
                 var firstDate = endDate.AddDays(-7);
 
                 var expenses = _repository.GetAll()
@@ -57,23 +60,34 @@ namespace plusminus.Services.ExpensesService
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>Информация о добавленном расходе.</returns>
-        public async Task<ServiceResponse<GetExpensesDto>> Add(AddExpensesDto expense, int userId,
+        public async Task<ServiceResponse<GetExpensesDto>> Add(AddExpensesDto expense,
             CancellationToken cancellationToken)
         {
+            
             var serviceResponse = new ServiceResponse<GetExpensesDto>();
+            try
+            {
+                var userId = _httpContextAccessor.GetUserId();
+                
+                var entity = _mapper.Map<Expenses>(expense);
+                entity.UserId = userId;
 
-            var entity = _mapper.Map<Expenses>(expense);
-            entity.UserId = userId;
+                var newExpense = await _repository.Add(entity, cancellationToken);
 
-            var newExpense = await _repository.Add(entity, cancellationToken);
+                var expenseWithCategory = _repository
+                    .GetAll()
+                    .Where(e => e.Id == newExpense.Id)
+                    .Include(e => e.Category)
+                    .FirstOrDefault();
 
-            var expenseWithCategory = _repository
-                .GetAll()
-                .Where(e => e.Id == newExpense.Id)
-                .Include(e => e.Category)
-                .FirstOrDefault();
+                serviceResponse.Data = _mapper.Map<GetExpensesDto>(expenseWithCategory); 
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = ex.Message;
+            }
 
-            serviceResponse.Data = _mapper.Map<GetExpensesDto>(expenseWithCategory);
 
             return serviceResponse;
         }
@@ -86,12 +100,14 @@ namespace plusminus.Services.ExpensesService
         /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>Идентификатор удаленного расхода.</returns>
         /// <exception cref="KeyNotFoundException">Расход не был найден.</exception>
-        public async Task<ServiceResponse<int>> Delete(int id, int userId,
+        public async Task<ServiceResponse<int>> Delete(int id,
             CancellationToken cancellationToken)
         {
             var serviceResponse = new ServiceResponse<int>();
             try
             {
+                var userId = _httpContextAccessor.GetUserId();
+                
                 var entity = _repository.Get(e => e.Id == id && e.UserId == userId).FirstOrDefault();
                 if (entity == null) throw new KeyNotFoundException("Расход не был найден");
 
@@ -115,12 +131,12 @@ namespace plusminus.Services.ExpensesService
         /// <param name="from">Дата начала периода.</param>
         /// <param name="to">Дата конца периода.</param>
         /// <returns>Информация о расходах за период, сгруппированная по категорям.</returns>
-        public async Task<ServiceResponse<ExpensesByCategory[]>> GetExpensesByCategoryPeriod(int userId,
-            DateOnly from, DateOnly to)
+        public async Task<ServiceResponse<ExpensesByCategory[]>> GetExpensesByCategoryPeriod(DateOnly from, DateOnly to)
         {
             var serviceResponse = new ServiceResponse<ExpensesByCategory[]>();
             try
             {
+                var userId = _httpContextAccessor.GetUserId();
                 var expenses = _repository.GetAll().Where(e => e.UserId == userId)
                     .Where(e => e.Date >= from && e.Date <= to)
                     .Include(e => e.Category)
@@ -167,12 +183,13 @@ namespace plusminus.Services.ExpensesService
         /// <param name="cancellationToken">CancellationToken.</param>
         /// <returns>Информацию об обновленном расходе.</returns>
         /// <exception cref="KeyNotFoundException">Расходы не были найдены.</exception>
-        public async Task<ServiceResponse<GetExpensesDto>> Update(UpdateExpensesDto expense, int userId,
+        public async Task<ServiceResponse<GetExpensesDto>> Update(UpdateExpensesDto expense,
             CancellationToken cancellationToken)
         {
             var serviceResponse = new ServiceResponse<GetExpensesDto>();
             try
             {
+                var userId = _httpContextAccessor.GetUserId();
                 var entity = _repository.Get(e => e.Id == expense.Id).FirstOrDefault();
                 if (entity is null || entity.UserId != userId)
                     throw new KeyNotFoundException("Расходы не были найдены");
@@ -204,11 +221,13 @@ namespace plusminus.Services.ExpensesService
         /// <param name="to">Дата конца текущего периода.</param>
         /// <returns></returns>
         //TODO Переименовать дтошку
-        public async Task<ServiceResponse<ExpensesThisMonthStat>> GetExpensesSum(int userId, DateOnly from, DateOnly to)
+        public async Task<ServiceResponse<ExpensesThisMonthStat>> GetExpensesSum(DateOnly from, DateOnly to)
         {
             var serviceResponse = new ServiceResponse<ExpensesThisMonthStat>();
             try
             {
+                var userId = _httpContextAccessor.GetUserId();
+                
                 var expensesThisPeriod = await _repository
                     .GetAll()
                     .Where(i => i.UserId == userId)
@@ -245,11 +264,13 @@ namespace plusminus.Services.ExpensesService
         /// </summary>
         /// <param name="userId">Идентификатор пользоваетя.</param>
         /// <returns>Информация о расходах по месяцам.</returns>
-        public async Task<ServiceResponse<GetThisYearExpenses>> GetExpensesLastYear(int userId)
+        public async Task<ServiceResponse<GetThisYearExpenses>> GetExpensesLastYear()
         {
             var serviceResponse = new ServiceResponse<GetThisYearExpenses>();
             try
             {
+                var userId = _httpContextAccessor.GetUserId();
+                
                 var currentDate = DateTime.Now;
                 GetThisYearExpenses result = new GetThisYearExpenses();
                 result.Monthes = new List<string>();
@@ -290,11 +311,12 @@ namespace plusminus.Services.ExpensesService
         /// <param name="date">Дата конца периода.</param>
         /// <returns>Расходы за неделю по дням.</returns>
         //TODO объединить с моделькой по месяцам и перевести на период.
-        public async Task<ServiceResponse<GetLastWeekExpenses>> GetLastWeekExpenses(int userId, DateOnly date)
+        public async Task<ServiceResponse<GetLastWeekExpenses>> GetLastWeekExpenses(DateOnly date)
         {
             var serviceResponse = new ServiceResponse<GetLastWeekExpenses>();
             try
             {
+                var userId = _httpContextAccessor.GetUserId();
                 var firstDate = date.AddDays(-7);
 
                 var result = new GetLastWeekExpenses

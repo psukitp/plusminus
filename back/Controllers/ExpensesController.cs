@@ -28,17 +28,14 @@ namespace plusminus.Controllers
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
 
-            var userId = (int)HttpContext.Items["UserId"]!;
-
-            return Ok(await _expensesService.GetLastWeek(userId, parsedDate));
+            return Ok(await _expensesService.GetLastWeek(parsedDate));
         }
 
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetExpensesDto>>>> AddExpenses(AddExpensesDto newExpenses,
             CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.Add(newExpenses, userId, cancellationToken));
+            return Ok(await _expensesService.Add(newExpenses, cancellationToken));
         }
 
 
@@ -46,16 +43,14 @@ namespace plusminus.Controllers
         public async Task<ActionResult<ServiceResponse<GetExpensesDto>>> UpdateExpenses(UpdateExpensesDto newExpenses,
             CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.Update(newExpenses, userId, cancellationToken));
+            return Ok(await _expensesService.Update(newExpenses, cancellationToken));
         }
 
         [HttpDelete]
         public async Task<ActionResult<ServiceResponse<int>>> DeleteExpenses([FromQuery] int id,
             CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.Delete(id, userId, cancellationToken));
+            return Ok(await _expensesService.Delete(id, cancellationToken));
         }
 
         [HttpGet("Sum")]
@@ -73,16 +68,14 @@ namespace plusminus.Controllers
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
-
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.GetExpensesSum(userId, parsedFrom, parsedTo));
+            
+            return Ok(await _expensesService.GetExpensesSum(parsedFrom, parsedTo));
         }
 
         [HttpGet("ByCategory")]
         public async Task<ActionResult<ServiceResponse<List<ExpensesByCategory>>>> GetExpensesByCategoryPeriod(
             [FromQuery] string from, [FromQuery] string to)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
             if (!DateOnly.TryParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
                     out DateOnly parsedFrom))
             {
@@ -95,14 +88,13 @@ namespace plusminus.Controllers
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
 
-            return Ok(await _expensesService.GetExpensesByCategoryPeriod(userId, parsedFrom, parsedTo));
+            return Ok(await _expensesService.GetExpensesByCategoryPeriod(parsedFrom, parsedTo));
         }
 
         [HttpGet("Year")]
         public async Task<ActionResult<ServiceResponse<GetThisYearExpenses>>> GetExpensesLastFourMonth()
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.GetExpensesLastYear(userId));
+            return Ok(await _expensesService.GetExpensesLastYear());
         }
 
         [HttpGet("Week")]
@@ -114,9 +106,8 @@ namespace plusminus.Controllers
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
-
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.GetLastWeekExpenses(userId, parsedDate));
+            
+            return Ok(await _expensesService.GetLastWeekExpenses(parsedDate));
         }
     }
 }
