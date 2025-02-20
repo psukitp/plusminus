@@ -2,7 +2,7 @@
 using plusminus.Dtos.CategoryIncomes;
 using plusminus.Middlewares;
 using plusminus.Models;
-using plusminus.Services.CategoryIncomesService;
+using plusminus.Services;
 
 namespace plusminus.Controllers
 {
@@ -11,42 +11,38 @@ namespace plusminus.Controllers
     [Route("api/[controller]")]
     public class CategoryIncomesController : ControllerBase
     {
-        private readonly ICategoryIncomesService _categoryIncomesService;
+        private readonly CategoryIncomesService _categoryIncomesService;
 
-        public CategoryIncomesController(ICategoryIncomesService categoryIncomesService)
+        public CategoryIncomesController(CategoryIncomesService categoryIncomesService)
         {
             _categoryIncomesService = categoryIncomesService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<GetCategoryIncomesDto>>>> GetCategories()
+        public async Task<ActionResult<ServiceResponse<List<GetCategoryIncomesDto>>>> GetCategories(CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _categoryIncomesService.GetAllIncomes(userId));
+            return Ok(await _categoryIncomesService.GetAllIncomes(cancellationToken));
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetCategoryIncomesDto>>>> AddCategoryIncomes(
-            AddCategoryIncomesDto newCategoryIncomes)
+            AddCategoryIncomesDto newCategoryIncomes, CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _categoryIncomesService.AddCategoryIncomes(newCategoryIncomes, userId));
+            return Ok(await _categoryIncomesService.AddCategoryIncomes(newCategoryIncomes, cancellationToken));
         }
 
 
-        [HttpPatch("update")]
+        [HttpPatch]
         public async Task<ActionResult<ServiceResponse<GetCategoryIncomesDto>>> UpdateCategoryIncomes(
-            UpdateCategoryIncomesDto updatedCategoryIncomes)
+            UpdateCategoryIncomesDto updatedCategoryIncomes, CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _categoryIncomesService.UpdateCategoryIncomes(updatedCategoryIncomes, userId));
+            return Ok(await _categoryIncomesService.UpdateCategoryIncomes(updatedCategoryIncomes, cancellationToken));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<List<GetCategoryIncomesDto>>>> DeleteCategoryIncomes(int id)
+        public async Task<ActionResult<ServiceResponse<List<GetCategoryIncomesDto>>>> DeleteCategoryIncomes(int id, CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _categoryIncomesService.DeleteCategoryIncomesById(id, userId));
+            return Ok(await _categoryIncomesService.DeleteCategoryIncomesById(id, cancellationToken));
         }
     }
 }

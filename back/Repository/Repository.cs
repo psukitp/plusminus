@@ -53,6 +53,15 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     }
 
     /// <inheritdoc/>
+    public async Task<IEnumerable<TEntity>> AddRange(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
+    {
+        await _context.AddRangeAsync(entities, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        return entities;
+    }
+
+    /// <inheritdoc/>
     public async Task Delete(int id, CancellationToken cancellationToken)
     {
         var entity = _context.Set<TEntity>().Find(id);

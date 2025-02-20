@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using plusminus.Dtos.Users;
 using plusminus.Models;
-using plusminus.Services.UsersService;
 using System.Security.Claims;
+using plusminus.Services;
 
 namespace plusminus.Controllers
 {
@@ -12,19 +12,17 @@ namespace plusminus.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUsersService _usersService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UsersService _usersService;
 
-        public UsersController(IUsersService usersService, IHttpContextAccessor httpContextAccessor)
+        public UsersController(UsersService usersService)
         {
             _usersService = usersService;
-            _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpPost("register")]
-        public async Task<ActionResult<ServiceResponse<UsersRegisterResponse>>> Register(UsersRegisterRequest user)
+        [HttpPost("Register")]
+        public async Task<ActionResult<ServiceResponse<UsersRegisterResponse>>> Register(UsersRegisterRequest user, CancellationToken cancellationToken)
         {
-            var response = await _usersService.Register(user);
+            var response = await _usersService.Register(user, cancellationToken);
 
             if (response.Success && response.Data != null)
             {
@@ -47,10 +45,10 @@ namespace plusminus.Controllers
             return Ok(response);
         }
 
-        [HttpPost("auth")]
-        public async Task<ActionResult<ServiceResponse<UsersAuthenticateResponse>>> Authenticate(UsersAuthenticateRequest user)
+        [HttpPost("Auth")]
+        public async Task<ActionResult<ServiceResponse<UsersAuthenticateResponse>>> Authenticate(UsersAuthenticateRequest user, CancellationToken cancellationToken)
         {
-            var response = await _usersService.Authenticate(user);
+            var response = await _usersService.Authenticate(user, cancellationToken);
             if (response.Success && response.Data != null)
             {
                 var userClaims = new List<Claim>
@@ -71,41 +69,34 @@ namespace plusminus.Controllers
             return Ok(response);
         }
 
-        [HttpPost("check")]
-        public async Task<ActionResult<ServiceResponse<UsersAuthenticateResponse>>> CheckAuth()
+        [HttpPost("Check")]
+        public async Task<ActionResult<ServiceResponse<UsersAuthenticateResponse>>> CheckAuth(CancellationToken cancellationToken)
         {
-            var authenticateResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            if (!int.TryParse(authenticateResult.Principal.FindFirstValue("id"), out int userId))
-            {
-                return BadRequest("Неверный идентификатор пользователя.");
-            }
-
-            return Ok(await _usersService.CheckAuth(userId));
+            return Ok(await _usersService.CheckAuth(cancellationToken));
         }
 
-        [HttpPost("logout")]
+        [HttpPost("Logout")]
         public async Task Logout()
         { 
             await HttpContext.SignOutAsync();
         }
         
-        [HttpPost("getRestoreCode")]
+        [HttpPost("GetRestoreCode")]
         public async Task<ActionResult<ServiceResponse<dynamic>>> GetRestoreCode(RestoreRequest data)
         {
             return Ok(await _usersService.GetRestoreCode(data.Email));
         }
         
-        [HttpPost("applyCode")]
+        [HttpPost("ApplyCode")]
         public async Task<ActionResult<ServiceResponse<dynamic>>> ApplyRestoreCode(ApplyRestoreRequest data)
         {
             return Ok(await _usersService.ApplyRestoreCode(data.Code));
         }
         
-        [HttpPost("setPass")]
-        public async Task<ActionResult<ServiceResponse<UsersAuthenticateResponse>>> SetNewPassword(SetPsswordRequest data)
+        [HttpPost("SetPass")]
+        public async Task<ActionResult<ServiceResponse<UsersAuthenticateResponse>>> SetNewPassword(SetPsswordRequest data, CancellationToken cancellationToken)
         {
-            var response = await _usersService.SetNewPassword(data.Password);
+            var response = await _usersService.SetNewPassword(data.Password, cancellationToken);
             if (response.Success && response.Data != null)
             {
                 var userClaims = new List<Claim>

@@ -5,10 +5,6 @@ using plusminus.Data;
 using plusminus.Middlewares;
 using plusminus.Repository;
 using plusminus.Services;
-using plusminus.Services.CategoryExpansesService;
-using plusminus.Services.CategoryIncomesService;
-using plusminus.Services.UserSettingsService;
-using plusminus.Services.UsersService;
 using plusminus.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,10 +44,10 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ExpensesService>();
 builder.Services.AddScoped<IncomesService>();
-builder.Services.AddScoped<ICategoryIncomesService, CategoryIncomesService>();
-builder.Services.AddScoped<ICategoryExpensesService, CategoryExpensesService>();
-builder.Services.AddScoped<IUsersService, UsersService>();
-builder.Services.AddScoped<IUserSettingsService, UserSettingsService>();
+builder.Services.AddScoped<CategoryIncomesService>();
+builder.Services.AddScoped<CategoryExpensesService>();
+builder.Services.AddScoped<UsersService>();
+builder.Services.AddScoped<UserSettingsService>();
 builder.Services.AddMemoryCache();
 
 

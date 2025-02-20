@@ -27,4 +27,13 @@ public class HttpContextAccessorService
 
         return int.Parse(userId);
     }
+
+    /// <summary>
+    /// Получить HttpContext.
+    /// </summary>
+    /// <returns>HttpContext.</returns>
+    public HttpContext? GetHttpContext()
+    {
+        return _httpContextAccessor.HttpContext;
+    }
 }

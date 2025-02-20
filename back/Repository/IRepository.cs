@@ -28,6 +28,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// Обновить сущность.
     /// </summary>
     /// <param name="entity">Сущность.</param>
+    /// <param name="cancellationToken">CancellationToken.</param>
     /// <returns>Обновленная сущность.</returns>
     public Task<TEntity> Update(TEntity entity, CancellationToken cancellationToken);
 
@@ -35,13 +36,23 @@ public interface IRepository<TEntity> where TEntity : class
     /// Добавить сущность.
     /// </summary>
     /// <param name="entity">Сущность.</param>
+    /// <param name="cancellationToken">CancellationToken.</param>
     /// <returns>Добавленная сущность.</returns>
     public Task<TEntity> Add(TEntity entity, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Добавить несколько сущностей.
+    /// </summary>
+    /// <param name="entities">Сущности.</param>
+    /// <param name="cancellationToken">CancellationToken.</param>
+    /// <returns>Добавленные сущности.</returns>
+    public Task<IEnumerable<TEntity>> AddRange(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
 
     /// <summary>
     /// Удалить сущность.
     /// </summary>
     /// <param name="id">Идентификатор сущности.</param>
+    /// <param name="cancellationToken">CancellationToken.</param>
     /// <returns>Удаленная сущность.</returns>
     public Task Delete(int id, CancellationToken cancellationToken);
 }
