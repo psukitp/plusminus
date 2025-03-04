@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using plusminus.Dtos.CategoryExpenses;
 using plusminus.Models;
-using plusminus.Services.CategoryExpansesService;
 using plusminus.Middlewares;
+using plusminus.Services;
 
 namespace plusminus.Controllers
 {
@@ -11,42 +11,38 @@ namespace plusminus.Controllers
     [Route("api/[controller]")]
     public class CategoryExpensesController : ControllerBase
     {
-        private readonly ICategoryExpensesService _categoryExpensesService;
+        private readonly CategoryExpensesService _categoryExpensesService;
 
-        public CategoryExpensesController(ICategoryExpensesService categoryExpensesService)
+        public CategoryExpensesController(CategoryExpensesService categoryExpensesService)
         {
             _categoryExpensesService = categoryExpensesService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<GetCategoryExpensesDto>>>> GetCategories()
+        public async Task<ActionResult<ServiceResponse<List<GetCategoryExpensesDto>>>> GetCategories(CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _categoryExpensesService.GetAllCategories(userId));
+            return Ok(await _categoryExpensesService.GetAllCategories(cancellationToken));
         }
 
-        [HttpPost("add")]
+        [HttpPost]
         public async Task<ActionResult<ServiceResponse<List<GetCategoryExpensesDto>>>> AddCategoryExpenses(
-            AddCategoryExpensesDto newCategoryExpenses)
+            AddCategoryExpensesDto newCategoryExpenses, CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _categoryExpensesService.AddCategoryExpenses(newCategoryExpenses, userId));
+            return Ok(await _categoryExpensesService.AddCategoryExpenses(newCategoryExpenses, cancellationToken));
         }
 
 
-        [HttpPatch("update")]
+        [HttpPatch]
         public async Task<ActionResult<ServiceResponse<GetCategoryExpensesDto>>> UpdateCategoryExpenses(
-            UpdateCategoryExpensesDto updatedCategoryExpenses)
+            UpdateCategoryExpensesDto updatedCategoryExpenses, CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _categoryExpensesService.UpdateCategoryExpenses(updatedCategoryExpenses, userId));
+            return Ok(await _categoryExpensesService.UpdateCategoryExpenses(updatedCategoryExpenses, cancellationToken));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<int>>> DeleteCategoryExpenses(int id)
+        public async Task<ActionResult<ServiceResponse<int>>> DeleteCategoryExpenses(int id, CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _categoryExpensesService.DeleteCategoryExpensesById(id, userId));
+            return Ok(await _categoryExpensesService.DeleteCategoryExpensesById(id, cancellationToken));
         }
     }
 }

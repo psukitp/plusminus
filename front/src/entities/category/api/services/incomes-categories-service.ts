@@ -35,7 +35,7 @@ export class IncomesCategoriesService extends BaseService {
   async postCategory({ name, color }: NewCategory): Promise<Category | null> {
     try {
       const response = await this.client.post<ServiceResponse<Category>>(
-        `${this.url}/add`,
+        `${this.url}`,
         {
           name,
           color,
@@ -55,7 +55,7 @@ export class IncomesCategoriesService extends BaseService {
   async editCategory(category: Partial<Category>): Promise<Category | null> {
     try {
       const response = await this.client.patch<ServiceResponse<Category>>(
-        `${this.url}/update`,
+        `${this.url}`,
         {
           ...category,
         },

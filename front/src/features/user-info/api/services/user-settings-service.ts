@@ -16,7 +16,7 @@ export class UserSettingsService extends BaseService {
   async patchSettings(settings: UserSettings): Promise<UserSettings> {
     try {
       const response = await this.client.patch<ServiceResponse<UserSettings>>(
-        `${this.url}/update`,
+        `${this.url}`,
         { ...settings },
       )
 

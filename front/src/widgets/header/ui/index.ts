@@ -20,7 +20,7 @@ export const Header = styled(HeaderComponent)`
     margin-bottom: 2px;
   }
 
-  .email {
+  .login {
     font-size: 12px;
     //TODO добавить в палитру
     color: #cccccc;

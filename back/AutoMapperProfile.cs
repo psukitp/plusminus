@@ -3,6 +3,7 @@ using plusminus.Dtos.CategoryExpenses;
 using plusminus.Dtos.CategoryIncomes;
 using plusminus.Dtos.Expenses;
 using plusminus.Dtos.Incomes;
+using plusminus.Dtos.Users;
 using plusminus.Dtos.UserSettings;
 using plusminus.Models;
 
@@ -45,6 +46,9 @@ namespace plusminus
             CreateMap<GetUserSettings,UserSettings>();
             CreateMap<UserSettings, UpdateUserSettings>();
             CreateMap<UpdateUserSettings, UserSettings>();
+            
+            //User
+            CreateMap<User, UsersAuthenticateResponse>();
         }
     }
 }

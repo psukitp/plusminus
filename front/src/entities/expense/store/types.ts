@@ -1,5 +1,6 @@
 import { StringDates } from '@shared/lib'
 import { ExpensesByCategoryRecord, ExpensesRecord } from '../model'
+import { Key } from 'react'
 
 export interface ISummarizedExpensesData {
   data: ExpensesByCategoryRecord[]
@@ -7,7 +8,5 @@ export interface ISummarizedExpensesData {
   loading: boolean
   fetchData: (dates: StringDates) => void
   editExpense: (prevExpense: ExpensesRecord, newExpense: ExpensesRecord) => void
-  deleteExpense: (
-    expense: Pick<ExpensesRecord, 'id' | 'amount' | 'categoryId'>,
-  ) => void
+  deleteExpense: (id: Key) => void
 }

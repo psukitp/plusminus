@@ -22,7 +22,7 @@ export class UserService extends BaseService {
       const response = await this.client.post<
         ServiceResponse<AuthResponseData>
       >(
-        `${this.url}/auth`,
+        `${this.url}/Auth`,
         {
           login,
           password,
@@ -48,7 +48,7 @@ export class UserService extends BaseService {
     try {
       const response = await this.client.post<
         ServiceResponse<AuthResponseData>
-      >(`${this.url}/register`, {
+      >(`${this.url}/Register`, {
         ...registerData,
       })
       const {
@@ -66,7 +66,7 @@ export class UserService extends BaseService {
     try {
       const response = await this.client.post<
         ServiceResponse<AuthResponseData>
-      >(`${this.url}/check`)
+      >(`${this.url}/Check`)
       const {
         data: { data, message, success },
       } = response
@@ -81,7 +81,7 @@ export class UserService extends BaseService {
   async getResetCode(email: string): Promise<boolean> {
     try {
       const response = await this.client.post<ServiceResponse<unknown>>(
-        `${this.url}/getRestoreCode`,
+        `${this.url}/GetRestoreCode`,
         { email },
       )
       const {
@@ -98,7 +98,7 @@ export class UserService extends BaseService {
   async applyCode(code: string): Promise<boolean> {
     try {
       const response = await this.client.post<ServiceResponse<unknown>>(
-        `${this.url}/applyCode`,
+        `${this.url}/ApplyCode`,
         { code },
       )
       const {
@@ -116,7 +116,7 @@ export class UserService extends BaseService {
     try {
       const response = await this.client.post<
         ServiceResponse<AuthResponseData>
-      >(`${this.url}/setPass`, { password })
+      >(`${this.url}/SetPass`, { password })
       const {
         data: { data, message, success },
       } = response
@@ -130,7 +130,7 @@ export class UserService extends BaseService {
 
   async logout(): Promise<void> {
     try {
-      await this.client.post(`${this.url}/logout`)
+      await this.client.post(`${this.url}/Logout`)
     } catch (e) {
       console.log(e)
     }

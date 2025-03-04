@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using plusminus.Dtos.Expenses;
 using plusminus.Models;
-using plusminus.Services.ExpensesService;
 using System.Globalization;
 using plusminus.Middlewares;
+using plusminus.Services;
 
 namespace plusminus.Controllers
 {
@@ -12,103 +12,102 @@ namespace plusminus.Controllers
     [Route("api/[controller]")]
     public class ExpensesController : ControllerBase
     {
-        private readonly IExpensesService _expensesService;
+        private readonly ExpensesService _expensesService;
 
-        public ExpensesController(IExpensesService expensesService)
+        public ExpensesController(ExpensesService expensesService)
         {
             _expensesService = expensesService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<GetExpensesDto>>>> GetExpenses([FromQuery] string date)
+        public async Task<ActionResult<ServiceResponse<GetExpensesDto[]>>> Get([FromQuery] string date)
         {
-            if (!DateOnly.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate))
+            if (!DateOnly.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedDate))
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
-            var userId = (int)HttpContext.Items["UserId"]!;
 
-            return Ok(await _expensesService.GetExpensesByUserId(userId, parsedDate));
+            return Ok(await _expensesService.GetLastWeek(parsedDate));
         }
 
-        [HttpPost("add")]
-        public async Task<ActionResult<ServiceResponse<List<GetExpensesDto>>>> AddExpenses(AddExpensesDto newExpenses) {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.AddExpenses(newExpenses, userId));
-        }
-
-
-        [HttpPatch("update")]
-        public async Task<ActionResult<ServiceResponse<GetExpensesDto>>> UpdateExpenses(UpdateExpensesDto newExpenses)
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<List<GetExpensesDto>>>> Add(AddExpensesDto newExpenses,
+            CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.UpdateExpenses(newExpenses, userId));
+            return Ok(await _expensesService.Add(newExpenses, cancellationToken));
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<int>>> DeleteExpenses(int id)
+
+        [HttpPatch]
+        public async Task<ActionResult<ServiceResponse<GetExpensesDto>>> Update(UpdateExpensesDto newExpenses,
+            CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.DeleteExpensesById(id, userId));
+            return Ok(await _expensesService.Update(newExpenses, cancellationToken));
         }
 
-        [HttpGet("bycategory")]
-        public async Task<ActionResult<ServiceResponse<List<ExpensesByCategory>>>> GetExpensesByCategory([FromQuery] string date)
+        [HttpDelete]
+        public async Task<ActionResult<ServiceResponse<int>>> Delete([FromQuery] int id,
+            CancellationToken cancellationToken)
         {
-            if (!DateOnly.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate))
+            return Ok(await _expensesService.Delete(id, cancellationToken));
+        }
+
+        [HttpGet("Sum")]
+        public async Task<ActionResult<ServiceResponse<double>>> GetSum([FromQuery] string from,
+            [FromQuery] string to, CancellationToken cancellationToken)
+        {
+            if (!DateOnly.TryParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedFrom))
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.GetExpensesByCategory(userId, parsedDate));
+
+            if (!DateOnly.TryParseExact(to, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedTo))
+            {
+                return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
+            }
+            
+            return Ok(await _expensesService.GetSum(parsedFrom, parsedTo, cancellationToken));
         }
 
-        [HttpGet("sum")]
-        public async Task<ActionResult<ServiceResponse<double>>> GetExpensesSum([FromQuery] string from,[FromQuery] string to)
+        [HttpGet("ByCategory")]
+        public async Task<ActionResult<ServiceResponse<List<ExpensesByCategory>>>> GetByCategory(
+            [FromQuery] string from, [FromQuery] string to)
         {
-            if (!DateOnly.TryParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedFrom))
+            if (!DateOnly.TryParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedFrom))
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
-            if (!DateOnly.TryParseExact(to, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedTo))
+
+            if (!DateOnly.TryParseExact(to, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedTo))
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.GetExpensesSum(userId, parsedFrom, parsedTo));
-        }
-        
-        [HttpGet("bycategory/period")]
-        public async Task<ActionResult<ServiceResponse<List<ExpensesByCategory>>>> GetExpensesByCategoryMonth([FromQuery] string from,[FromQuery] string to)
-        {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            if (!DateOnly.TryParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedFrom))
-            {
-                return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
-            }
-            if (!DateOnly.TryParseExact(to, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedTo))
-            {
-                return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
-            }
-            return Ok(await _expensesService.GetExpensesByCategoryMonth(userId, parsedFrom, parsedTo));
+
+            return Ok(await _expensesService.GetExpensesByCategoryPeriod(parsedFrom, parsedTo));
         }
 
-        [HttpGet("dynamicmonth")]
-        public async Task<ActionResult<ServiceResponse<GetThisYearExpenses>>> GetExpensesLastFourMonth()
+        [HttpGet("Year")]
+        public async Task<ActionResult<ServiceResponse<GetThisYearExpenses>>> GetYear(CancellationToken cancellationToken)
         {
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.GetExpensesThisYear(userId));
+            return Ok(await _expensesService.GetLastYear(cancellationToken));
         }
-        
-        [HttpGet("lastWeek")]
-        public async Task<ActionResult<ServiceResponse<GetLastWeekExpenses>>> GetLastWeekExpenses([FromQuery] string date)
+
+        [HttpGet("Week")]
+        public async Task<ActionResult<ServiceResponse<GetLastWeekExpenses>>> GetLastWeek(
+            [FromQuery] string date)
         {
-            if (!DateOnly.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate))
+            if (!DateOnly.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedDate))
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
-            var userId = (int)HttpContext.Items["UserId"]!;
-            return Ok(await _expensesService.GetLastWeekExpenses(userId, parsedDate));
+            
+            return Ok(await _expensesService.GetLastWeekExpenses(parsedDate));
         }
     }
 }

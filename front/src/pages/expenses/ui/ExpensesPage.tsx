@@ -220,8 +220,7 @@ export const ExpensesPageComponent = ({
         onCancel={onCloseDeleteModal}
         onClose={onCloseDeleteModal}
         onOk={async () => {
-          const currentExp = records.find((r) => r.id === deletableId)
-          await deleteExpense(currentExp!)
+          if (deletableId) await deleteExpense(deletableId)
           onCloseDeleteModal()
         }}
       />
