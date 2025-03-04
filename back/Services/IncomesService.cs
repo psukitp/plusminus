@@ -144,8 +144,14 @@ namespace plusminus.Services
                 if (income.Date != null) entity.Date = (DateOnly)income.Date;
 
                 await _repository.Update(entity, cancellationToken);
+
+                var result = _repository
+                    .GetAll()
+                    .Where(i => i.Id == income.Id)
+                    .Include(i => i.Category)
+                    .FirstOrDefault();
                 
-                serviceResponse.Data = _mapper.Map<GetIncomesDto>(entity);
+                serviceResponse.Data = _mapper.Map<GetIncomesDto>(result);
             }
             catch (Exception ex)
             {

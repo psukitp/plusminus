@@ -66,9 +66,9 @@ export class IncomesService extends BaseService {
     date: string
     categoryId: Key
     amount: number
-  }): Promise<IncomesRecord[]> {
+  }): Promise<IncomesRecord | null> {
     try {
-      const response = await this.client.post<ServiceResponse<IncomesRecord[]>>(
+      const response = await this.client.post<ServiceResponse<IncomesRecord>>(
         `${this.url}`,
         {
           date,
@@ -83,7 +83,7 @@ export class IncomesService extends BaseService {
       return data
     } catch (e) {
       console.log(e)
-      return []
+      return null
     }
   }
 

@@ -20,9 +20,7 @@ export type UseExpensesResult = {
     getExpenses: (date: string) => void
     getExpensesByCategories: (dates: StringDates) => void
     getExpensesLastWeek: (date: string) => void
-    deleteExpense: (
-      expenseInfo: Pick<ExpensesRecord, 'id' | 'amount' | 'categoryId'>,
-    ) => void
+    deleteExpense: (id: Key) => void
     editExpense: (expense: {
       amount: number | null
       categoryId: Key | null

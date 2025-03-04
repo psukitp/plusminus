@@ -50,13 +50,13 @@ export const useIncomes = (): UseIncomesResult => {
   }) => {
     await incomesQueries
       .createNewIncomes({ amount, categoryId, date })
-      .then((result) =>
-        setRecords(
-          result.map((e) => ({
-            ...e,
-            date: dayjs(e.date).format('YYYY-MM-DD'),
-          })),
-        ),
+      .then(
+        (result) =>
+          result &&
+          setRecords((prev) => [
+            ...prev,
+            { ...result, date: dayjs(result.date).format('YYYY-MM-DD') },
+          ]),
       )
       .then(() => fetchData(date))
   }
@@ -94,7 +94,11 @@ export const useIncomes = (): UseIncomesResult => {
       .editIncome(income)
       .then((result) => {
         setRecords((prev) =>
-          prev.map((e) => (e.id === result?.id ? { ...result } : e)),
+          prev.map((e) =>
+            e.id === result?.id
+              ? { ...result, date: dayjs(result.date).format('YYYY-MM-DD') }
+              : e,
+          ),
         )
 
         return result

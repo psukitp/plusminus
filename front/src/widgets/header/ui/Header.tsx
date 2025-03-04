@@ -54,7 +54,7 @@ export const HeaderComponent = ({
           <br />
           {user.secondName}
         </div>
-        <div className="email">{user.email}</div>
+        <div className="login">{user.login}</div>
       </div>
     </div>
   )

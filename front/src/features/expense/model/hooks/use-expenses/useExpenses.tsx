@@ -50,14 +50,13 @@ export const useExpenses = (): UseExpensesResult => {
   }) => {
     await expensesQueries
       .createNewExpense({ amount, categoryId, date })
-      .then((result) =>
-        setRecords((prev) => [
-          ...prev,
-          ...result.map((e) => ({
-            ...e,
-            date: dayjs(e.date).format('YYYY-MM-DD'),
-          })),
-        ]),
+      .then(
+        (result) =>
+          result &&
+          setRecords((prev) => [
+            ...prev,
+            { ...result, date: dayjs(result.date).format('YYYY-MM-DD') },
+          ]),
       )
       .then(() =>
         queryClient.invalidateQueries({
@@ -88,11 +87,9 @@ export const useExpenses = (): UseExpensesResult => {
       .finally(() => setLoading((prev) => ({ ...prev, records: false })))
   }
 
-  const deleteExpense = async (
-    expenseInfo: Pick<ExpensesRecord, 'id' | 'amount' | 'categoryId'>,
-  ) => {
-    await expensesQueries.deleteExpense(expenseInfo.id).then((result) => {
-      deleteExpenseState(expenseInfo)
+  const deleteExpense = async (id: Key) => {
+    await expensesQueries.deleteExpense(id).then((result) => {
+      deleteExpenseState(id)
       setRecords((prev) => prev.filter((e) => e.id != result))
     })
   }

@@ -90,15 +90,16 @@ export class ExpensesService extends BaseService {
     date: string
     categoryId: Key
     amount: number
-  }): Promise<ExpensesRecord[]> {
+  }): Promise<ExpensesRecord | null> {
     try {
-      const response = await this.client.post<
-        ServiceResponse<ExpensesRecord[]>
-      >(`${this.url}`, {
-        date,
-        categoryId,
-        amount,
-      })
+      const response = await this.client.post<ServiceResponse<ExpensesRecord>>(
+        `${this.url}`,
+        {
+          date,
+          categoryId,
+          amount,
+        },
+      )
       const {
         data: { data, message, success },
       } = response
@@ -106,7 +107,7 @@ export class ExpensesService extends BaseService {
       return data
     } catch (e) {
       console.log(e)
-      return []
+      return null
     }
   }
 
@@ -136,7 +137,7 @@ export class ExpensesService extends BaseService {
     try {
       const response = await this.client.delete<ServiceResponse<Key>>(
         `${this.url}`,
-        { params: id },
+        { params: { id } },
       )
       const {
         data: { data, message, success },

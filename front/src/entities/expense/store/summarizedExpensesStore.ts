@@ -17,14 +17,10 @@ export const useSummarizedExpensesData = create<ISummarizedExpensesData>(
       })
     },
     editExpense: () => {},
-    deleteExpense: (expense) => {
+    deleteExpense: (id) => {
       set((state) => ({
         data: state.data
-          .map((c) =>
-            c.id === expense?.categoryId
-              ? { ...c, amount: c.amount - expense.amount }
-              : c,
-          )
+          .map((c) => (c.id === id ? { ...c, amount: c.amount } : c))
           .filter((c) => c.amount !== 0),
       }))
     },

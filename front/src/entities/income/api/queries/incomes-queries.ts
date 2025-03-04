@@ -32,7 +32,7 @@ const createNewIncomes = async ({
   date: string
   categoryId: Key
   amount: number
-}): Promise<IncomesRecord[]> => {
+}): Promise<IncomesRecord | null> => {
   const result = await incomesService.postNewIncomes({
     date,
     categoryId,
