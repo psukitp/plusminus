@@ -4,4 +4,6 @@ export type {
   IncomesRecord,
   IncomesThisMonth,
   IncomesByPeriod,
+  EditedIncome,
+  NewIncome,
 } from './types'

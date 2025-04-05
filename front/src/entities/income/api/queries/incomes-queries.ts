@@ -8,12 +8,16 @@ import {
   IncomesLastMonthes,
   IncomesByPeriod,
 } from '@entities/income/model'
+import { NewIncome } from '../../model'
 
 const client = getAxiosInstance()
 const incomesService = new IncomesService(client)
 
-const fetchIncomes = async (date: string): Promise<IncomesRecord[]> => {
-  const result = await incomesService.getIncomes(date)
+const fetchIncomes = async (
+  startDate: string,
+  endDate: string,
+): Promise<IncomesRecord[]> => {
+  const result = await incomesService.getIncomes(startDate, endDate)
   return result
 }
 
@@ -28,15 +32,11 @@ const createNewIncomes = async ({
   date,
   categoryId,
   amount,
-}: {
-  date: string
-  categoryId: Key
-  amount: number
-}): Promise<IncomesRecord | null> => {
+}: NewIncome): Promise<IncomesRecord | null> => {
   const result = await incomesService.postNewIncomes({
     date,
-    categoryId,
     amount,
+    categoryId,
   })
   return result
 }
@@ -58,11 +58,9 @@ const deleteIncome = async (id: Key): Promise<Key | null> => {
   return result
 }
 
-const editIncome = async (income: {
-  id: Key | null
-  categoryId: Key | null
-  amount: number | null
-}): Promise<IncomesRecord | null> => {
+const editIncome = async (
+  income: Partial<NewIncome>,
+): Promise<IncomesRecord | null> => {
   const result = await incomesService.editIncome(income)
   return result
 }

@@ -1,4 +1,4 @@
-import { ActiveCaption } from '@shared/ui/sider/types'
+import { ActiveCaption } from '@shared/ui/sider'
 
 export interface IMenuProps {
   activeCaption: ActiveCaption

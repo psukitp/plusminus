@@ -8,7 +8,6 @@ import { StyledComponentProps } from '@shared/lib'
 import { useAuth, useUser } from '@entities/user'
 import {
   ActiveCaption,
-  MobileMenu,
   Sider,
   LazyComponent,
   Loader,
@@ -24,6 +23,7 @@ import { AddCurrencyModal } from '@features/user-info'
 import { ResetPasswordPage } from '@pages/reset-password'
 import { Header } from '@widgets/header/ui'
 import dayjs, { Dayjs } from 'dayjs'
+import { MobileMenu } from '@widgets/mobile-menu'
 
 const initialActiveCaption: ActiveCaption = {
   categories: false,
