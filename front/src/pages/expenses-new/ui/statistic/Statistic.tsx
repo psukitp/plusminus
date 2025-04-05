@@ -1,20 +1,23 @@
 import { ExpensesRecord } from '@entities/expense'
 import { Segmented } from '@shared/ui'
 import styled, { css } from 'styled-components'
-import { getBarOptions } from '../utils'
+import { getBarOptions, getChartOptions } from '../utils'
 import { EchartsReact } from '@shared/lib'
 import { useMemo } from 'react'
-import { DatePeriod, DatePeriods } from '../types'
+import { ChartType, ChartTypes, DatePeriod, DatePeriods } from '../types'
+import { BarChartIcon, PiechartIcon } from '@shared/ui/icons'
 
 type Props = {
   className?: string
   expenses: ExpensesRecord[]
   period: DatePeriod
+  chartType: ChartType
   onChangePeriod: (period: DatePeriod) => void
+  onChangeChartType: (type: ChartType) => void
 }
 
-const StatisticComponent = ({ className, period, expenses, onChangePeriod }: Props) => {
-  const chartOptions = getBarOptions(expenses)
+const StatisticComponent = ({ className, period, chartType, expenses, onChangeChartType, onChangePeriod }: Props) => {
+  const chartOptions = getChartOptions(expenses, chartType)
 
   const sum = useMemo(() => {
     return expenses.reduce((partialSum, a) => partialSum + a.amount, 0) ?? null
@@ -25,16 +28,17 @@ const StatisticComponent = ({ className, period, expenses, onChangePeriod }: Pro
       <div className="numbers">
         <div className="sum">{sum}</div>
         <div className="avg">
-          В среднем {(sum / expenses.length).toFixed(2)} за день
+          В среднем {expenses.length > 0 ? (sum / expenses.length).toFixed(2) : '-'} за день
         </div>
       </div>
       <div className="control">
         <Segmented
-          active={'1'}
-          onClick={() => { }}
+          cirlced
+          active={chartType}
+          onClick={({ value }) => onChangeChartType(value as ChartType)}
           options={[
-            { id: 1, label: '|||', value: 'bar' },
-            { id: 2, label: '|||', value: 'pie' },
+            { id: ChartTypes.Bar, label: <BarChartIcon />, value: ChartTypes.Bar },
+            { id: ChartTypes.Pie, label: <PiechartIcon />, value: ChartTypes.Pie },
           ]}
         />
         <Segmented<DatePeriod>

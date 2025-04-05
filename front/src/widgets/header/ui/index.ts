@@ -3,7 +3,7 @@ import { HeaderComponent } from './Header'
 
 export const Header = styled(HeaderComponent)`
   width: 100%;
-  height: 98px;
+  min-height: 98px;
   display: flex;
   justify-content: ${({ showDates, showAddExpense }) =>
     showDates || showAddExpense ? 'space-between' : 'end'};

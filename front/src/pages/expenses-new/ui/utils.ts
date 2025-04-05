@@ -3,6 +3,7 @@ import { RecordType } from '@shared/ui'
 import dayjs from 'dayjs'
 import { EChartsOption } from 'echarts'
 import { Key } from 'react'
+import { ChartType, ChartTypes } from './types'
 
 export const getListRecords = (expenses: ExpensesRecord[]) => {
   return Object.values(
@@ -39,59 +40,65 @@ export const sortByDates = (a: RecordType, b: RecordType) => {
   return aDate.isAfter(bDate) ? -1 : 1
 }
 
-export const getBarOptions = (expenses: ExpensesRecord[]): EChartsOption => {
-  // Преобразуем даты в формат dd.mm и сортируем их
-  const uniqueDates = Array.from(
-    new Set(expenses.map((item) => dayjs(item.date))),
-  ).sort()
+export const getChartOptions = (
+  expenses: ExpensesRecord[],
+  chartType: ChartType,
+) => {
+  if (chartType === ChartTypes.Bar) return getBarOptions(expenses)
+  return getPieOptions(expenses)
+}
 
-  const formattedDates = uniqueDates.map((date) => date.format('DD.MM.YYY'))
+const getPieOptions = (expenses: ExpensesRecord[]): EChartsOption => {
+  const data: { value: number; name: string; itemStyle: { color: string } }[] =
+    []
 
-  // Группируем данные по категориям
-  const categoryMap = new Map<
-    Key,
-    { name: string; color: string; values: number[] }
-  >()
-
-  uniqueDates.forEach((date, index) => {
-    expenses
-      .filter((item) => dayjs(item.date).isBefore(dayjs(date))) // Накопление по датам
-      .forEach(({ categoryId, categoryName, categoryColor, amount }) => {
-        if (!categoryMap.has(categoryId)) {
-          categoryMap.set(categoryId, {
-            name: categoryName,
-            color: categoryColor,
-            values: new Array(uniqueDates.length).fill(0),
-          })
-        }
-        const category = categoryMap.get(categoryId)!
-        category.values[index] += amount
+  expenses.forEach((exp) => {
+    if (data.some((rd) => rd.name === exp.categoryName))
+      data.map((rd) =>
+        rd.name === exp.categoryName
+          ? { ...rd, value: rd.value + exp.amount }
+          : rd,
+      )
+    else {
+      data.push({
+        name: exp.categoryName,
+        value: exp.amount,
+        itemStyle: {
+          color: exp.categoryColor,
+        },
       })
+    }
   })
 
-  // Формируем серии данных для ECharts
-  const series = Array.from(categoryMap.values()).map((category) => ({
-    name: category.name,
-    type: 'bar',
-    stack: 'total',
-    itemStyle: { color: category.color },
-    emphasis: { focus: 'series' },
-    data: category.values,
-  }))
+  data.sort((a, b) => b.value - a.value)
 
   return {
     tooltip: {
-      trigger: 'axis',
-      axisPointer: { type: 'shadow' },
+      trigger: 'item',
+      formatter: '{b} {d}%',
     },
-    legend: {
-      data: Array.from(categoryMap.values()).map((c) => c.name),
-    },
-    xAxis: {
-      type: 'category',
-      data: formattedDates,
-    },
-    yAxis: { type: 'value' },
-    series,
-  } as EChartsOption
+    series: [
+      {
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: data,
+      },
+    ],
+  }
+}
+
+export const getBarOptions = (expenses: ExpensesRecord[]): EChartsOption => {
+  return {}
 }

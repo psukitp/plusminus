@@ -4,7 +4,7 @@ import { useExpense } from '@features/expense/model'
 import { List, RecordType } from '@shared/ui'
 import { Key, useMemo, useState } from 'react'
 import { getListRecords, sortByDates } from './utils'
-import { DatePeriod, DatePeriods } from './types'
+import { ChartType, ChartTypes, DatePeriod, DatePeriods } from './types'
 import { getDates } from './statistic/utils'
 import { Edit } from '@features/expense/ui/edit'
 import { Delete } from '@features/expense/ui/delete'
@@ -18,6 +18,7 @@ type Props = {
 
 const ExpensesPageComponent = ({ className }: Props) => {
   const [period, setPeriod] = useState<DatePeriod>(DatePeriods.Month)
+  const [chartType, setChartType] = useState<ChartType>(ChartTypes.Pie)
   const [editingId, setEditingId] = useState<Key | null>(null)
   const [deletingId, setDeletingId] = useState<Key | null>(null)
   const { isCreating, setIsCreating } = useExpenseStore(state => state)
@@ -36,7 +37,7 @@ const ExpensesPageComponent = ({ className }: Props) => {
   return (
     <div className={className}>
       <div className="statistic">
-        <Statistic expenses={expenses} period={period} onChangePeriod={setPeriod} />
+        <Statistic chartType={chartType} onChangeChartType={setChartType} expenses={expenses} period={period} onChangePeriod={setPeriod} />
       </div>
       <div className="list">
         <List
