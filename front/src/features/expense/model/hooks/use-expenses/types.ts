@@ -17,7 +17,7 @@ export type UseExpensesResult = {
       categoryId: Key
       date: string
     }) => void
-    getExpenses: (date: string) => void
+    getExpenses: (startDate: string, endDate: string) => void
     getExpensesByCategories: (dates: StringDates) => void
     getExpensesLastWeek: (date: string) => void
     deleteExpense: (id: Key) => void

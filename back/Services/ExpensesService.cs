@@ -24,22 +24,22 @@ namespace plusminus.Services
         }
 
         /// <summary>
-        /// Получить расходы за неделю.
+        /// Получить расходы за период.
         /// </summary>
+        /// <param name="startDate">Начало периода.</param>
         /// <param name="endDate">Конец периода.</param>
-        /// <returns>Информация о расходах за неделю.</returns>
-        public async Task<ServiceResponse<GetExpensesDto[]>> GetLastWeek(DateOnly endDate)
+        /// <returns>Информация о расходах за период.</returns>
+        public async Task<ServiceResponse<GetExpensesDto[]>> GetByPeriod(DateOnly startDate, DateOnly endDate)
         {
             var serviceResponse = new ServiceResponse<GetExpensesDto[]>();
 
             try
             {
                 var userId = _httpContextAccessor.GetUserId();
-                var firstDate = endDate.AddDays(-7);
 
                 var expenses = _repository.GetAll()
                     .Where(e => e.UserId == userId)
-                    .Where(e => e.Date >= firstDate && e.Date <= endDate)
+                    .Where(e => e.Date >= startDate && e.Date <= endDate)
                     .Include(e => e.Category);
 
                 serviceResponse.Data = expenses.Select(e => _mapper.Map<GetExpensesDto>(e)).ToArray();

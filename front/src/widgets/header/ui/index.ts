@@ -5,7 +5,8 @@ export const Header = styled(HeaderComponent)`
   width: 100%;
   height: 98px;
   display: flex;
-  justify-content: ${({ showDates }) => (showDates ? 'space-between' : 'end')};
+  justify-content: ${({ showDates, showAddExpense }) =>
+    showDates || showAddExpense ? 'space-between' : 'end'};
   align-items: center;
   padding: 0 24px;
   background-color: ${({ theme }) => theme.pallete.dom.white};

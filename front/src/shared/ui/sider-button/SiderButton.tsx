@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SiderButtonProps } from './types'
 import { Button } from '../components/button'
-// import { Button } from '../buttton'
 
 export const SiderButtonComponent = ({
   active,
@@ -13,13 +12,21 @@ export const SiderButtonComponent = ({
 
   onClick,
 }: SiderButtonProps) => {
+  const getType = () => {
+    if (type === 'mobile') return 'ghost'
+
+    if (active) return 'primary'
+
+    return 'secondary'
+  }
+
   return (
     <Link to={`/${linkTo}`} className={className}>
       <Button
         additionClass="sider-button"
         icon={type === 'mobile' ? undefined : icon}
         onClick={onClick}
-        type="ghost"
+        type={getType()}
         active={active}
       >
         {type === 'mobile' ? icon : text}

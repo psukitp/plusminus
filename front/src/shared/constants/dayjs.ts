@@ -1,0 +1,1 @@
+export const yearMonthDay = 'YYYY-MM-DD'

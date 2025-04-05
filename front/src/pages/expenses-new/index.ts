@@ -1,0 +1,1 @@
+export { ExpensesPage } from './ui'

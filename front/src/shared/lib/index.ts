@@ -19,3 +19,4 @@ export {
   type Common,
   theme,
 } from './styles'
+export { EchartsReact } from './echarts'

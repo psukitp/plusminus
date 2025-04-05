@@ -6,14 +6,18 @@ import {
   ExpensesByCategoryRecord,
   ExpensesLastMonthes,
   ExpensesThisMonth,
+  NewExpense,
 } from '@entities/expense/model'
 import { ExpensesLastWeek } from '@entities/expense/model/types'
 
 const client = getAxiosInstance()
 const expensesService = new ExpensesService(client)
 
-const fetchExpenses = async (date: string): Promise<ExpensesRecord[]> => {
-  const result = await expensesService.getExpenses(date)
+const fetchExpenses = async (
+  startDate: string,
+  endDate: string,
+): Promise<ExpensesRecord[]> => {
+  const result = await expensesService.getExpenses(startDate, endDate)
   return result
 }
 
@@ -21,11 +25,7 @@ const createNewExpense = async ({
   date,
   categoryId,
   amount,
-}: {
-  date: string
-  categoryId: Key
-  amount: number
-}): Promise<ExpensesRecord | null> => {
+}: NewExpense): Promise<ExpensesRecord | null> => {
   const result = await expensesService.postNewExpense({
     date,
     amount,
@@ -58,11 +58,9 @@ const deleteExpense = async (id: Key): Promise<Key | null> => {
   return result
 }
 
-const editExpense = async (expense: {
-  id: Key | null
-  categoryId: Key | null
-  amount: number | null
-}): Promise<ExpensesRecord | null> => {
+const editExpense = async (
+  expense: Partial<NewExpense>,
+): Promise<ExpensesRecord | null> => {
   const result = await expensesService.editExpense(expense)
   return result
 }

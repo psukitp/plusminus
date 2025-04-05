@@ -6,7 +6,7 @@ import {
   NewRecord,
   useExpensesCategories,
 } from '@features/category'
-import { List, RecordType } from '@shared/ui'
+import { List, RecordType, Segmented } from '@shared/ui'
 import { useExpenses } from '@features/expense'
 import { Key, useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
@@ -45,16 +45,18 @@ export const ExpensesPageComponent = ({
   const symbol = useMemo(() => getCurrencySymbol(currency), [currency])
 
   const {
-    expenses: [records, recordsLoading],
+    expenses: [records = [], recordsLoading],
     expensesLastWeek: [expensesLastWeek],
     actions: {
       createNewExpense,
-      getExpenses,
       deleteExpense,
       editExpense,
       getExpensesLastWeek,
     },
-  } = useExpenses()
+  } = useExpenses(
+    dayjs(currentDate).add(-7, 'day').format('YYYY-MM-DD'),
+    currentDate,
+  )
 
   const queriesOnCreate = async (data: NewRecord) => {
     await createNewExpense({
@@ -131,16 +133,26 @@ export const ExpensesPageComponent = ({
     setShowDeleteModal(false)
   }
 
+  const [currentPeriod, setCurrentPeriod] = useState('month')
+
   return (
     <div className={className}>
       <div className="expenses-content">
         <div className="left">
           <div className="calendar">
+            <Segmented
+              active={currentPeriod}
+              onClick={({ value }) => setCurrentPeriod(value)}
+              options={[
+                { id: 'week', label: 'Нед', value: 'week' },
+                { id: 'month', label: 'Мес', value: 'month' },
+                { id: 'year', label: 'Год', value: 'year' },
+              ]}
+            />
             <Calendar
               onChange={(value) => {
                 const formattedDate = value.format('YYYY-MM-DD')
                 getExpensesLastWeek(formattedDate)
-                getExpenses(formattedDate)
                 setCurrentDate(formattedDate)
               }}
               value={currentDate}

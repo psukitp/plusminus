@@ -15,7 +15,7 @@ import {
 } from '@shared/ui'
 import { AuthPage } from '@pages/auth'
 import { RegisterPage } from '@pages/register'
-import { ExpensesPage } from '@pages/expenses'
+import { ExpensesPage } from '@pages/expenses-new'
 import { IncomesPage } from '@pages/incomes'
 import { CategoriesPage } from '@pages/categories'
 import { ProfilePage } from '@pages/profile'
@@ -88,6 +88,7 @@ const AppContainer = ({ className }: { className?: string }) => {
           <div className="content">
             {!!user.id && (
               <Header
+                showAddExpense={activeCaption.expenses}
                 onChangeDates={setDates}
                 showDates={activeCaption.review}
               />
@@ -146,7 +147,7 @@ const AppContainer = ({ className }: { className?: string }) => {
   )
 }
 
-const App = styled(AppContainer)<StyledComponentProps>`
+const App = styled(AppContainer) <StyledComponentProps>`
   background: ${({ theme }) => theme.pallete.dom.white};
   color: ${({ theme }) => theme.pallete.content.main};
 
@@ -158,6 +159,8 @@ const App = styled(AppContainer)<StyledComponentProps>`
     width: 100%;
     height: 100%;
     padding-bottom: ${isMobile ? '102px' : '0'};
+    display: flex;
+    flex-direction: column;
   }
 
   .fullscreen_loader {

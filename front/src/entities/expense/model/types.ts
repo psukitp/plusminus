@@ -9,6 +9,14 @@ export type ExpensesRecord = {
   amount: number
 }
 
+export type NewExpense = {
+  date: string
+  categoryId: Key | null
+  amount: number
+}
+
+export type EditedExpense = Partial<NewExpense> & { id: Key }
+
 export type ExpensesByCategoryRecord = {
   id: Key
   categoryName: string

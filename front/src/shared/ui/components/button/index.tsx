@@ -37,12 +37,12 @@ const getTypedStyles = (
 
         &:hover {
           outline: ${isMobile
-            ? 'none'
-            : `1px solid ${theme.pallete.content.main}`};
+          ? 'none'
+          : `1px solid ${theme.pallete.content.main}`};
 
           background-color: ${isMobile
-            ? 'none'
-            : theme.pallete.primary.orangeLight};
+          ? 'none'
+          : theme.pallete.primary.orangeLight};
         }
       `
     case 'ghost':
@@ -54,8 +54,8 @@ const getTypedStyles = (
 
         &:hover {
           color: ${isMobile
-            ? 'none'
-            : `1px solid ${theme.pallete.content.light}`};
+          ? 'none'
+          : `1px solid ${theme.pallete.content.light}`};
         }
       `
   }

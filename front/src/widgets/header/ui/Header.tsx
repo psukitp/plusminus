@@ -2,8 +2,9 @@ import { useUser } from '@entities/user'
 import { IHeaderComponentProps } from './types'
 import { Segmented } from '@shared/ui/components/segmented'
 import { Key, useCallback, useState } from 'react'
-import { SegmentedOption } from '@shared/ui'
+import { Button, SegmentedOption } from '@shared/ui'
 import dayjs, { Dayjs } from 'dayjs'
+import { useExpenseStore } from '@entities/expense'
 
 const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
   { id: '1', label: 'Нед', value: [dayjs().add(-7, 'day'), dayjs()] },
@@ -17,12 +18,14 @@ const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
 
 export const HeaderComponent = ({
   showDates,
+  showAddExpense,
   className,
 
   onChangeDates,
 }: IHeaderComponentProps) => {
   const user = useUser((state) => state.data)
   const [activePeriod, setActivePeriod] = useState<Key>('2')
+  const { setIsCreating } = useExpenseStore(state => state)
 
   const onSegmentedClick = useCallback(
     (el: SegmentedOption<[start: Dayjs, end: Dayjs]>) => {
@@ -45,9 +48,9 @@ export const HeaderComponent = ({
             }
             options={periodOptions}
           />
-          {/* <DatePicker /> */}
         </div>
       )}
+      {showAddExpense && <Button onClick={() => setIsCreating(true)} type='primary'>+</Button>}
       <div className="info">
         <div className="name">
           {user.name}

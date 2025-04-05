@@ -7,7 +7,10 @@ import { UseExpensesResult } from './types'
 import { ExpensesLastWeek } from '@entities/expense/model/types'
 import { useQueryClient } from '@tanstack/react-query'
 
-export const useExpenses = (): UseExpensesResult => {
+export const useExpenses = (
+  startDate: string,
+  endDate: string,
+): UseExpensesResult => {
   const [loading, setLoading] = useState({
     records: false,
   })
@@ -35,9 +38,10 @@ export const useExpenses = (): UseExpensesResult => {
 
   useEffect(() => {
     setLoading({ records: true })
-    getExpenses(dayjs().format('YYYY-MM-DD'))
     getExpensesLastWeek(dayjs().format('YYYY-MM-DD'))
   }, [])
+
+  useEffect(() => void getExpenses(startDate, endDate), [startDate, endDate])
 
   const createNewExpense = async ({
     amount,
@@ -72,10 +76,10 @@ export const useExpenses = (): UseExpensesResult => {
       .then((result) => setExpensesLastWeek(result))
   }
 
-  const getExpenses = async (date: string) => {
+  const getExpenses = async (startDate: string, endDate: string) => {
     setLoading((prev) => ({ ...prev, records: true }))
     await expensesQueries
-      .fetchExpenses(date)
+      .fetchExpenses(startDate, endDate)
       .then((result) =>
         setRecords(
           result.map((e) => ({
