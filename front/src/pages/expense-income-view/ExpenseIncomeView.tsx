@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components"
 import { Statistic } from "./statistic"
-import { List, RecordType } from "@shared/ui"
+import { List } from "@shared/ui"
 import { Key } from "react"
 import { ChartType, DatePeriod } from "@shared/types"
 import { getListRecords, sortByDates } from "./utils"

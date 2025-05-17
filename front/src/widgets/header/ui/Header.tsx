@@ -5,6 +5,7 @@ import { Key, useCallback, useState } from 'react'
 import { Button, SegmentedOption } from '@shared/ui'
 import dayjs, { Dayjs } from 'dayjs'
 import { useExpenseStore } from '@entities/expense'
+import { useIncomeStore } from '@entities/income'
 
 const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
   { id: '1', label: 'Нед', value: [dayjs().add(-7, 'day'), dayjs()] },
@@ -19,13 +20,15 @@ const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
 export const HeaderComponent = ({
   showDates,
   showAddExpense,
+  showAddIncome,
   className,
 
   onChangeDates,
 }: IHeaderComponentProps) => {
   const user = useUser((state) => state.data)
   const [activePeriod, setActivePeriod] = useState<Key>('2')
-  const { setIsCreating } = useExpenseStore(state => state)
+  const { setIsCreating: setIsExpenseCreating } = useExpenseStore(state => state)
+  const { setIsCreating: setIsIncomeCreating } = useIncomeStore(state => state)
 
   const onSegmentedClick = useCallback(
     (el: SegmentedOption<[start: Dayjs, end: Dayjs]>) => {
@@ -50,7 +53,8 @@ export const HeaderComponent = ({
           />
         </div>
       )}
-      {showAddExpense && <Button onClick={() => setIsCreating(true)} type='primary'>+</Button>}
+      {showAddExpense && <Button onClick={() => setIsExpenseCreating(true)} type='primary'>+</Button>}
+      {showAddIncome && <Button onClick={() => setIsIncomeCreating(true)} type='primary'>+</Button>}
       <div className="info">
         <div className="name">
           {user.name}

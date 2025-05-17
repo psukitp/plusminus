@@ -89,6 +89,7 @@ const AppContainer = ({ className }: { className?: string }) => {
             {!!user.id && (
               <Header
                 showAddExpense={activeCaption.expenses}
+                showAddIncome={activeCaption.incomes}
                 onChangeDates={setDates}
                 showDates={activeCaption.review}
               />
