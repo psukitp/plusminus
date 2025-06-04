@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ../back
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=pg;Port=5432;Database=localpg;Username=postgres;Password=postgres
+    volumes:
+      - ./dataprotection-keys:/root/.aspnet/DataProtection-Keys
+    depends_on:
+      - pg
+
+  pg:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: localpg
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
