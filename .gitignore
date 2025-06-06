@@ -366,3 +366,5 @@ credentials.json
 
 .appsettings.json
 .appsettings.Development.json
+
+/dataprotection-keys
