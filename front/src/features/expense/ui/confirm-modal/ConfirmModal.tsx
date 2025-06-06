@@ -1,6 +1,6 @@
 import { Modal } from '@shared/ui/components/modal'
 import { IConfirmModalProps } from './types'
-import { Button } from '@shared/ui/components/button'
+import { Button } from 'antd'
 
 export const ConfirmModalComponent = ({
   open,
@@ -15,10 +15,10 @@ export const ConfirmModalComponent = ({
       <div className={className}>
         <div className="text">Это действие нельзя отменить, вы уверены?</div>
         <div className="footer">
-          <Button onClick={onCancel} type="secondary" textAlign="center">
+          <Button onClick={onCancel} type="default">
             Отмена
           </Button>
-          <Button onClick={onOk} type="primary" textAlign="center">
+          <Button onClick={onOk} type="primary">
             Удалить
           </Button>
         </div>

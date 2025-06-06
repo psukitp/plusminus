@@ -1,6 +1,6 @@
 //TODO сделать настройки
 
-import { Button } from '@shared/ui/components'
+import { Button } from 'antd'
 
 const SettingsPage = () => {
   return (
@@ -10,7 +10,7 @@ const SettingsPage = () => {
       </div>
       <div>
         <Button
-          type="secondary"
+          type="default"
           onClick={() =>
             console.log('Ладно, что-то все-таки делают. В консоль пишут:)')
           }
@@ -20,7 +20,7 @@ const SettingsPage = () => {
       </div>
       <div>
         <Button
-          type="secondary"
+          type="default"
           onClick={() =>
             console.log('Ладно, что-то все-таки делают. В консоль пишут:)')
           }
@@ -30,7 +30,7 @@ const SettingsPage = () => {
       </div>
       <div>
         <Button
-          type="secondary"
+          type="default"
           onClick={() =>
             console.log('Ладно, что-то все-таки делают. В консоль пишут:)')
           }

@@ -1,10 +1,12 @@
-import { NewIncome } from "@entities/income"
-import { useExpensesCategories } from "@features/category"
-import { openNotificationError } from "@shared/lib"
-import { Button, Input, Modal, Select, SelectOption } from "@shared/ui"
-import dayjs from "dayjs"
-import { useMemo, useState } from "react"
-import styled, { css } from "styled-components"
+import { NewIncome } from '@entities/income'
+import { useExpensesCategories } from '@features/category'
+import { openNotificationError } from '@shared/lib'
+import { Modal } from '@shared/ui'
+import { Button, InputNumber, Select } from 'antd'
+import { DefaultOptionType } from 'antd/es/select'
+import dayjs from 'dayjs'
+import { useMemo, useState } from 'react'
+import styled, { css } from 'styled-components'
 
 interface ICreateProps {
   className?: string
@@ -13,63 +15,83 @@ interface ICreateProps {
   onClose: () => void
 }
 
-const CreateComponent = ({ className, open, onClose, onCreate }: ICreateProps) => {
+const CreateComponent = ({
+  className,
+  open,
+  onClose,
+  onCreate,
+}: ICreateProps) => {
   const [categories] = useExpensesCategories()
 
   const [newIncomeData, setNewIncomeData] = useState<NewIncome>({
     amount: 0,
     date: dayjs().format('YYYY-MM-DD'),
-    categoryId: null
+    categoryId: null,
   })
 
-  const selectOptions = useMemo<SelectOption[]>(() => {
-    return categories?.map((c) => ({
+  const selectOptions = useMemo(() => {
+    return categories?.map<DefaultOptionType>((c) => ({
       key: c.id,
-      label: c.name,
-      value: c.id.toString(),
-      color: c.color,
+      title: c.name,
+      label: <div style={{ color: c.color }}>{c.name}</div>,
+      value: c.id,
     }))
   }, [categories])
 
   const handleOk = () => {
-    const { amount, categoryId, date, } = newIncomeData
-    if (!amount || !categoryId || !date) openNotificationError('Не все данные заполнены')
+    const { amount, categoryId, date } = newIncomeData
+    if (!amount || !categoryId || !date)
+      openNotificationError('Не все данные заполнены')
     else {
       onCreate(newIncomeData)
       onClose()
     }
   }
 
-  return <Modal open={open} onClose={onClose}>
-    <div className={className}>
-      <div className="label">Категория:</div>
-      <Select
-        placeholder="Выберите категорию"
-        value={newIncomeData.categoryId}
-        onChange={(e) => setNewIncomeData(prev => ({ ...prev, categoryId: e.target.value }))}
-        additionalClass="category"
-        options={selectOptions}
-      />
-      <div className="label">Сумма:</div>
-      <Input
-        type="number"
-        placeholder="Введите сумму"
-        additionalClass="sum"
-        value={newIncomeData.amount}
-        onChange={(e) => setNewIncomeData(prev => ({ ...prev, amount: +e.target.value }))}
-      />
-      <div className="footer">
-        <Button
-          additionClass="addBtn"
-          type="primary"
-          onClick={handleOk}
-          textAlign="center"
-        >
-          Сохранить
-        </Button>
+  return (
+    <Modal open={open} onClose={onClose}>
+      <div className={className}>
+        <div className="label">Категория:</div>
+        <Select
+          showSearch
+          filterOption={(input, option) =>
+            (option?.title ?? '').toLowerCase().includes(input.toLowerCase())
+          }
+          placeholder="Выберите категорию"
+          value={newIncomeData.categoryId}
+          className="select"
+          onChange={(categoryId) =>
+            setNewIncomeData((prev) => ({
+              ...prev,
+              categoryId,
+            }))
+          }
+          options={selectOptions}
+        />
+        <div className="label">Сумма:</div>
+        <InputNumber
+          type="number"
+          placeholder="Введите сумму"
+          className="sum"
+          value={newIncomeData.amount}
+          onChange={(e) =>
+            setNewIncomeData((prev) => ({ ...prev, amount: e ? e : 0 }))
+          }
+        />
+        <div className="footer">
+          <Button className="addBtn" type="primary" onClick={handleOk}>
+            Сохранить
+          </Button>
+        </div>
       </div>
-    </div>
-  </Modal>
+    </Modal>
+  )
 }
 
-export const Create = styled(CreateComponent)(() => css``)
+export const Create = styled(CreateComponent)(
+  () => css`
+    .select {
+      width: 100%;
+    }
+  `,
+)

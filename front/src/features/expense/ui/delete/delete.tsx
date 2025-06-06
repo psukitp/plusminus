@@ -1,4 +1,5 @@
-import { Button, Modal } from '@shared/ui'
+import { Modal } from '@shared/ui'
+import { Button } from 'antd'
 import { Key } from 'react'
 import styled, { css } from 'styled-components'
 
@@ -20,7 +21,7 @@ const DeleteComponent = ({
       <div className={className}>
         <div className="text">Это действие нельзя отменить, вы уверены?</div>
         <div className="footer">
-          <Button onClick={onClose} type="secondary" textAlign="center">
+          <Button onClick={onClose} type="default">
             Отмена
           </Button>
           <Button
@@ -29,7 +30,6 @@ const DeleteComponent = ({
               onClose()
             }}
             type="primary"
-            textAlign="center"
           >
             Удалить
           </Button>

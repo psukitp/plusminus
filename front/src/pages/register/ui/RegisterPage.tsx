@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { RegisterFormData } from '@entities/user'
 import { useAuth } from '@entities/user'
 import { Link } from 'react-router-dom'
-import { Input, Button, Switch } from '@shared/ui'
+import { Input, Switch } from '@shared/ui'
+import { Button } from 'antd'
 
 const initialForm: RegisterFormData = {
   login: '',
@@ -89,8 +90,7 @@ const RegisterPageComponent = ({ className }: { className?: string }) => {
         )}
         <Button
           type="primary"
-          textAlign="center"
-          additionClass="registerBtn"
+          className="registerBtn"
           onClick={() => onRegister(form)}
         >
           Зарегистрироваться

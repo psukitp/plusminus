@@ -10,8 +10,9 @@ import { CategoryItem } from './CategoryItem'
 import { Key, useCallback, useState } from 'react'
 import { Category } from '@entities/category'
 import { DeleteModal } from '@features/category/ui/delete-modal'
-import { Button } from '@shared/ui/components'
+// import { Button } from '@shared/ui/components'
 import { PlusIcon } from '@shared/ui/icons'
+import { Button } from 'antd'
 
 export const CategoriesPageComponent = ({
   className,
@@ -81,7 +82,7 @@ export const CategoriesPageComponent = ({
           <div className="title-block">
             <div className="category-subtitle">Расходы</div>
             <Button
-              additionClass="addBtn"
+              className="addBtn"
               type="primary"
               onClick={() => setOpenModal({ expense: true, income: false })}
             >
@@ -102,7 +103,7 @@ export const CategoriesPageComponent = ({
           <div className="title-block">
             <div className="category-subtitle">Доходы</div>
             <Button
-              additionClass="addBtn"
+              className="addBtn"
               type="primary"
               onClick={() => setOpenModal({ expense: false, income: true })}
             >

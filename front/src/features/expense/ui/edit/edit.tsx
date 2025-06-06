@@ -2,17 +2,13 @@ import { NewExpense } from '@entities/expense'
 import { select } from '@entities/expense/store/selector'
 import { useExpenseStore } from '@entities/expense'
 import { useExpensesCategories } from '@features/category'
-import {
-  Button,
-  DatePicker,
-  Input,
-  Modal,
-  Select,
-  SelectOption,
-} from '@shared/ui'
+import { Modal } from '@shared/ui'
 import { Key, useEffect, useMemo, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { yearMonthDay } from '@shared/constants'
+import { Button, DatePicker, Select, InputNumber } from 'antd'
+import { dayMonthYearDot } from '@shared/constants/dayjs'
+import dayjs from 'dayjs'
 
 interface IEditProps {
   className?: string
@@ -34,12 +30,12 @@ const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
       })
   }, [expense])
 
-  const selectOptions = useMemo<SelectOption[]>(() => {
-    return categories?.map((c) => ({
+  const selectOptions = useMemo(() => {
+    return categories?.map<DefaultOptionType>((c) => ({
       key: c.id,
-      label: c.name,
-      value: c.id.toString(),
-      color: c.color,
+      title: c.name,
+      label: <div style={{ color: c.color }}>{c.name}</div>,
+      value: c.id,
     }))
   }, [categories])
 
@@ -54,29 +50,33 @@ const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
         <div className={className}>
           <div className="label">Категория:</div>
           <Select
+            showSearch
+            filterOption={(input, option) =>
+              (option?.title ?? '').toLowerCase().includes(input.toLowerCase())
+            }
             placeholder="Выберите категорию"
             value={newExpenseData.categoryId}
-            onChange={(e) =>
+            className="select"
+            onChange={(categoryId) =>
               setNewExpenseData((prev) => ({
                 ...prev,
-                categoryId: e.target.value,
+                categoryId,
               }))
             }
-            additionalClass="category"
             options={selectOptions}
           />
           <div className="short-inputs">
             <div>
               <div className="label">Сумма:</div>
-              <Input
+              <InputNumber
                 type="number"
                 placeholder="Введите сумму"
-                additionalClass="sum"
+                className="sum"
                 value={newExpenseData.amount}
                 onChange={(e) =>
                   setNewExpenseData((prev) => ({
                     ...prev,
-                    amount: +e.target.value,
+                    amount: e ?? 0,
                   }))
                 }
               />
@@ -84,7 +84,9 @@ const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
             <div>
               <div className="label">Дата:</div>
               <DatePicker
-                value={newExpenseData.date}
+                allowClear={false}
+                format={dayMonthYearDot}
+                defaultValue={dayjs()}
                 onChange={(date) =>
                   setNewExpenseData((prev) => ({
                     ...prev,
@@ -95,12 +97,7 @@ const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
             </div>
           </div>
           <div className="footer">
-            <Button
-              additionClass="addBtn"
-              type="primary"
-              onClick={handleOk}
-              textAlign="center"
-            >
+            <Button className="addBtn" type="primary" onClick={handleOk}>
               Сохранить
             </Button>
           </div>
@@ -125,6 +122,10 @@ export const Edit = styled(EditComponent)(
 
     .footer {
       margin-top: ${theme.gaps.s}px;
+    }
+
+    .select {
+      width: 100%;
     }
   `,
 )

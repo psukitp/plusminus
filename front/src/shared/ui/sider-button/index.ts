@@ -3,6 +3,7 @@ import { SiderButtonComponent } from './SiderButton'
 
 export const SiderButton = styled(SiderButtonComponent)`
   .sider-button {
-    width: 100%;
+    justify-content: start;
+    align-items: center;
   }
 `

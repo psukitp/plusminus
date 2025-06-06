@@ -7,6 +7,7 @@ import { ThemeProvider } from 'styled-components'
 import { theme } from '@shared/lib'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ToastContainer } from 'react-toastify'
+import { ConfigProvider } from 'antd'
 
 const queryClient = new QueryClient()
 
@@ -18,10 +19,18 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <ToastContainer draggable stacked/>
-          <App />
-        </ThemeProvider>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#E05A29',
+            },
+          }}
+        >
+          <ThemeProvider theme={theme}>
+            <ToastContainer draggable stacked />
+            <App />
+          </ThemeProvider>
+        </ConfigProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>,

@@ -1,6 +1,6 @@
 import { Modal } from '@shared/ui/components/modal'
 import { IDeleteModalComponentProps } from './types'
-import { Button } from '@shared/ui/components'
+import { Button } from 'antd'
 
 export const DeleteModalComponent = ({
   className,
@@ -22,7 +22,7 @@ export const DeleteModalComponent = ({
         <strong>Это действие нельзя отменить!</strong>
       </div>
       <div className="footer">
-        <Button type="secondary" onClick={onClose} textAlign="center">
+        <Button type="default" onClick={onClose}>
           Оставить
         </Button>
         <Button
@@ -31,7 +31,6 @@ export const DeleteModalComponent = ({
             onOk()
             onClose()
           }}
-          textAlign="center"
         >
           Удалить
         </Button>

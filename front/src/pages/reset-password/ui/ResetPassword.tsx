@@ -1,6 +1,6 @@
 import { useAuth } from '@entities/user'
+import { Button, Input } from 'antd'
 import { useState } from 'react'
-import { Button, Input } from '@shared/ui'
 
 export const ResetPasswordComponent = ({
   className,
