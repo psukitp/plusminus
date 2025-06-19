@@ -13,7 +13,8 @@ export const Loader = styled(LoaderComponent)`
   .spinner {
     width: ${({ size = defaultSize }) => `${size}px`};
     height: ${({ size = defaultSize }) => `${size}px`};
-    border: ${({ size = defaultSize }) => `${size / 10}px  solid rgba(0, 0, 0, 0.1)`};
+    border: ${({ size = defaultSize }) =>
+      `${size / 10}px  solid rgba(0, 0, 0, 0.1)`};
     border-top: ${({
       size = defaultSize,
       theme: {

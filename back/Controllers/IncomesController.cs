@@ -21,14 +21,20 @@ namespace plusminus.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<GetIncomesDto>>>> Get([FromQuery] string date)
+        public async Task<ActionResult<ServiceResponse<List<GetIncomesDto>>>> Get([FromQuery] string startDate, [FromQuery] string endDate, CancellationToken cancellationToken)
         {
-            if (!DateOnly.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedDate))
+            if (!DateOnly.TryParseExact(startDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedStartDate))
+            {
+                return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
+            }
+            if (!DateOnly.TryParseExact(endDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedEndDate))
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
             
-            return Ok(await _incomesService.GetByMonth(parsedDate));
+            return Ok(await _incomesService.GetByPeriod(parsedStartDate, parsedEndDate));
         }
 
         [HttpGet("ByCategory")]
@@ -86,21 +92,6 @@ namespace plusminus.Controllers
         public async Task<ActionResult<ServiceResponse<GetThisYearExpenses>>> GetTotalDiff()
         {
             return Ok(await _incomesService.GetTotalDiff());
-        }
-
-        [HttpGet("Period")]
-        public async Task<ActionResult<ServiceResponse<GetIncomesByPeriod>>> GetByPeriod([FromQuery] string from,[FromQuery] string to, CancellationToken cancellationToken)
-        {
-            if (!DateOnly.TryParseExact(from, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedFrom))
-            {
-                return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
-            }
-            if (!DateOnly.TryParseExact(to, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateOnly parsedTo))
-            {
-                return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
-            }
-
-            return Ok(await _incomesService.GetByPeriod(parsedFrom, parsedTo, cancellationToken));
         }
     }
 }

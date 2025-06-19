@@ -1,2 +1,5 @@
 export { ConfirmModal } from './confirm-modal'
+export { Create } from './create'
+export { Delete } from './delete'
+export { Edit } from './edit'
 export { EditModal } from './edit-modal'

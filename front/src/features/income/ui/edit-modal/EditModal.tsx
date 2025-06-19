@@ -1,8 +1,7 @@
-import { Button } from '@shared/ui/components/button'
-import { Input } from '@shared/ui/components/input'
 import { Modal } from '@shared/ui/components/modal'
 import { Select } from '@shared/ui/components/select'
 import { IEditModalProps } from './types'
+import { Button, InputNumber } from 'antd'
 
 export const EditModalComponent = ({
   open,
@@ -33,19 +32,18 @@ export const EditModalComponent = ({
           options={categoryOptions}
         />
         <div className="label">Сумма:</div>
-        <Input
+        <InputNumber
           type="number"
           placeholder="Введите сумму"
-          additionalClass="sum"
+          className="sum"
           value={modal.amount}
-          onChange={(e) => onChangeAmount(e.target.value)}
+          onChange={(e) => onChangeAmount(e?.toString() ?? '')}
         />
         <div className="footer">
           <Button
-            additionClass="addBtn"
+            className="addBtn"
             type="primary"
             onClick={mode === 'create' ? onCreate : onEdit}
-            textAlign="center"
           >
             {mode === 'create' ? 'Добавить' : 'Сохранить'}
           </Button>

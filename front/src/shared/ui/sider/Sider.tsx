@@ -9,7 +9,7 @@ import {
   SettingsIcon,
 } from '../icons'
 import { LogoWithText } from '@shared/lib/svgs/logo_w_text'
-import { Button } from '../components'
+import { Button } from 'antd'
 
 export const SiderComponent = ({
   activeCaption,
@@ -81,7 +81,13 @@ export const SiderComponent = ({
             })
           }
         />
-        <Button onClick={onLogout} type="secondary" icon={<ExitIcon />}>
+        <Button
+          className="exitBtn"
+          block
+          onClick={onLogout}
+          type="text"
+          icon={<ExitIcon />}
+        >
           Выйти
         </Button>
       </div>

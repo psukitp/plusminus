@@ -91,22 +91,20 @@ namespace plusminus.Services
         /// <summary>
         /// Получить доходы за месяц.
         /// </summary>
-        /// <param name="date">Дата конца периода.</param>
+        /// <param name="startDate">Начало периода.</param>
+        /// <param name="endDate">Конец периода.</param>
         /// <returns>Информация о доходах за месяц.</returns>
-        public async Task<ServiceResponse<GetIncomesDto[]>> GetByMonth(DateOnly date)
+        public async Task<ServiceResponse<GetIncomesDto[]>> GetByPeriod(DateOnly startDate, DateOnly endDate)
         {
             var serviceResponse = new ServiceResponse<GetIncomesDto[]>();
             try
             {
                 var userId = _httpContextAccessor.GetUserId();
-                
-                var firstDate = DateOnly.FromDateTime(DateTime.Now.AddMonths(-1));
-                
 
                 var incomes = _repository.
                     GetAll()
                     .Where(i => i.UserId == userId)
-                    .Where(i => i.Date <= date && i.Date >= firstDate)
+                    .Where(i => i.Date >= startDate && i.Date <= endDate)
                     .Include(i => i.Category);
                 
                 serviceResponse.Data = incomes.Select(_mapper.Map<GetIncomesDto>).ToArray();
@@ -328,60 +326,6 @@ namespace plusminus.Services
                 serviceResponse.Success = false;
                 serviceResponse.Message = ex.Message;
             }
-            return serviceResponse;
-        }
-
-        /// <summary>
-        /// Получить доходы за период.
-        /// </summary>
-        /// <param name="from">Дата начала периода.</param>
-        /// <param name="to">Дата конца периода</param>
-        /// <param name="cancellationToken">CancellationToken.</param>
-        /// <returns>Информация о доходах за период.</returns>
-        public async Task<ServiceResponse<GetIncomesByPeriod>> GetByPeriod(DateOnly from,
-            DateOnly to, CancellationToken cancellationToken)
-        {
-            var serviceResponse = new ServiceResponse<GetIncomesByPeriod>();
-            try
-            {
-                var userId = _httpContextAccessor.GetUserId();
-                
-                var result = new GetIncomesByPeriod
-                {
-                    Days = new List<DateOnly>(),
-                    Values = new List<decimal>()
-                };
-                
-                var incomes = await _repository
-                    .GetAll()
-                    .Where(i => i.UserId == userId)
-                    .Where(e =>  e.Date >= from && e.Date <= to)
-                    .GroupBy(e => e.Date)
-                    .Select(g => new
-                    {
-                        Date = g.Key,
-                        Total = g.Sum(e => e.Amount)
-                    })
-                    .ToListAsync(cancellationToken);
-
-                var daysBetweenDates = to.DayNumber - from.DayNumber;
-
-                for (int i = 0; i <= daysBetweenDates; i++)
-                {
-                    var currentDate = from.AddDays(i);
-                    var currentIncome = incomes.Where(income => income.Date == currentDate).ToArray();
-                    result.Days.Add(currentIncome.Length > 0 ? currentIncome[0].Date : currentDate);
-                    result.Values.Add(currentIncome.Length > 0 ? currentIncome[0].Total : 0);
-                }
-
-                serviceResponse.Data = result;
-            }
-            catch (Exception ex)
-            {
-                serviceResponse.Success = false;
-                serviceResponse.Message = ex.Message;
-            }
-
             return serviceResponse;
         }
     }

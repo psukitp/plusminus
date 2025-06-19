@@ -1,4 +1,4 @@
-import { Dates } from "@shared/lib"
+import { Dates } from '@shared/lib'
 
 export interface IReviewHelloProps {
   className?: string

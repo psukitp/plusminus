@@ -10,3 +10,19 @@ export interface ISummarizedExpensesData {
   editExpense: (prevExpense: ExpensesRecord, newExpense: ExpensesRecord) => void
   deleteExpense: (id: Key) => void
 }
+
+export type ExpenseStore = {
+  expenses: ExpensesRecord[]
+  isCreating: boolean
+  setIsCreating: (value: boolean) => void
+  setExpenses: (expenses: ExpensesRecord[]) => void
+  addExpense: (expense: ExpensesRecord) => void
+  deleteExpense: (id: Key) => void
+  editExpense: (expense: ExpensesRecord) => void
+}
+
+export type ExpenseSelector = {
+  expenseById: (
+    id: Key | null,
+  ) => (state: ExpenseStore) => ExpensesRecord | null
+}

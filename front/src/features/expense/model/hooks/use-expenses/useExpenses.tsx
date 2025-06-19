@@ -4,10 +4,13 @@ import { expensesQueries } from '@entities/expense'
 import dayjs from 'dayjs'
 import { useSummarizedExpensesData } from '@entities/expense'
 import { UseExpensesResult } from './types'
-import { ExpensesLastWeek } from '@entities/expense/model/types'
+import { EditedExpense, ExpensesLastWeek } from '@entities/expense/model'
 import { useQueryClient } from '@tanstack/react-query'
 
-export const useExpenses = (): UseExpensesResult => {
+export const useExpenses = (
+  startDate: string,
+  endDate: string,
+): UseExpensesResult => {
   const [loading, setLoading] = useState({
     records: false,
   })
@@ -35,9 +38,10 @@ export const useExpenses = (): UseExpensesResult => {
 
   useEffect(() => {
     setLoading({ records: true })
-    getExpenses(dayjs().format('YYYY-MM-DD'))
     getExpensesLastWeek(dayjs().format('YYYY-MM-DD'))
   }, [])
+
+  useEffect(() => void getExpenses(startDate, endDate), [startDate, endDate])
 
   const createNewExpense = async ({
     amount,
@@ -72,10 +76,10 @@ export const useExpenses = (): UseExpensesResult => {
       .then((result) => setExpensesLastWeek(result))
   }
 
-  const getExpenses = async (date: string) => {
+  const getExpenses = async (startDate: string, endDate: string) => {
     setLoading((prev) => ({ ...prev, records: true }))
     await expensesQueries
-      .fetchExpenses(date)
+      .fetchExpenses(startDate, endDate)
       .then((result) =>
         setRecords(
           result.map((e) => ({
@@ -94,11 +98,7 @@ export const useExpenses = (): UseExpensesResult => {
     })
   }
 
-  const editExpense = async (expense: {
-    id: Key | null
-    categoryId: Key | null
-    amount: number | null
-  }) => {
+  const editExpense = async (expense: EditedExpense) => {
     await expensesQueries
       .editExpense(expense)
       .then((result) => {

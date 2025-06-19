@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { IChartWidgetProps } from './types'
 import { Loader, Empty } from '@shared/ui'
-import { EchartsReact } from '@shared/lib/echarts/Echarts-react'
+import { EchartsReact } from '@shared/lib/echarts'
 import { Widget } from '../widget'
 
 export const ChartWidget = ({

@@ -1,5 +1,9 @@
-import { ExpensesByCategoryRecord, ExpensesRecord } from '@entities/expense'
-import { ExpensesLastWeek } from '@entities/expense/model/types'
+import {
+  ExpensesByCategoryRecord,
+  ExpensesRecord,
+  EditedExpense,
+  ExpensesLastWeek,
+} from '@entities/expense'
 import { StringDates } from '@shared/lib'
 import { Key } from 'react'
 
@@ -17,14 +21,10 @@ export type UseExpensesResult = {
       categoryId: Key
       date: string
     }) => void
-    getExpenses: (date: string) => void
+    getExpenses: (startDate: string, endDate: string) => void
     getExpensesByCategories: (dates: StringDates) => void
     getExpensesLastWeek: (date: string) => void
     deleteExpense: (id: Key) => void
-    editExpense: (expense: {
-      amount: number | null
-      categoryId: Key | null
-      id: Key | null
-    }) => void
+    editExpense: (expense: EditedExpense) => void
   }
 }

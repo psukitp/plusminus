@@ -31,3 +31,11 @@ export type IncomesByPeriod = {
   days: string[]
   values: number[]
 }
+
+export type NewIncome = {
+  date: string
+  categoryId: Key | null
+  amount: number
+}
+
+export type EditedIncome = Partial<NewIncome> & { id: Key }

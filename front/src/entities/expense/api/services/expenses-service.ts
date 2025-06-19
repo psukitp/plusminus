@@ -9,7 +9,7 @@ import {
   ExpensesRecord,
   ExpensesThisMonth,
 } from '@entities/expense/model'
-import { ExpensesLastWeek } from '@entities/expense/model/types'
+import { ExpensesLastWeek, NewExpense } from '@entities/expense/model'
 
 export class ExpensesService extends BaseService {
   url: string
@@ -19,13 +19,17 @@ export class ExpensesService extends BaseService {
     this.url = 'Expenses'
   }
 
-  async getExpenses(date: string): Promise<ExpensesRecord[]> {
+  async getExpenses(
+    startDate: string,
+    endDate: string,
+  ): Promise<ExpensesRecord[]> {
     try {
       const response = await this.client.get<ServiceResponse<ExpensesRecord[]>>(
         `${this.url}`,
         {
           params: {
-            date,
+            startDate,
+            endDate,
           },
         },
       )
@@ -150,11 +154,9 @@ export class ExpensesService extends BaseService {
     }
   }
 
-  async editExpense(expense: {
-    id: Key | null
-    categoryId: Key | null
-    amount: number | null
-  }): Promise<ExpensesRecord | null> {
+  async editExpense(
+    expense: Partial<NewExpense>,
+  ): Promise<ExpensesRecord | null> {
     try {
       const response = await this.client.patch<ServiceResponse<ExpensesRecord>>(
         `${this.url}`,

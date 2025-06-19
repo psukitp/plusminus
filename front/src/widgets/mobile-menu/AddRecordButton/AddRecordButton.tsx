@@ -1,8 +1,8 @@
-import { Button } from '@shared/ui'
 import { ExpensesIcon, IncomesIcon, PlusIcon } from '@shared/ui/icons'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { IAddRecordButtonProps } from './types'
+import { Button } from 'antd'
 
 export const AddRecordButtonComponent = ({
   className,
@@ -21,12 +21,12 @@ export const AddRecordButtonComponent = ({
     <div className={className}>
       <div className={`actions ${active ? 'active' : ''}`}>
         <div className="action">
-          <Button type="ghost" onClick={() => onButtonClick('incomes')}>
+          <Button type="text" onClick={() => onButtonClick('incomes')}>
             <IncomesIcon />
           </Button>
         </div>
         <div className="action">
-          <Button type="ghost" onClick={() => onButtonClick('expenses')}>
+          <Button type="text" onClick={() => onButtonClick('expenses')}>
             <ExpensesIcon />
           </Button>
         </div>

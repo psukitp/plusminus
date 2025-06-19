@@ -1,3 +1,3 @@
 import { lazy } from 'react'
 
-export const IncomesPage = lazy(() => import('./styled'))
+export const IncomesPage = lazy(() => import('./IncomesPage'))

@@ -10,6 +10,7 @@ import {
   IncomesThisMonth,
   IncomesByPeriod,
 } from '@entities/income/model'
+import { NewIncome } from '../../model'
 
 export class IncomesService extends BaseService {
   url: string
@@ -19,12 +20,15 @@ export class IncomesService extends BaseService {
     this.url = 'Incomes'
   }
 
-  async getIncomes(date: string): Promise<IncomesRecord[]> {
+  async getIncomes(
+    startDate: string,
+    endDate: string,
+  ): Promise<IncomesRecord[]> {
     try {
       const response = await this.client.get<ServiceResponse<IncomesRecord[]>>(
         `${this.url}`,
         {
-          params: { date },
+          params: { startDate, endDate },
         },
       )
       const {
@@ -150,11 +154,7 @@ export class IncomesService extends BaseService {
     }
   }
 
-  async editIncome(income: {
-    id: Key | null
-    categoryId: Key | null
-    amount: number | null
-  }): Promise<IncomesRecord | null> {
+  async editIncome(income: Partial<NewIncome>): Promise<IncomesRecord | null> {
     try {
       const response = await this.client.patch<ServiceResponse<IncomesRecord>>(
         `${this.url}`,

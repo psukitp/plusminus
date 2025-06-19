@@ -4,6 +4,10 @@ import { Segmented } from '@shared/ui/components/segmented'
 import { Key, useCallback, useState } from 'react'
 import { SegmentedOption } from '@shared/ui'
 import dayjs, { Dayjs } from 'dayjs'
+import { useExpenseStore } from '@entities/expense'
+import { useIncomeStore } from '@entities/income'
+import { Button } from 'antd'
+import { PlusIcon } from '@shared/ui/icons'
 
 const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
   { id: '1', label: 'Нед', value: [dayjs().add(-7, 'day'), dayjs()] },
@@ -17,12 +21,20 @@ const periodOptions: SegmentedOption<[start: Dayjs, end: Dayjs]>[] = [
 
 export const HeaderComponent = ({
   showDates,
+  showAddExpense,
+  showAddIncome,
   className,
 
   onChangeDates,
 }: IHeaderComponentProps) => {
   const user = useUser((state) => state.data)
   const [activePeriod, setActivePeriod] = useState<Key>('2')
+  const { setIsCreating: setIsExpenseCreating } = useExpenseStore(
+    (state) => state,
+  )
+  const { setIsCreating: setIsIncomeCreating } = useIncomeStore(
+    (state) => state,
+  )
 
   const onSegmentedClick = useCallback(
     (el: SegmentedOption<[start: Dayjs, end: Dayjs]>) => {
@@ -45,8 +57,21 @@ export const HeaderComponent = ({
             }
             options={periodOptions}
           />
-          {/* <DatePicker /> */}
         </div>
+      )}
+      {showAddExpense && (
+        <Button
+          onClick={() => setIsExpenseCreating(true)}
+          type="primary"
+          icon={<PlusIcon />}
+        />
+      )}
+      {showAddIncome && (
+        <Button
+          onClick={() => setIsIncomeCreating(true)}
+          type="primary"
+          icon={<PlusIcon />}
+        />
       )}
       <div className="info">
         <div className="name">

@@ -5,10 +5,8 @@ import App from './App.tsx'
 import './index.less'
 import { ThemeProvider } from 'styled-components'
 import { theme } from '@shared/lib'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ToastContainer } from 'react-toastify'
-
-const queryClient = new QueryClient()
+import { ConfigProvider } from 'antd'
 
 const container = document.getElementById('root')!
 
@@ -16,13 +14,20 @@ const root = createRoot(container)
 
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#E05A29',
+            fontFamily: 'RobotoRegular',
+          },
+        }}
+      >
         <ThemeProvider theme={theme}>
-          <ToastContainer draggable stacked/>
+          <ToastContainer draggable stacked />
           <App />
         </ThemeProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
+      </ConfigProvider>
+    </BrowserRouter>
   </React.StrictMode>,
 )

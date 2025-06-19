@@ -1,4 +1,4 @@
-import { ModalInfo } from '@features/category/ui/modal/types'
+import { ModalInfo } from '@features/category/ui'
 
 export const initialModal: ModalInfo = {
   id: -1,

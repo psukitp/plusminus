@@ -20,15 +20,20 @@ namespace plusminus.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<GetExpensesDto[]>>> Get([FromQuery] string date)
+        public async Task<ActionResult<ServiceResponse<GetExpensesDto[]>>> Get([FromQuery] string startDate, [FromQuery] string endDate)
         {
-            if (!DateOnly.TryParseExact(date, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
-                    out DateOnly parsedDate))
+            if (!DateOnly.TryParseExact(startDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedStartDate))
+            {
+                return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
+            }
+            if (!DateOnly.TryParseExact(endDate, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out DateOnly parsedEndDate))
             {
                 return BadRequest("Неверный формат даты. Используйте формат yyyy-MM-dd.");
             }
 
-            return Ok(await _expensesService.GetLastWeek(parsedDate));
+            return Ok(await _expensesService.GetByPeriod(parsedStartDate, parsedEndDate));
         }
 
         [HttpPost]

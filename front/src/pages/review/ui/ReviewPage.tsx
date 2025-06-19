@@ -13,7 +13,7 @@ import { useUser } from '@entities/user'
 import { getCurrencySymbol } from '@shared/utils'
 import styled from 'styled-components'
 import { ReviewHello } from './review-hello'
-import { PieLegend } from '@features/category/ui/pie-legend'
+import { PieLegend } from '@features/category/ui'
 import { AstericIcon, RemainingIcon } from '@shared/ui/icons'
 
 export const ReviewPageComponent = ({ className, dates }: IReviewPageProps) => {

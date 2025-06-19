@@ -4,8 +4,9 @@ import { IAddNewCategoryModalProps } from './types'
 import { NewCategory } from '@entities/category'
 import { Modal } from '@shared/ui/components/modal'
 import { Input } from '@shared/ui/components/input'
-import { Button, ColorPicker } from '@shared/ui/components'
+import { ColorPicker } from '@shared/ui/components'
 import { parseColorString, stringifyColorObject } from '@shared/utils'
+import { Button } from 'antd'
 
 export const CategoryModalComponent = ({
   open,
@@ -54,7 +55,7 @@ export const CategoryModalComponent = ({
           />
           <Button
             type="primary"
-            additionClass="saveBtn"
+            className="saveBtn"
             onClick={() => {
               if (newRecord.color && newRecord.name) {
                 mode === 'create' && onCreate && onCreate(newRecord)
@@ -67,7 +68,6 @@ export const CategoryModalComponent = ({
                 onCancel()
               } else openNotificationWarning('Не все данные заполнены')
             }}
-            textAlign="center"
           >
             Сохранить
           </Button>

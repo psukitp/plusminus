@@ -3,7 +3,7 @@ import { AuthFormData } from '@entities/user'
 import { useAuth } from '@entities/user'
 import { Link } from 'react-router-dom'
 import { initialForm } from './utils'
-import { Input, Button } from '@shared/ui/components'
+import { Button, Input } from 'antd'
 
 const AuthPageComponent = ({ className }: { className?: string }) => {
   const [form, setForm] = useState<AuthFormData>({ ...initialForm })
@@ -30,7 +30,7 @@ const AuthPageComponent = ({ className }: { className?: string }) => {
         <div className="reset">
           <Link to="/reset">Не помню пароль</Link>
         </div>
-        <Button type="primary" textAlign="center" onClick={() => onAuth(form)}>
+        <Button type="primary" onClick={() => onAuth(form)}>
           Войти
         </Button>
         <div className="register">

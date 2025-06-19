@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { IExpensesCategoriesData } from './types'
-import { expensesCategoriesQueries } from '@entities/category/api/queries'
+import { expensesCategoriesQueries } from '@entities/category/api'
 
 export const useExpensesCategoriesData = create<IExpensesCategoriesData>(
   (set) => ({
