@@ -1,0 +1,1 @@
+export { useIncome } from './hooks'

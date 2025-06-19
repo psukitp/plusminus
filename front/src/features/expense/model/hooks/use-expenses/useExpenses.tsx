@@ -4,7 +4,7 @@ import { expensesQueries } from '@entities/expense'
 import dayjs from 'dayjs'
 import { useSummarizedExpensesData } from '@entities/expense'
 import { UseExpensesResult } from './types'
-import { EditedExpense, ExpensesLastWeek } from '@entities/expense/model/types'
+import { EditedExpense, ExpensesLastWeek } from '@entities/expense/model'
 import { useQueryClient } from '@tanstack/react-query'
 
 export const useExpenses = (

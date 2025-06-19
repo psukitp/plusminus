@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { IIncomesCategoriesData } from './types'
-import { incomesCategoriesQueries } from '@entities/category/api/queries'
+import { incomesCategoriesQueries } from '@entities/category/api'
 
 export const useIncomesCategoriesData = create<IIncomesCategoriesData>(
   (set) => ({

@@ -1,5 +1,9 @@
-import { ExpensesByCategoryRecord, ExpensesRecord } from '@entities/expense'
-import { EditedExpense, ExpensesLastWeek } from '@entities/expense/model/types'
+import {
+  ExpensesByCategoryRecord,
+  ExpensesRecord,
+  EditedExpense,
+  ExpensesLastWeek,
+} from '@entities/expense'
 import { StringDates } from '@shared/lib'
 import { Key } from 'react'
 

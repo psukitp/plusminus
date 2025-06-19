@@ -1,5 +1,5 @@
 import { NewExpense } from '@entities/expense'
-import { select } from '@entities/expense/store/selector'
+import { select } from '@entities/expense/store'
 import { useExpenseStore } from '@entities/expense'
 import { useExpensesCategories } from '@features/category'
 import { Modal } from '@shared/ui'

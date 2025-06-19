@@ -7,8 +7,8 @@ import {
   ExpensesLastMonthes,
   ExpensesThisMonth,
   NewExpense,
+  ExpensesLastWeek,
 } from '@entities/expense/model'
-import { ExpensesLastWeek } from '@entities/expense/model/types'
 
 const client = getAxiosInstance()
 const expensesService = new ExpensesService(client)
