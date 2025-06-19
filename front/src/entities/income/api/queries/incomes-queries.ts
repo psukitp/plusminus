@@ -33,6 +33,8 @@ const createNewIncomes = async ({
   categoryId,
   amount,
 }: NewIncome): Promise<IncomesRecord | null> => {
+  if (!categoryId) return null
+
   const result = await incomesService.postNewIncomes({
     date,
     amount,

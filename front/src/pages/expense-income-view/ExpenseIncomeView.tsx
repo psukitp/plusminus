@@ -1,13 +1,14 @@
-import styled, { css } from "styled-components"
-import { Statistic } from "./statistic"
-import { List } from "@shared/ui"
-import { Key } from "react"
-import { ChartType, DatePeriod } from "@shared/types"
-import { getListRecords, sortByDates } from "./utils"
-import { ExpensesRecord } from "@entities/expense"
-import { IncomesRecord } from "@entities/income"
+import styled, { css } from 'styled-components'
+import { Statistic } from './statistic'
+import { List } from '@shared/ui'
+import { Key } from 'react'
+import { ChartType, DatePeriod } from '@shared/types'
+import { getListRecords, sortByDates } from './utils'
+import { ExpensesRecord } from '@entities/expense'
+import { IncomesRecord } from '@entities/income'
 
 type Props = {
+  listPrefix: string
   className?: string
   chartType: ChartType
   period: DatePeriod
@@ -19,13 +20,29 @@ type Props = {
   setEditingId: (id: Key) => void
 }
 
-const ExpenseIncomeViewComponent = ({ className, chartType, period, loading, data, setChartType, setDeletingId, setEditingId, setPeriod }: Props) => {
-
-  const listRecord = getListRecords(data)
+const ExpenseIncomeViewComponent = ({
+  listPrefix,
+  className,
+  chartType,
+  period,
+  loading,
+  data,
+  setChartType,
+  setDeletingId,
+  setEditingId,
+  setPeriod,
+}: Props) => {
+  const listRecord = getListRecords(data, listPrefix)
   return (
     <div className={className}>
       <div className="statistic">
-        <Statistic chartType={chartType} onChangeChartType={setChartType} data={data} period={period} onChangePeriod={setPeriod} />
+        <Statistic
+          chartType={chartType}
+          onChangeChartType={setChartType}
+          data={data}
+          period={period}
+          onChangePeriod={setPeriod}
+        />
       </div>
       <div className="list">
         <List
@@ -33,7 +50,8 @@ const ExpenseIncomeViewComponent = ({ className, chartType, period, loading, dat
           records={listRecord}
           sortFunc={sortByDates}
           onDelete={(id) => setDeletingId(id)}
-          onEdit={({ key }) => setEditingId(key)} />
+          onEdit={({ key }) => setEditingId(key)}
+        />
       </div>
     </div>
   )
@@ -60,4 +78,3 @@ export const ExpenseIncomeView = styled(ExpenseIncomeViewComponent)(
     }
   `,
 )
-

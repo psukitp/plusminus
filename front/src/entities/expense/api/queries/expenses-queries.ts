@@ -26,6 +26,8 @@ const createNewExpense = async ({
   categoryId,
   amount,
 }: NewExpense): Promise<ExpensesRecord | null> => {
+  if (!categoryId) return null
+
   const result = await expensesService.postNewExpense({
     date,
     amount,

@@ -20,6 +20,6 @@ export const EditModal = styled(EditModalComponent)`
   .category,
   .sum {
     width: 100%;
-    margin-bottom: ${({ theme: { gaps } }) => `${gaps.m}px`};;
+    margin-bottom: ${({ theme: { gaps } }) => `${gaps.m}px`};
   }
 `

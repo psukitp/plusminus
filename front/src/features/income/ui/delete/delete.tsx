@@ -24,7 +24,13 @@ const DeleteComponent = ({
           <Button onClick={onClose} type="default">
             Отмена
           </Button>
-          <Button onClick={() => onDelete(id!)} type="primary">
+          <Button
+            onClick={() => {
+              onDelete(id!)
+              onClose()
+            }}
+            type="primary"
+          >
             Удалить
           </Button>
         </div>
@@ -33,4 +39,11 @@ const DeleteComponent = ({
   )
 }
 
-export const Delete = styled(DeleteComponent)(() => css``)
+export const Delete = styled(DeleteComponent)(
+  () => css`
+    .footer {
+      display: flex;
+      justify-content: space-between;
+    }
+  `,
+)

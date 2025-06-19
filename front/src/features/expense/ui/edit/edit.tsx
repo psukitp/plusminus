@@ -9,6 +9,7 @@ import { yearMonthDay } from '@shared/constants'
 import { Button, DatePicker, Select, InputNumber } from 'antd'
 import { dayMonthYearDot } from '@shared/constants/dayjs'
 import dayjs from 'dayjs'
+import { DefaultOptionType } from 'antd/es/select'
 
 interface IEditProps {
   className?: string
@@ -35,7 +36,7 @@ const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
       key: c.id,
       title: c.name,
       label: <div style={{ color: c.color }}>{c.name}</div>,
-      value: c.id,
+      value: c.id as string | number,
     }))
   }, [categories])
 

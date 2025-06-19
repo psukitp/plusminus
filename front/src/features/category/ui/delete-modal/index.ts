@@ -6,7 +6,7 @@ export const DeleteModal = styled(DeleteModalComponent)`
   .description,
   .warning {
     text-align: center;
-    padding-top: ${({ theme: { gaps } }) => `${gaps.m}px`};;
+    padding-top: ${({ theme: { gaps } }) => `${gaps.m}px`};
     font-size: 16px;
   }
 
@@ -25,6 +25,6 @@ export const DeleteModal = styled(DeleteModalComponent)`
   .footer {
     display: flex;
     justify-content: space-around;
-    gap: ${({ theme: { gaps } }) => `${gaps.l}px`};;
+    gap: ${({ theme: { gaps } }) => `${gaps.l}px`};
   }
 `

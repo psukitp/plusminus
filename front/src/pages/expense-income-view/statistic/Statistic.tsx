@@ -17,7 +17,14 @@ type Props = {
   onChangeChartType: (type: ChartType) => void
 }
 
-const StatisticComponent = ({ className, period, chartType, data, onChangeChartType, onChangePeriod }: Props) => {
+const StatisticComponent = ({
+  className,
+  period,
+  chartType,
+  data,
+  onChangeChartType,
+  onChangePeriod,
+}: Props) => {
   const chartOptions = getChartOptions(data, chartType)
 
   const sum = useMemo(() => {
@@ -29,7 +36,8 @@ const StatisticComponent = ({ className, period, chartType, data, onChangeChartT
       <div className="numbers">
         <div className="sum">{sum}</div>
         <div className="avg">
-          В среднем {data.length > 0 ? (sum / data.length).toFixed(2) : '-'} за день
+          В среднем {data.length > 0 ? (sum / data.length).toFixed(2) : '-'} за
+          день
         </div>
       </div>
       <div className="control">
@@ -38,8 +46,16 @@ const StatisticComponent = ({ className, period, chartType, data, onChangeChartT
           active={chartType}
           onClick={({ value }) => onChangeChartType(value as ChartType)}
           options={[
-            { id: ChartTypes.Bar, label: <BarChartIcon />, value: ChartTypes.Bar },
-            { id: ChartTypes.Pie, label: <PiechartIcon />, value: ChartTypes.Pie },
+            {
+              id: ChartTypes.Bar,
+              label: <BarChartIcon />,
+              value: ChartTypes.Bar,
+            },
+            {
+              id: ChartTypes.Pie,
+              label: <PiechartIcon />,
+              value: ChartTypes.Pie,
+            },
           ]}
         />
         <Segmented<DatePeriod>

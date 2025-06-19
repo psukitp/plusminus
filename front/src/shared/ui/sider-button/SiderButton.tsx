@@ -28,7 +28,7 @@ export const SiderButtonComponent = ({
         onClick={onClick}
         type={getType()}
         block
-        size='large'
+        size="large"
       >
         {type === 'mobile' ? icon : text}
       </Button>

@@ -17,6 +17,12 @@ interface ICreateProps {
   onClose: () => void
 }
 
+const initialData: NewExpense = {
+  amount: 0,
+  date: dayjs().format(yearMonthDay),
+  categoryId: null,
+}
+
 const CreateComponent = ({
   className,
   open,
@@ -26,9 +32,7 @@ const CreateComponent = ({
   const [categories] = useExpensesCategories()
 
   const [newExpenseData, setNewExpenseData] = useState<NewExpense>({
-    amount: 0,
-    date: dayjs().format(yearMonthDay),
-    categoryId: null,
+    ...initialData,
   })
 
   const selectOptions = useMemo(() => {
@@ -36,7 +40,7 @@ const CreateComponent = ({
       key: c.id,
       title: c.name,
       label: <div style={{ color: c.color }}>{c.name}</div>,
-      value: c.id,
+      value: c.id as string | number,
     }))
   }, [categories])
 

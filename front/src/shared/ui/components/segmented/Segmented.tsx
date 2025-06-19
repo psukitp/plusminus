@@ -27,11 +27,14 @@ export const SegmentedComponent = <T,>({
   )
 }
 
-export const SegmentedButton = styled.button<{ active?: boolean, cirlced?: boolean }>`
-  padding:  ${({ cirlced = false }) => cirlced ? '8px 10px' : ' 8px 12px'};
+export const SegmentedButton = styled.button<{
+  active?: boolean
+  cirlced?: boolean
+}>`
+  padding: ${({ cirlced = false }) => (cirlced ? '8px 10px' : ' 8px 12px')};
   background-color: ${({ active, theme }) =>
     active ? theme.pallete.dom.white : 'transparent'};
-  border-radius: ${({ cirlced = false }) => cirlced ? '50%' : '4px'};
+  border-radius: ${({ cirlced = false }) => (cirlced ? '50%' : '4px')};
   font-weight: 600;
 
   &:hover {

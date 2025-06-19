@@ -49,7 +49,7 @@ export const Sider = styled(SiderComponent)`
     padding-bottom: ${({ theme: { gaps } }) => `${gaps.xl}px`};
   }
 
-  .exitBtn{
+  .exitBtn {
     justify-content: start;
   }
 `

@@ -4,7 +4,7 @@ import { expensesQueries } from '@entities/expense'
 import dayjs from 'dayjs'
 import { useSummarizedExpensesData } from '@entities/expense'
 import { UseExpensesResult } from './types'
-import { ExpensesLastWeek } from '@entities/expense/model/types'
+import { EditedExpense, ExpensesLastWeek } from '@entities/expense/model/types'
 import { useQueryClient } from '@tanstack/react-query'
 
 export const useExpenses = (
@@ -98,11 +98,7 @@ export const useExpenses = (
     })
   }
 
-  const editExpense = async (expense: {
-    id: Key | null
-    categoryId: Key | null
-    amount: number | null
-  }) => {
+  const editExpense = async (expense: EditedExpense) => {
     await expensesQueries
       .editExpense(expense)
       .then((result) => {

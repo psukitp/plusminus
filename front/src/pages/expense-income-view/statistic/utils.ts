@@ -88,7 +88,7 @@ export const getBarOptions = (
   const dateMap = new Map<string, number>()
 
   for (const item of data) {
-    const date = new Date(item.date).toISOString().slice(0, 10) 
+    const date = new Date(item.date).toISOString().slice(0, 10)
     dateMap.set(date, (dateMap.get(date) || 0) + item.amount)
   }
 

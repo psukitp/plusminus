@@ -1,12 +1,12 @@
-import { select } from '@entities/expense/store/selector'
-import { useExpenseStore } from '@entities/expense'
 import { useIncomesCategories } from '@features/category'
 import { Modal } from '@shared/ui'
 import { Key, useEffect, useMemo, useState } from 'react'
 import styled, { css } from 'styled-components'
-import { NewIncome } from '@entities/income'
-import { Button, Input, Select } from 'antd'
+import { NewIncome, useIncomeStore } from '@entities/income'
+import { Button, DatePicker, InputNumber, Select } from 'antd'
 import { DefaultOptionType } from 'antd/es/select'
+import { dayMonthYearDot, yearMonthDay } from '@shared/constants/dayjs'
+import dayjs from 'dayjs'
 
 interface IEditProps {
   className?: string
@@ -16,24 +16,26 @@ interface IEditProps {
 }
 
 const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
-  const expense = useExpenseStore(select.expenseById(id))
+  const income = useIncomeStore(
+    (state) => state.incomes.find((inc) => inc.id === id) ?? null,
+  )
   const [categories] = useIncomesCategories()
   const [newIncomeData, setNewIncomeData] = useState<Partial<NewIncome>>({})
 
   useEffect(() => {
-    if (expense)
+    if (income)
       setNewIncomeData({
-        amount: expense?.amount,
-        categoryId: expense?.categoryId,
+        amount: income?.amount,
+        categoryId: income?.categoryId,
       })
-  }, [expense])
+  }, [income])
 
   const selectOptions = useMemo(() => {
     return categories?.map<DefaultOptionType>((c) => ({
       key: c.id,
       title: c.name,
       label: <div style={{ color: c.color }}>{c.name}</div>,
-      value: c.id,
+      value: c.id as string | number,
     }))
   }, [categories])
 
@@ -43,7 +45,7 @@ const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
   }
 
   return (
-    expense && (
+    income && (
       <Modal open={!!id} onClose={onClose} title="Изменить">
         <div className={className}>
           <div className="label">Категория:</div>
@@ -63,16 +65,36 @@ const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
             }
             options={selectOptions}
           />
-          <div className="label">Сумма:</div>
-          <Input
-            type="number"
-            placeholder="Введите сумму"
-            className="sum"
-            value={newIncomeData.amount}
-            onChange={(e) =>
-              setNewIncomeData((prev) => ({ ...prev, amount: +e.target.value }))
-            }
-          />
+          <div className="short-inputs">
+            <div>
+              <div className="label">Сумма:</div>
+              <InputNumber
+                placeholder="Введите сумму"
+                className="sum"
+                value={newIncomeData.amount}
+                onChange={(e) =>
+                  setNewIncomeData((prev) => ({
+                    ...prev,
+                    amount: e ?? 0,
+                  }))
+                }
+              />
+            </div>
+            <div>
+              <div className="label">Дата:</div>
+              <DatePicker
+                allowClear={false}
+                format={dayMonthYearDot}
+                defaultValue={dayjs()}
+                onChange={(date) =>
+                  setNewIncomeData((prev) => ({
+                    ...prev,
+                    date: date.format(yearMonthDay),
+                  }))
+                }
+              />
+            </div>
+          </div>
           <div className="footer">
             <Button className="addBtn" type="primary" onClick={handleOk}>
               Сохранить
@@ -84,4 +106,25 @@ const EditComponent = ({ className, id, onClose, onEdit }: IEditProps) => {
   )
 }
 
-export const Edit = styled(EditComponent)(() => css``)
+export const Edit = styled(EditComponent)(
+  ({ theme }) => css`
+    .label {
+      ${theme.fonts.small};
+      margin-bottom: ${theme.gaps.s}px;
+      margin-top: ${theme.gaps.s}px;
+    }
+
+    .short-inputs {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer {
+      margin-top: ${theme.gaps.s}px;
+    }
+
+    .select {
+      width: 100%;
+    }
+  `,
+)

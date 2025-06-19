@@ -14,6 +14,7 @@ export const sortByDates = (a: RecordType, b: RecordType) => {
 
 export const getListRecords = (
   expenses: ExpensesRecord[] | IncomesRecord[],
+  listPrefix: string,
 ) => {
   return Object.values(
     expenses.reduce<{ [key: string]: RecordType }>((acc, item) => {
@@ -31,7 +32,7 @@ export const getListRecords = (
       acc[index].data.push({
         title,
         color,
-        value: `- ${amount}`,
+        value: `${listPrefix} ${amount}`,
         suffix: 'Р',
         key,
       })

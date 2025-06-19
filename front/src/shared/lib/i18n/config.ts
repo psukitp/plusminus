@@ -2,7 +2,7 @@ import { initReactI18next } from 'react-i18next'
 
 import { i18n } from 'i18next'
 
-import resources from './locales'
+// import resources from './locales'
 
 export const supportedLocales = ['ru', 'en']
 
@@ -11,7 +11,7 @@ export const init = async (i18next: i18n, lang: string) => {
     lng: lang ?? 'ru',
     supportedLngs: supportedLocales,
     fallbackLng: 'en',
-    resources,
+    // resources,
     interpolation: {
       escapeValue: false,
     },
